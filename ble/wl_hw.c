@@ -103,7 +103,7 @@ void wl_spi_init()
     SPI_InitStructure.SPI_CPOL = SPI_CPOL_Low;    // mode0 SPI_CPOL_Low, SPI_CPHA_1Edge;
     SPI_InitStructure.SPI_CPHA = SPI_CPHA_1Edge;  // mode3 SPI_CPOL_High,SPI_CPHA_2Edge
     SPI_InitStructure.SPI_NSS = SPI_NSS_Soft;
-    SPI_InitStructure.SPI_BaudRatePrescaler = SPI_BaudRatePrescaler_4;//6
+    SPI_InitStructure.SPI_BaudRatePrescaler = 6;//6
     SPI_InitStructure.SPI_FirstBit = SPI_FirstBit_MSB;
     SPI_Init(BLE_SPI, &SPI_InitStructure);
     SPI_CSInternalSelected(BLE_SPI, ENABLE);

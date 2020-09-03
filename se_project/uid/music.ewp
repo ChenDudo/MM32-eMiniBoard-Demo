@@ -1153,12 +1153,8 @@
           <name>CCDefines</name>
           <state>__IAR</state>
           <state>__MZ306</state>
-          <state>__MM32_MINIBOARD</state>
-          <state>OVERTIME=0</state>
+          <state>__MM32_MB023</state>
           <state>CLOCK=8000000</state>
-          <state>__USER_RESOURCE</state>
-          <state>_SYS_RESOURCE_IT</state>
-          <state>_SYS_RESOURCE_POLLING</state>
         </option>
         <option>
           <name>CCPreprocFile</name>
@@ -1706,7 +1702,7 @@
         </option>
         <option>
           <name>IlinkIcfFile</name>
-          <state>$TOOLKIT_DIR$\config\linker\MM\MM32L07xxx.icf</state>
+          <state>$TOOLKIT_DIR$\config\linker\MindMotion\MM32L07xxx.icf</state>
         </option>
         <option>
           <name>IlinkIcfFileSlave</name>
@@ -2033,7 +2029,7 @@
         </option>
         <option>
           <name>OGChipSelectEditMenu</name>
-          <state>MM32F032C8T6	MindMotion MM32F032C8T6</state>
+          <state>MM32F0133C7P	MindMotion MM32F0133C7P</state>
         </option>
         <option>
           <name>GenLowLevelInterface</name>
@@ -2093,7 +2089,7 @@
         </option>
         <option>
           <name>GFPUDeviceSlave</name>
-          <state>MM32F032C8T6	MindMotion MM32F032C8T6</state>
+          <state>MM32F0133C7P	MindMotion MM32F0133C7P</state>
         </option>
         <option>
           <name>FPU2</name>
@@ -2128,11 +2124,7 @@
           <state>__IAR</state>
           <state>__MZ310</state>
           <state>__MM32_MB025</state>
-          <state>OVERTIME=0</state>
           <state>CLOCK=8000000</state>
-          <state>__USER_RESOURCE</state>
-          <state>_SYS_RESOURCE_IT</state>
-          <state>_SYS_RESOURCE_POLLING</state>
         </option>
         <option>
           <name>CCPreprocFile</name>
@@ -2680,7 +2672,7 @@
         </option>
         <option>
           <name>IlinkIcfFile</name>
-          <state>$TOOLKIT_DIR$\config\linker\MindMotion\MM32f031x6.icf</state>
+          <state>$TOOLKIT_DIR$\config\linker\MindMotion\MM32F0130C.icf</state>
         </option>
         <option>
           <name>IlinkIcfFileSlave</name>
@@ -3101,12 +3093,8 @@
           <name>CCDefines</name>
           <state>__IAR</state>
           <state>__MZ309</state>
-          <state>__MM32_MINIBOARD</state>
-          <state>OVERTIME=0</state>
+          <state>__MM32_MB022</state>
           <state>CLOCK=8000000</state>
-          <state>__USER_RESOURCE</state>
-          <state>_SYS_RESOURCE_IT</state>
-          <state>_SYS_RESOURCE_POLLING</state>
         </option>
         <option>
           <name>CCPreprocFile</name>
@@ -4076,11 +4064,7 @@
           <state>__IAR</state>
           <state>__MZ311</state>
           <state>__MM32_MB032</state>
-          <state>OVERTIME=0</state>
           <state>CLOCK=8000000</state>
-          <state>__USER_RESOURCE</state>
-          <state>_SYS_RESOURCE_IT</state>
-          <state>_SYS_RESOURCE_POLLING</state>
         </option>
         <option>
           <name>CCPreprocFile</name>
@@ -6816,6 +6800,13 @@
   </group>
   <group>
     <name>ble</name>
+    <excluded>
+      <configuration>MB024</configuration>
+      <configuration>MB023</configuration>
+      <configuration>MB025</configuration>
+      <configuration>MB022</configuration>
+      <configuration>MB032</configuration>
+    </excluded>
     <group>
       <name>lib</name>
       <file>
@@ -6839,6 +6830,9 @@
     </file>
     <file>
       <name>$PROJ_DIR$\..\..\bsp\bsp_adc.c</name>
+    </file>
+    <file>
+      <name>$PROJ_DIR$\..\..\bsp\bsp_beep.c</name>
     </file>
     <file>
       <name>$PROJ_DIR$\..\..\bsp\bsp_can.c</name>

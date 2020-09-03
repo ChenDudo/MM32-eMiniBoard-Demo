@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+
+<workspace>
+  <project>
+    <path>$WS_DIR$\se_project\uid\music.ewp</path>
+  </project>
+  <batchBuild>
+    <batchDefinition>
+      <name>MT304</name>
+      <member>
+        <project>uid</project>
+        <configuration>MT304</configuration>
+      </member>
+    </batchDefinition>
+    <batchDefinition>
+      <name>MZ306</name>
+      <member>
+        <project>uid</project>
+        <configuration>MZ306</configuration>
+      </member>
+    </batchDefinition>
+    <batchDefinition>
+      <name>MZ308</name>
+      <member>
+        <project>uid</project>
+        <configuration>MZ308</configuration>
+      </member>
+    </batchDefinition>
+    <batchDefinition>
+      <name>All</name>
+      <member>
+        <project>uid</project>
+        <configuration>MT304</configuration>
+      </member>
+      <member>
+        <project>uid</project>
+        <configuration>MZ306</configuration>
+      </member>
+      <member>
+        <project>uid</project>
+        <configuration>MZ308</configuration>
+      </member>
+    </batchDefinition>
+  </batchBuild>
+</workspace>
+
+

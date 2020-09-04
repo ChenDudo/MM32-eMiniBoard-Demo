@@ -378,8 +378,15 @@ void ADC_ClearITPendingBit(ADC_TypeDef* ADCn, ADCFLAG_TypeDef ADC_IT)
 ////////////////////////////////////////////////////////////////////////////////
 void ADC_ANY_CH_Config(ADC_TypeDef* adc, u8 rank, ADCCHANNEL_TypeDef adc_channel)
 {
-        adc->CHANY0 &= ~rank;
-        adc->CHANY0 |=  rank;
+    rank = rank & 0xF;
+    if(rank < 8) {
+        adc->CHANY0 &= ~(0x0F << (4 * rank));
+        adc->CHANY0 |= (adc_channel << (4 * rank));
+    }
+    else {
+        adc->CHANY1 &= ~(0x0F << (4 * (rank - 8)));
+        adc->CHANY1 |= (adc_channel << (4 * (rank - 8)));
+    }
 
 }
 ////////////////////////////////////////////////////////////////////////////////

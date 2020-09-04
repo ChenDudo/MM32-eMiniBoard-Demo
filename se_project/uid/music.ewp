@@ -6795,7 +6795,16 @@
   <group>
     <name>app</name>
     <file>
+      <name>$PROJ_DIR$\..\..\se_app\uid\adc.c</name>
+    </file>
+    <file>
+      <name>$PROJ_DIR$\..\..\se_app\uid\hci.c</name>
+    </file>
+    <file>
       <name>$PROJ_DIR$\..\..\se_app\uid\main.c</name>
+    </file>
+    <file>
+      <name>$PROJ_DIR$\..\..\se_app\uid\music.c</name>
     </file>
   </group>
   <group>

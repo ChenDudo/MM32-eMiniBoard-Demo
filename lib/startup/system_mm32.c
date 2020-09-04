@@ -151,7 +151,7 @@ EM_MCUID SystemInit(EM_SystemClock ClockSource, EM_SYSTICK tickEn , AppTick_fun 
     // Set Oscillator
     if ((ClockSource & 0x0000F) == 0) {                                         // HSI
 #if defined(RCC_CR_HSI_72M)
-        ((ClockSource & 0xF0000 >> 16) == 1) ?  (RCC->CR &= ~RCC_CR_HSI_72M) : 
+        (((ClockSource & 0xF0000) >> 16) == 1) ?  (RCC->CR &= ~RCC_CR_HSI_72M) : 
                                                 (RCC->CR |=  RCC_CR_HSI_72M);
 #endif                                     
         RCC->CR |= RCC_CR_HSION;
@@ -222,22 +222,10 @@ EM_MCUID SystemInit(EM_SystemClock ClockSource, EM_SYSTICK tickEn , AppTick_fun 
 ////////////////////////////////////////////////////////////////////////////////
 EM_MCUID SetSystemClock(EM_SYSTICK enable , AppTick_fun callbackPtr)
 {
-#if defined(__EX_AES)
-	return SystemInit(SYSCLK_HSI_72MHz, enable, callbackPtr);
-#else
-    
-#if defined(__MM32_MB020) || defined(__MM32_MB021)
-    return  SystemInit(SYSCLK_HSI_48MHz, enable, callbackPtr);
-#endif
-    
-#if defined(__MT304) || defined(__MZ306) || defined(__MZ308) || defined(__MZ310)
-    return SystemInit(SYSCLK_HSE_6x, enable, callbackPtr);    
-#endif
-
 #if defined(__MZ309) || defined(__MZ311)
     return  SystemInit(SYSCLK_HSI_48MHz, enable, callbackPtr);
-#endif
-
+#else
+    return  SystemInit(SYSCLK_HSE_6x, enable, callbackPtr);
 #endif
 }
 

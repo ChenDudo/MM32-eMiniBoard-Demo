@@ -1,10 +1,10 @@
 ////////////////////////////////////////////////////////////////////////////////
-/// @file     UID.H
-/// @author   PX Liu
+/// @file     BSP_BEEP.H
+/// @author   AE Team
 /// @version  v2.0.0
 /// @date     2019-03-13
-/// @brief    THIS FILE CONTAINS ALL THE FUNCTIONS PROTOTYPES FOR THE UID
-///           EXAMPLES.
+/// @brief    THIS FILE CONTAINS ALL THE FUNCTIONS PROTOTYPES FOR THE LED
+///           BSP LAYER.
 ////////////////////////////////////////////////////////////////////////////////
 /// @attention
 ///
@@ -19,66 +19,92 @@
 ////////////////////////////////////////////////////////////////////////////////
 
 // Define to prevent recursive inclusion  --------------------------------------
-#ifndef __ADC_H
-#define __ADC_H
-
-// Files includes  -------------------------------------------------------------
+#ifndef __BSP_BEEP_H
+#define __BSP_BEEP_H
 
 
 ////////////////////////////////////////////////////////////////////////////////
-/// @addtogroup MM32_Example_Layer
+/// @addtogroup MM32_Board_Support_Package
 /// @{
 
 ////////////////////////////////////////////////////////////////////////////////
-/// @defgroup EXAMPLE_UID
-/// @brief UID example modules
+/// @defgroup LED_BSP
+/// @brief LED BSP modules
+/// @{
+
+////////////////////////////////////////////////////////////////////////////////
+/// @defgroup LED_Exported_Types
+/// @{
+
+/// @}
+
+////////////////////////////////////////////////////////////////////////////////
+/// @defgroup LED_Exported_Constants
 /// @{
 
 #if defined(__MM32_MB020)
-
-#define ADCCHx ADC_Channel_1
-#define ADCPin GPIO_Pin_1
-
+#define BEEP_TIMER TIM3
+#define BEEP_PWMCH 2
+#define CH_REMAPEN 1
+#define CH_REMAPID 0
 #endif
-#if defined(__MM32_MB021)
 
-#define ADCCHx ADC_Channel_5
-#define ADCPin GPIO_Pin_5
-
+#if defined(__MM32_MB021) || defined(__MM32_MB022) || defined(__MM32_MB023) || \
+defined(__MM32_MB024) || defined(__MM32_MB025)
+#define BEEP_TIMER TIM1
+#define BEEP_PWMCH 1
+#define CH_REMAPEN 0
+#define CH_REMAPID 0
 #endif
+
+#if defined(__MM32_MB032) || defined(__MM32_MB033)
+#define BEEP_TIMER TIM1
+#define BEEP_PWMCH 2
+#define CH_REMAPEN 1
+#define CH_REMAPID 1
+#endif
+
+/// @}
 
 ////////////////////////////////////////////////////////////////////////////////
-/// @defgroup UID_Exported_Variables
+/// @defgroup LED_Exported_Variables
 /// @{
-
-#ifdef _ADC_C_
+#ifdef _BSP_BEEP_C_
 
 #define GLOBAL
 #else
 #define GLOBAL extern
-
 #endif
 
-GLOBAL bool adcFlag;
-GLOBAL u16 adcValue[3], rv[3], adcCnt;
 
 #undef GLOBAL
 
 /// @}
 
 ////////////////////////////////////////////////////////////////////////////////
-/// @defgroup UID_Exported_Functions
+/// @defgroup LED_Exported_Functions
 /// @{
+
+
+
+void BEEP_on(u32 val);
+void BEEP_off(void);
+
+void BEEP_once(void);
+void BEEP_lang(void);
+
+void BEEP_freq(u32 *val);
+
+void BSP_BEEP_Configure(u32 freq);
 
 /// @}
 
-void adcTick();
-void BSP_ADC_Configure();
+
 
 /// @}
 
 /// @}
 
 ////////////////////////////////////////////////////////////////////////////////
-#endif /* __MUSIC_H */
+#endif /*__BSP_BEEP_H */
 ////////////////////////////////////////////////////////////////////////////////

@@ -19,8 +19,8 @@
 ////////////////////////////////////////////////////////////////////////////////
 
 // Define to prevent recursive inclusion  --------------------------------------
-#ifndef __UID_H
-#define __UID_H
+#ifndef __MAIN_H
+#define __MAIN_H
 
 // Files includes  -------------------------------------------------------------
 
@@ -38,7 +38,7 @@
 /// @defgroup UID_Exported_Variables
 /// @{
 
-#ifdef _UID_C_
+#ifdef _MAIN_C_
 
 #define GLOBAL
 #else

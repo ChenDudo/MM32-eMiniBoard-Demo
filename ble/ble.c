@@ -59,17 +59,26 @@ void EXTI9_5_IRQHandler()
 }
 
 ////////////////////////////////////////////////////////////////////////////////
+void getSand()
+{
+
+}
+
+
+////////////////////////////////////////////////////////////////////////////////
 void wl_ble_mode()
 {
     ble_running_flag = false;
     
 #if defined(__MM32_MB021)
-    u8 device_name[] = "MindMotion MB021";
+    u8 device_name[] = "MindMotion-MB021";
 #endif
 #if defined(__MM32_MB020)
-    u8 device_name[] = "MB020";
+    u8 device_name[] = "MindMotion-MB020";
 #endif
 
+    getSand();
+    
     cur_notifyhandle = 19;
     
     memcpy(ble_device_name, device_name, sizeof(device_name));

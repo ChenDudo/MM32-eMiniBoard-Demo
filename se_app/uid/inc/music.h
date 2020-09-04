@@ -19,8 +19,8 @@
 ////////////////////////////////////////////////////////////////////////////////
 
 // Define to prevent recursive inclusion  --------------------------------------
-#ifndef __ADC_H
-#define __ADC_H
+#ifndef __MUSIC_H
+#define __MUSIC_H
 
 // Files includes  -------------------------------------------------------------
 
@@ -34,24 +34,26 @@
 /// @brief UID example modules
 /// @{
 
-#if defined(__MM32_MB020)
+typedef enum {
+    PLAYSTEP1,
+    PLAYSTEP2,
+    PLAYSTEP3
+} emMusicStep;
 
-#define ADCCHx ADC_Channel_1
-#define ADCPin GPIO_Pin_1
-
-#endif
-#if defined(__MM32_MB021)
-
-#define ADCCHx ADC_Channel_5
-#define ADCPin GPIO_Pin_5
-
-#endif
+typedef struct {
+    u8 PlayFlag;
+    u8 CurrentPlayFlag; 
+    emMusicStep PlayStep;
+    s8 MusicNum;
+    u16 ToneCount;
+    u16 ToneNumCount;
+} _sPlayMusic;
 
 ////////////////////////////////////////////////////////////////////////////////
 /// @defgroup UID_Exported_Variables
 /// @{
 
-#ifdef _ADC_C_
+#ifdef _MUSIC_C_
 
 #define GLOBAL
 #else
@@ -59,9 +61,8 @@
 
 #endif
 
-GLOBAL bool adcFlag;
-GLOBAL u16 adcValue[3], rv[3], adcCnt;
-
+GLOBAL _sPlayMusic  sPlayMusic;
+GLOBAL u16          playCnt;
 #undef GLOBAL
 
 /// @}
@@ -72,8 +73,9 @@ GLOBAL u16 adcValue[3], rv[3], adcCnt;
 
 /// @}
 
-void adcTick();
-void BSP_ADC_Configure();
+void musicTick();
+void setBuzzerEn(FunctionalState NewState);
+void setBuzzerFreq(u16 Period);
 
 /// @}
 

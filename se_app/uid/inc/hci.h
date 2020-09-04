@@ -19,8 +19,8 @@
 ////////////////////////////////////////////////////////////////////////////////
 
 // Define to prevent recursive inclusion  --------------------------------------
-#ifndef __ADC_H
-#define __ADC_H
+#ifndef __HCI_H
+#define __HCI_H
 
 // Files includes  -------------------------------------------------------------
 
@@ -34,33 +34,24 @@
 /// @brief UID example modules
 /// @{
 
-#if defined(__MM32_MB020)
-
-#define ADCCHx ADC_Channel_1
-#define ADCPin GPIO_Pin_1
-
-#endif
-#if defined(__MM32_MB021)
-
-#define ADCCHx ADC_Channel_5
-#define ADCPin GPIO_Pin_5
-
-#endif
 
 ////////////////////////////////////////////////////////////////////////////////
 /// @defgroup UID_Exported_Variables
 /// @{
 
-#ifdef _ADC_C_
+#ifdef _HCI_C_
 
 #define GLOBAL
+
+GLOBAL bool blinkFlag = true;
+
 #else
 #define GLOBAL extern
 
 #endif
 
-GLOBAL bool adcFlag;
-GLOBAL u16 adcValue[3], rv[3], adcCnt;
+GLOBAL bool blinkFlag;
+GLOBAL u16  LDFreq[4], LDCnt[4];
 
 #undef GLOBAL
 
@@ -72,8 +63,17 @@ GLOBAL u16 adcValue[3], rv[3], adcCnt;
 
 /// @}
 
-void adcTick();
-void BSP_ADC_Configure();
+void hci_task();
+void ledTick();
+
+void Key1Down();
+void Key2Down();
+void Key3Down();
+void Key4Down();
+void Key1Pressing();
+void Key2Pressing();
+void Key3Pressing();
+void Key4Pressing();
 
 /// @}
 

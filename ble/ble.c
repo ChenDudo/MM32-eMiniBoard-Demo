@@ -21,7 +21,9 @@
 #define _BLE_C_
 
 // Includes  -------------------------------------------------------------------
-#include "string.h"
+#include <stdlib.h>
+#include <string.h>
+#include <time.h>
 #include "system_mm32.h"
 
 #include "wl_hw.h"
@@ -30,7 +32,7 @@
 
 #include "mg_api.h"
 #include "ble.h"
-
+#include "bsp_led.h"
 #include "hal_exti.h"
 ////////////////////////////////////////////////////////////////////////////////
 void EXTI0_1_IRQHandler()
@@ -58,10 +60,47 @@ void EXTI9_5_IRQHandler()
     }
 }
 
+u32 namelocal;
 ////////////////////////////////////////////////////////////////////////////////
 void getSand()
 {
+    u32* p;
+    u32 temp;
+    
+    p = (u32*)0x1FFFF7d0;
+    srand(tickCnt);
+    temp = (u32)rand();
+    if (*p == 0xFFFFFFFF || *p == 0){
+        *p = temp;
+    }
+    else
+        namelocal = *p;
+}
 
+////////////////////////////////////////////////////////////////////////////////
+void ByteToHexStr(const char* source, char* dest, int sourceLen)
+{
+    short i;
+    unsigned char highByte, lowByte;
+ 
+    for (i = 0; i < sourceLen; i++) {
+        highByte = source[i] >> 4;
+        lowByte = source[i] & 0x0f ;
+ 
+        highByte += 0x30;
+
+        if (highByte > 0x39)
+                dest[i * 2] = highByte + 0x07;
+        else
+                dest[i * 2] = highByte;
+ 
+        lowByte += 0x30;
+        if (lowByte > 0x39)
+            dest[i * 2 + 1] = lowByte + 0x07;
+        else
+            dest[i * 2 + 1] = lowByte;
+    }
+    return ;
 }
 
 
@@ -69,18 +108,23 @@ void getSand()
 void wl_ble_mode()
 {
     ble_running_flag = false;
+    char chipUID[3];
+    char uidStr[6];
     
 #if defined(__MM32_MB021)
-    u8 device_name[] = "MindMotion-MB021";
+    u8 device_name[13] = "MB-021_";
 #endif
 #if defined(__MM32_MB020)
-    u8 device_name[] = "MindMotion-MB020";
+    u8 device_name[13] = "MB-020_";
 #endif
 
-    getSand();
+    memset(&chipUID, 0x00, sizeof(chipUID));
+	memcpy(&chipUID, UID, 3);
+    ByteToHexStr(chipUID, uidStr, 3);
+    memcpy(device_name + 7, uidStr, 6);
+    
     
     cur_notifyhandle = 19;
-    
     memcpy(ble_device_name, device_name, sizeof(device_name));
     
     wl_spi_init();
@@ -101,15 +145,26 @@ void wl_ble_mode()
 u32 tick_count = 0;
 void wl_ble_tick_task()
 {
+    static u32 tx_led_count = 0;
+    
     if (ble_running_flag) {
         ble_nMsRoutine();
         tick_count++;
+    }
+    if (ble_tx_led) {
+        ble_tx_led = false;
+        ledStatus[0] = 1;
+        tx_led_count = SysTick_Count + 100;
+    }
+    if (tx_led_count < SysTick_Count) {
+        ledStatus[0] = 0;
     }
 }
 
 u32 irq_count = 0;
 void wl_ble_task()
 {
+
 //    if (wl_irq_status())
 //    if (ble_irq_flag) {
 //        if (wl_irq_status())

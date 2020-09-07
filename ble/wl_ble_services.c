@@ -188,7 +188,7 @@ void server_blob_rd_rsp(u8 attOpcode, u16 attHandle, u8 dataHdrP, u16 offset)
 // Notify by callback
 void gatt_user_send_notify_data_callback(void)
 {
-//    ble_tx_led = true;
+    ble_tx_led = true;
 //    
 //    static u8 data[] = {0x12, 0x34};
 //    sconn_notifydata(data, sizeof(data));

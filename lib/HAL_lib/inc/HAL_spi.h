@@ -173,7 +173,7 @@ typedef struct {
     SPI_CPOL_TypeDef              	SPI_CPOL;       							///< Specifies the serial clock steady state
     SPI_CPHA_TypeDef              	SPI_CPHA;       							///< Specifies the clock active edge for the bit capture
     SPI_NSS_TypeDef               	SPI_NSS;        							///< Specifies whether the NSS signal is managed by hardware or by software
-    SPI_BaudRatePrescaler_TypeDef 	SPI_BaudRatePrescaler;  					///< Specifies the Baud Rate prescaler value which will be
+    u16 	SPI_BaudRatePrescaler;  					///< Specifies the Baud Rate prescaler value which will be
                                                           						///< used to configure the transmit and receive SCK clock
     SPI_FirstBit_TypeDef 			SPI_FirstBit;                    			///< Specifies whether data transfers start from MSB or LSB bit
     //  u16 	SPI_length;

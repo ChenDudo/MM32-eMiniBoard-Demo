@@ -57,8 +57,8 @@ void hci_task()
     
     if(adcFlag){
         adcFlag = false;
-        for(u8 i = 0; i < 4; i++){
-            LDFreq[i] = rv[i] * 500 / 4095 + 1;
+        for(u8 i = 1; i < 4; i++){
+            LDFreq[i] = rv[i - 1] * 500 / 4095 + 1;
         }
     }
     
@@ -68,10 +68,10 @@ void hci_task()
 void ledTick()
 {
     if(blinkFlag){
-        for(u8 i = 0; i < 3; i++){
+        for(u8 i = 1; i < 4; i++){
             if(LDCnt[i]++ >= LDFreq[i]){
                 LDCnt[i] = 0;
-                ledStatus[i + 1] = !ledStatus[i + 1];
+                ledStatus[i] = !ledStatus[i];
             }
         }
     }

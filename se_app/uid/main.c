@@ -112,8 +112,8 @@ void initPeri()
 void AppTaskTick()
 {
     if (tickCnt++ >= 500) {
-        tickCnt  = 0;
-        tickFlag = true;
+        //tickCnt  = 0;
+        //tickFlag = true;
 	}
     
     if (playCnt++ >= 20) {

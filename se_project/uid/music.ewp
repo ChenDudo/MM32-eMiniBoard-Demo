@@ -5630,7 +5630,7 @@
         </option>
         <option>
           <name>IlinkAdditionalLibs</name>
-          <state>$PROJ_DIR$\..\..\..\fds_se\lib\bluetooth\lib\mg_BLEpair_lib_m3.lib</state>
+          <state>$PROJ_DIR$\..\..\ble\lib\mg_BLEpair_lib_m3.lib</state>
         </option>
         <option>
           <name>IlinkOverrideProgramEntryLabel</name>
@@ -6600,7 +6600,7 @@
         </option>
         <option>
           <name>IlinkAdditionalLibs</name>
-          <state>$PROJ_DIR$\..\..\..\fds_se\lib\bluetooth\lib\archives\mg_BLE_libv4_m0.lib</state>
+          <state>$PROJ_DIR$\..\..\ble\lib\mg_BLE_libv4_m0.lib</state>
         </option>
         <option>
           <name>IlinkOverrideProgramEntryLabel</name>

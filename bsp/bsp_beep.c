@@ -91,6 +91,8 @@ void BSP_BEEP_Configure(u32 freq)
 ////////////////////////////////////////////////////////////////////////////////
 void BEEP_on(u32 val)
 {
+    TIM_SetAutoreload(BEEP_TIMER, val << 1);
+        
     if (2 == BEEP_PWMCH) {
         TIM_SetCompare2(BEEP_TIMER, val);
     }

@@ -46,7 +46,7 @@
 
 #endif
 
-
+GLOBAL bool ready;
 
 #undef GLOBAL
 

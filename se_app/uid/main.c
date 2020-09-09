@@ -72,8 +72,8 @@ bool delay(u16 ms)
 ////////////////////////////////////////////////////////////////////////////////
 void initPara()
 {
-    sPlayMusic.MusicNum = 1;
-    sPlayMusic.PlayFlag = true;
+    sPlayMusic.MusicNum = 0;
+    sPlayMusic.PlayFlag = false;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -91,13 +91,14 @@ void initPeri()
     
     for(u8 i = 0; i < 2; i++){
         OpenLED();
-        BEEP_on(1000);
+        BEEP_on(1500);
         while(!delay(50));
         
         CloseLED();
         BEEP_off();
         while(!delay(200));
     }
+    ready = true;
     
 #if defined(__MM32_MB020) || defined(__MM32_MB021)
     wl_ble_mode();
@@ -115,10 +116,11 @@ void AppTaskTick()
         //tickCnt  = 0;
         //tickFlag = true;
 	}
-    
-    if (playCnt++ >= 20) {
-        playCnt  = 0;
-        musicTick();
+    if(ready){
+        if (playCnt++ >= 20) {
+            playCnt  = 0;
+            musicTick();
+        }
     }
     
     adcTick();

@@ -60,21 +60,14 @@ void EXTI9_5_IRQHandler()
     }
 }
 
-u32 namelocal;
+u8* p;
 ////////////////////////////////////////////////////////////////////////////////
 void getSand()
 {
-    u32* p;
-    u32 temp;
-    
-    p = (u32*)0x1FFFF7d0;
-    srand(tickCnt);
-    temp = (u32)rand();
-    if (*p == 0xFFFFFFFF || *p == 0){
-        *p = temp;
+    for (u8 i = 0; i < 64; i++) {
+        srand(SysTick->VAL);  
+        *p++ = rand();
     }
-    else
-        namelocal = *p;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -82,18 +75,18 @@ void ByteToHexStr(const char* source, char* dest, int sourceLen)
 {
     short i;
     unsigned char highByte, lowByte;
- 
+    
     for (i = 0; i < sourceLen; i++) {
         highByte = source[i] >> 4;
         lowByte = source[i] & 0x0f ;
- 
+        
         highByte += 0x30;
-
+        
         if (highByte > 0x39)
-                dest[i * 2] = highByte + 0x07;
+            dest[i * 2] = highByte + 0x07;
         else
-                dest[i * 2] = highByte;
- 
+            dest[i * 2] = highByte;
+        
         lowByte += 0x30;
         if (lowByte > 0x39)
             dest[i * 2 + 1] = lowByte + 0x07;
@@ -117,7 +110,9 @@ void wl_ble_mode()
 #if defined(__MM32_MB020)
     u8 device_name[13] = "MB-020_";
 #endif
-
+    
+    //getSand();
+    
     memset(&chipUID, 0x00, sizeof(chipUID));
 	memcpy(&chipUID, UID, 3);
     ByteToHexStr(chipUID, uidStr, 3);
@@ -129,12 +124,12 @@ void wl_ble_mode()
     
     wl_spi_init();
     wl_irq_it_init();
-                
+    
     SetBleIntRunningMode();
     
     radio_initBle(TXPWR_0DBM, &ble_mac_addr); 
-        
-   
+    
+    
     SysTick_Count = 0;
     while(SysTick_Count < 5);
     
@@ -164,21 +159,21 @@ void wl_ble_tick_task()
 u32 irq_count = 0;
 void wl_ble_task()
 {
-
-//    if (wl_irq_status())
-//    if (ble_irq_flag) {
-//        if (wl_irq_status())
-//            wl_ble_irq_handler();
-//    } else {
-//        irq_count = 0;
-//    }
+    
+    //    if (wl_irq_status())
+    //    if (ble_irq_flag) {
+    //        if (wl_irq_status())
+    //            wl_ble_irq_handler();
+    //    } else {
+    //        irq_count = 0;
+    //    }
 }
 
 void wl_ble_irq_handler()
 {
-//    if (irq_count == 0)
-//        wl_ble_mode();
-        
+    //    if (irq_count == 0)
+    //        wl_ble_mode();
+    
     if (ble_running_flag) {
         irq_count++;
         ble_run(0);        
@@ -199,8 +194,8 @@ char GetConnectedStatus(void)
 void ConnectStausUpdate(unsigned char IsConnectedFlag) //porting api
 {	
     if(!IsConnectedFlag)
-    CanNotifyFlag = IsConnectedFlag; //disconnected, so can NOT notify data
-
+        CanNotifyFlag = IsConnectedFlag; //disconnected, so can NOT notify data
+    
     //[IsConnectedFlag] indicates the connection status
     gConnectedFlag = IsConnectedFlag;
 }
@@ -211,7 +206,7 @@ void ConnectStausUpdate(unsigned char IsConnectedFlag) //porting api
 // As central device
 void UsrProcCallback_Central(u8 fin, u8* dat_rcv, u8 dat_len)
 {
-
+    
 }
 
 // As peri

@@ -158,6 +158,11 @@ EM_MCUID SystemInit(EM_SystemClock ClockSource, EM_SYSTICK tickEn , AppTick_fun 
         while (!(RCC->CR & RCC_CR_HSIRDY)); // Wait for HSI clock ready!
     } else if ((ClockSource & 0x0000F) == 1) {                                  // HSE
         RCC->CR |= RCC_CR_HSEON;
+
+        //chend200924
+        vu16 i = 65000;
+        while(i--);
+
         while (!(RCC->CR & RCC_CR_HSERDY));                                     // Wait for PLL ready!
 #if defined(RCC_CFGR_PLLSRC)
         RCC->CFGR |= RCC_CFGR_PLLSRC;

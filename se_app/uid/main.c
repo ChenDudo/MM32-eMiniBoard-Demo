@@ -73,7 +73,7 @@ bool delay(u16 ms)
 void initPara()
 {
     sPlayMusic.MusicNum = 1;
-    sPlayMusic.PlayFlag = true;
+    sPlayMusic.PlayFlag = false;
 }
 
 ////////////////////////////////////////////////////////////////////////////////

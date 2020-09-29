@@ -21,7 +21,7 @@
     OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
     DEALINGS IN THE SOFTWARE.
 */
-/*lib release: v4.1.3*/
+/*lib release: v4.2.9*/
 
 #ifndef _MG_API_H_
 #define _MG_API_H_
@@ -34,6 +34,32 @@
 #define	TXPWR__8DBM	 					0x30		//58
 #define	TXPWR__15DBM 					0x2A		//48
 
+
+// ATT Error Codes
+#define ATT_ERR_INVALID_HANDLE           0x01
+#define ATT_ERR_READ_NOT_PERMITTED       0x02
+#define ATT_ERR_WRITE_NOT_PERMITTED      0x03
+#define ATT_ERR_INVALID_PDU              0x04
+#define ATT_ERR_INSUFFICIENT_AUTHEN      0x05
+#define ATT_ERR_UNSUPPORTED_REQ          0x06
+#define ATT_ERR_INVALID_OFFSET           0x07
+#define ATT_ERR_INSUFFICIENT_AUTHOR      0x08
+#define ATT_ERR_PREPARE_QUEUE_FULL       0x09
+#define ATT_ERR_ATTR_NOT_FOUND           0x0a
+#define ATT_ERR_ATTR_NOT_LONG            0x0b
+#define ATT_ERR_INSUFFICIENT_KEY_SIZE    0x0c
+#define ATT_ERR_INVALID_VALUE_SIZE       0x0d
+#define ATT_ERR_UNLIKELY                 0x0e
+#define ATT_ERR_INSUFFICIENT_ENCRYPT     0x0f
+#define ATT_ERR_UNSUPPORTED_GRP_TYPE     0x10
+#define ATT_ERR_INSUFFICIENT_RESOURCES   0x11
+
+//adv header type
+#define ADV_HDR_TYPE_PUBLIC_IND         0x00
+#define ADV_HDR_TYPE_RANDOM_IND         0x80
+#define ADV_HDR_TYPE_PUBLIC_NONCONN_IND  0x02
+#define ADV_HDR_TYPE_RANDOM_NONCONN_IND  0x82
+
 ///////////////////////////lib provided APIs//////////////////////////////////////
 
 //Function: radio_initBle
@@ -42,9 +68,14 @@
 void radio_initBle(unsigned char txpwr, unsigned char** addr/*out*/);  //init ble mode, should be called first after spi initialization
 
 //Function: radio_initBle_TO
-//Parameters: txpwr - input, txpower;   addr - output, BLE device address;   ms_timeout - timeout for BLE initialization
+//Parameters: txpwr - input, txpower;   addr - output, BLE device address;   ms_timeout - timeout for BLE initialization, recommend value 10~50
 //return: 0 - fail;  none 0 - success
 unsigned char radio_initBle_TO(unsigned char txpwr, unsigned char** addr, unsigned short ms_timeout);
+
+//Function: radio_initBle_recover
+//Parameters: txpwr - input, txpower;   addr - output, BLE device address
+//return: None
+void radio_initBle_recover(unsigned char txpwr, unsigned char** addr);
 
 //Function: radio_setCal_nonBlocking
 //Parameters: nonblocking - 0: blocking;  1: non blocking
@@ -55,6 +86,7 @@ void radio_setCal_nonBlocking(unsigned nonblocking);
 //this function is to set rf to standby mode, I ~ 3uA
 //Parameters: none
 //return: None
+//called in UsrProcCallback or when ble_run_interrupt_McuCanSleep()>0
 void radio_standby(void);
 
 //Function: radio_resume
@@ -104,25 +136,34 @@ void ble_set_adv_rsp_data(unsigned char* rsp, unsigned char len);
 void ble_set_name(unsigned char* name,unsigned char len);
 
 //Function: ble_set_adv_type
-//Parameters: type - advertisement type, 0-adv_ind, 2-adv_nonconn_ind. default 0
+//Parameters: type - advertisement type, 0-adv_ind, 2-adv_nonconn_ind. default 0x80
+//                   addr type,      0x80 - RANDOM, 0x00 - PUBLIC
 //return: None
 void ble_set_adv_type(unsigned char type);
 
 //Function: ble_set_interval
-//Parameters: interval - advertisement interval, unit 0.625ms
+//Parameters: interval - advertisement interval, 0x0020~0x4000, unit 0.625ms
 //return: None
 void ble_set_interval(unsigned short interval);
 
+//Function: ble_set_wakeupdly
+//Parameters: counter - wake up delay time, unit 16uS
+//return: 1
+unsigned char ble_set_wakeupdly(unsigned short counter);
+
 //Function: ble_set_adv_enableFlag
 //this function is to enable/disable ble adv
-//Parameters: sEnableFlag - 0 to disable adv, 1 to enable adv
+//Parameters: sEnableFlag - 0 to disable adv, 
+//                          1 to enable peripheral adv, or to enable central scan/connect (default)
+//                          2 to enable adv in connected status(peripheral/central)
+//                          3 adv only, no accept connetion(peripheral), or scan only(central)
 //return: None
 void ble_set_adv_enableFlag(char sEnableFlag);
 
 //Function: ble_set_role
 //this function is to set ble role to peripheral(0) or central(1), by default ble role is peripheral(0)
 //Parameters: role_new - 0 peripheral, 1 central
-//            scan_window - scan window for central rol. range: 0x0004~0x4000 (2.5ms ~ 10.24s)
+//            scan_window - scan window for central role. range: 4~104 (2.5ms ~ 65ms)
 //return: 0 - fail, 1 - success
 unsigned char ble_set_role(unsigned char role_new, unsigned short scan_window);
 
@@ -162,6 +203,31 @@ unsigned short sconn_GetConnInterval(void);//get current used interval in the un
 //returns mac(6 Bytes, Little-Endian format) and the type(MacType, 0 means public type, others mean random type)
 unsigned char* GetMasterDeviceMac(unsigned char* MacType);
 
+
+//Function: mconn_SetConnInterval
+//this function is for central to set interval parameter for connect_req in the unit of 1.25ms, range 6~3200, default: 40
+//Parameters: conn_interval - connection interval. range: 6~3200 (7.5ms ~ 4s)
+//return: 0 - fail, 1 - success
+unsigned char mconn_SetConnInterval(unsigned short conn_interval);
+
+//Function: mconn_SetConnTimeout
+//this function is for central to set connection timeout parameter for connect_req in the unit of 10ms, range 10~3200, default: 200
+//Parameters: conn_timeout - connection timeout. range: 10~3200 (100ms ~ 32s)
+//return: 0 - fail, 1 - success
+unsigned char mconn_SetConnTimeout(unsigned short conn_timeout);
+    
+//Function: ble_master_setTargetDeviceAddr
+//this function is for central to set the target device to be connected
+//Parameters: addr - ble MAC, 6 byte in LSB order
+//return: none
+void ble_master_setTargetDeviceAddr(unsigned char* addr);
+
+//Function: cli_write_req
+//this function is for central to write data
+//Parameters: hd - connection handle; data - data to be sent; len - data length
+//return: length of data write successfully
+int cli_write_req(unsigned short hd, unsigned char* data, unsigned char len);
+
 ///////////////////////////PAIR APIs/////////////////////////////////
 void SetLePinCode(unsigned char *PinCode/*6 0~9 digitals*/);
 
@@ -172,6 +238,12 @@ void SetLePinCode(unsigned char *PinCode/*6 0~9 digitals*/);
 //  1. This function shall be invoked when [StartEncryption == 1].
 //  2. This function is ONLY supported in pairing cases.
 unsigned char* GetLTKInfo(unsigned char* newFlag);
+
+//security manager module request for pair
+//Remarks:
+//  1. This function shall be invoked when [connected status == 1].
+//  2. This function is ONLY supported in pairing cases.
+void s_llSmSecurityReq(void);
 
 
 ///////////////////////////LED application APIs/////////////////////////////////
@@ -188,6 +260,7 @@ void UpdateLEDValueFading(unsigned char flag_fade); //1-fading, 0-now
 // OTA_FORMAT_ERROR   3
 // OTA_UNKNOWN_ERROR  255
 unsigned char OTA_Proc(unsigned char *data, unsigned short len);
+
 
 
 ///////////////////////////interrupt running mode APIs/////////////////////////////////
@@ -239,9 +312,11 @@ void test_SRRCCarrier(unsigned char  freq);
 //return: None. in testing, add while(1); after calling this function
 void test_SRRCSpurious(unsigned char  freq);
 
+//Parameters: isFixCh37Flag - input, 1-adv on ch37 only, 0-adv on ch37,38,39. default:0
 void SetFixAdvChannel(unsigned char isFixCh37Flag);
 
 //unsigned char* GetMgBleStateInfo(int* StateInfoSize/*Output*/);
+
 
 
 ///////////////////////////////////////////////////////////////////////////////////////////
@@ -255,8 +330,42 @@ void SetFixAdvChannel(unsigned char isFixCh37Flag);
 //void SPI_CS_Enable_(void);
 //void SPI_CS_Disable_(void);
 //unsigned char SPI_WriteRead(unsigned char SendData,unsigned char WriteFlag);
-//unsigned char SPI_WriteBuf(unsigned char reg, unsigned char const *pBuf, unsigned char len);//start from lib version 2.2.0
-//unsigned char SPI_ReadBuf(unsigned char reg, unsigned char *pBuf, unsigned char len);//start from lib version 2.2.0
+//unsigned char SPI_WriteBuf(unsigned char reg, unsigned char const *pBuf, unsigned char len)//start from lib version 4.2.0
+/*{
+    unsigned char result = 0;
+    unsigned char i;
+    
+    SPI_CS_Enable_();
+    
+    SPI_Write(reg);
+    
+    for (i=0;i<len;i++)
+    {
+        SPI_Write(*pBuf++);
+    }
+    
+    SPI_CS_Disable_();
+    
+    return result;
+}*/
+//unsigned char SPI_ReadBuf(unsigned char reg, unsigned char *pBuf, unsigned char len)//start from lib version 4.2.0
+/*{
+    unsigned char result = 0;
+    unsigned char i;
+    
+    SPI_CS_Enable_();
+    
+    result = SPI_Write(reg);
+    
+    for (i=0;i<len;i++)
+    {
+        *(pBuf+i) = SPI_Read(0xff);
+    }
+    
+    SPI_CS_Disable_();
+    
+    return result;
+}*/
     
 //void gatt_user_send_notify_data_callback(void);
 //void ser_prepare_write(unsigned short handle, unsigned char* attValue, unsigned short attValueLen, unsigned short att_offset);
@@ -265,7 +374,7 @@ void SetFixAdvChannel(unsigned char isFixCh37Flag);
 //void ser_write_rsp(unsigned char pdu_type/*reserved*/, unsigned char attOpcode/*reserved*/, 
 //                   unsigned short att_hd, unsigned char* attValue/*app data pointer*/, unsigned char valueLen_w/*app data size*/);
 //void server_rd_rsp(unsigned char attOpcode, unsigned short attHandle, unsigned char pdu_type);
-void server_blob_rd_rsp(u8 attOpcode, u16 attHandle, u8 dataHdrP,u16 offset);
+//void server_blob_rd_rsp(u8 attOpcode, u16 attHandle, u8 dataHdrP,u16 offset);
 //int GetPrimaryServiceHandle(unsigned short hd_start, unsigned short hd_end,
 //                            unsigned short uuid16,   
 //                            unsigned short* hd_start_r,unsigned short* hd_end_r);
@@ -273,6 +382,10 @@ void server_blob_rd_rsp(u8 attOpcode, u16 attHandle, u8 dataHdrP,u16 offset);
 //void ConnectStausUpdate(unsigned char IsConnectedFlag);
 //unsigned char* getDeviceInfoData(unsigned char* len);
 //void UsrProcCallback(void);
+
+//void UsrProcCallback_Central(unsigned char fin, unsigned char* dat_rcv, unsigned char dat_len);
+//void gatt_client_send_callback(void);
+//void att_cli_receive_callback(u16 att_hd, u8* attValue/*app data pointer*/, u8 valueLen/*app data size*/);
 
 //unsigned char aes_encrypt_HW(unsigned char *painText128bitBE,unsigned char *key128bitBE); //porting api, returns zero means not supported
 

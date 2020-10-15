@@ -1,5 +1,5 @@
 ////////////////////////////////////////////////////////////////////////////////
-/// @file     UID.C
+/// @file     MAIN.C
 /// @author   D CHEN
 /// @version  v2.0.0
 /// @date     2019-03-13
@@ -115,7 +115,7 @@ void AppTaskTick()
     if (tickCnt++ >= 500) {
         //tickCnt  = 0;
         //tickFlag = true;
-	}
+    }
     if(ready){
         if (playCnt++ >= 20) {
             playCnt  = 0;
@@ -140,7 +140,7 @@ void AppTaskTick()
 ////////////////////////////////////////////////////////////////////////////////
 int main(void)
 {
-	MCUID = SetSystemClock(emSYSTICK_On, AppTaskTick);
+    MCUID = SetSystemClock(emSYSTICK_On, AppTaskTick);
 
     initPeri();
     initPara();

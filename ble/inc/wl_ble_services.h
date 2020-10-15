@@ -161,6 +161,8 @@
 #define BLE_APPEARANCE_OUTDOOR_SPORTS_ACT_LOC_POD           5187
 #define BLE_APPEARANCE_OUTDOOR_SPORTS_ACT_LOC_AND_NAV_POD   5188
 
+#pragma anon_unions
+
 typedef struct ble_character {
     u16 attribute_type;                                                         // Attribute Types
     u16 attribute_handle;                                                       // Attribute Handle

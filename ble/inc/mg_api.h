@@ -250,7 +250,7 @@ void s_llSmSecurityReq(void);
 void Led_getInfo(unsigned char* data);
 void SetLEDLum(int r, int g, int b, int L); //rgb[0~255], L[0~100,101] 101 means not used 
 void UpdateLEDValueFading(unsigned char flag_fade); //1-fading, 0-now
-
+//void UpdateLEDValueAll(void);
 
 ///////////////////////////OTA APIs/////////////////////////////////
 //return: 
@@ -389,7 +389,7 @@ void SetFixAdvChannel(unsigned char isFixCh37Flag);
 
 //unsigned char aes_encrypt_HW(unsigned char *painText128bitBE,unsigned char *key128bitBE); //porting api, returns zero means not supported
 
-//void UpdateLEDValueAll(void);
+void UpdateLEDValueAll(void);
 
 //void McuGotoSleepAndWakeup(void);
 

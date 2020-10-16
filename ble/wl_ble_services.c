@@ -203,6 +203,10 @@ u8* getDeviceInfoData(u8* len)
     return (u8*)ble_device_name;
 }
 
+void UpdateLEDValueAll(void) //porting function
+{
+}
+
 //---- MindMotion HardWare AES implemenation -----
 unsigned char aes_encrypt_HW(unsigned char *painText128bitBE,unsigned char *key128bitBE); //porting api, returns zero means not supported
 unsigned char aes_encrypt_HW(unsigned char *_data, unsigned char *_key)

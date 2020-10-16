@@ -169,7 +169,7 @@ typedef struct ble_character {
     u8  character_properties;                                                   // Attribute Value: Characteristic Properties
     u8  character_handle[2];                                                    //                  Characteristic Value Attribute Handle
     u8  character_uuid[2];                                                      //                  Characteristic UUID
-    union character_uuid_type
+    union character_uuib'led_type
     {
         u8 uuid_type;                                                           // if character_uuid is 16: 0xFF
         u8 uuid_128_idx;

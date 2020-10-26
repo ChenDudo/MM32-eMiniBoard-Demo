@@ -161,7 +161,9 @@
 #define BLE_APPEARANCE_OUTDOOR_SPORTS_ACT_LOC_POD           5187
 #define BLE_APPEARANCE_OUTDOOR_SPORTS_ACT_LOC_AND_NAV_POD   5188
 
+#if defined(__KEIL)
 #pragma anon_unions
+#endif
 
 typedef struct ble_character {
     u16 attribute_type;                                                         // Attribute Types
@@ -169,7 +171,7 @@ typedef struct ble_character {
     u8  character_properties;                                                   // Attribute Value: Characteristic Properties
     u8  character_handle[2];                                                    //                  Characteristic Value Attribute Handle
     u8  character_uuid[2];                                                      //                  Characteristic UUID
-    union character_uuib'led_type
+    union character_uuid_type
     {
         u8 uuid_type;                                                           // if character_uuid is 16: 0xFF
         u8 uuid_128_idx;

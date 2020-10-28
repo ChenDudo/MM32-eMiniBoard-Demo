@@ -63,17 +63,17 @@ GLOBAL u16  LDFreq[4], LDCnt[4];
 
 /// @}
 
-void hci_task();
-void ledTick();
+void hci_task(void);
+void ledTick(void);
 
-void Key1Down();
-void Key2Down();
-void Key3Down();
-void Key4Down();
-void Key1Pressing();
-void Key2Pressing();
-void Key3Pressing();
-void Key4Pressing();
+void Key1Down(void);
+void Key2Down(void);
+void Key3Down(void);
+void Key4Down(void);
+void Key1Pressing(void);
+void Key2Pressing(void);
+void Key3Pressing(void);
+void Key4Pressing(void);
 
 /// @}
 

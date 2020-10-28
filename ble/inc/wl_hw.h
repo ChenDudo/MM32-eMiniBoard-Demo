@@ -105,11 +105,11 @@ typedef enum {
 /// @{
 
 
-void wl_spi_init();
+void wl_spi_init(void);
 
-void wl_irq_init();
-void wl_irq_it_init();
-bool wl_irq_status();
+void wl_irq_init(void);
+void wl_irq_it_init(void);
+bool wl_irq_status(void);
 
 void wl_activate(u8 data);
 void wl_write_reg(u8 addr, u8 data);
@@ -117,8 +117,8 @@ u8 wl_read_reg(u8 addr);
 void wl_write_buf(u8 addr,u8* buf, u8 len);
 void wl_read_buf(u8 addr, u8* buf, u8 len);
 
-void SPI_CS_Enable_();
-void SPI_CS_Disable_();
+void SPI_CS_Enable_(void);
+void SPI_CS_Disable_(void);
 
 /// @}
 

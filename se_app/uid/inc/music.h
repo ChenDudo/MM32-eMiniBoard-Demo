@@ -73,7 +73,7 @@ GLOBAL u16          playCnt;
 
 /// @}
 
-void musicTick();
+void musicTick(void);
 void setBuzzerEn(FunctionalState NewState);
 void setBuzzerFreq(u16 Period);
 

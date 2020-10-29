@@ -72,8 +72,8 @@ GLOBAL u16 adcValue[3], rv[3], adcCnt;
 
 /// @}
 
-void adcTick();
-void BSP_ADC_Configure();
+void adcTick(void);
+void BSP_ADC_Configure(void);
 
 /// @}
 

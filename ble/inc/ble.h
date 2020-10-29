@@ -64,10 +64,10 @@ GLOBAL bool 	ble_irq_flag;
 /// @defgroup BLE_Exported_Functions
 /// @{
 
-void wl_ble_mode();
-void wl_ble_task();
-void wl_ble_tick_task();
-void wl_ble_irq_handler();
+void wl_ble_mode(void);
+void wl_ble_task(void);
+void wl_ble_tick_task(void);
+void wl_ble_irq_handler(void);
 
 /// @}
 

@@ -1129,7 +1129,8 @@ ErrorStatus exRCC_Init(RCCInitStruct_TypeDef* para)
     RCC_DeInit();
 
     // Protection
-    if (((para->RCC_SystemClock & 0xF0000) >> RCC_LATENCY_TB) < 0 || ((para->RCC_SystemClock & 0xF0000) >> RCC_LATENCY_TB) > 3) {
+    if ((((int)((para->RCC_SystemClock & 0xF0000) >> RCC_LATENCY_TB) < 0x0) || \
+			((int)((para->RCC_SystemClock & 0xF0000) >> RCC_LATENCY_TB) > 3)) != 0) {
         para->RCC_SystemClock = SYSCLK_HSI_6d;									// default clock
 		RCC->CR |= RCC_CR_HSION;
 		if (!RCC_WaitForFlagStartUp(RCC_FLAG_HSIRDY))  return ERROR;

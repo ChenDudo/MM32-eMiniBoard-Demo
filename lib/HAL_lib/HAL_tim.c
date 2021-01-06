@@ -1777,22 +1777,6 @@ void TIM_OC5Init(TIM_TypeDef* tim, TIM_OCInitTypeDef* pInitStruct)
 }
 
 ////////////////////////////////////////////////////////////////////////////////
-/// @brief  Enables or disables the timer peripheral Preload register on CCR5.
-/// @param  tim: where timer can be 1 or 8 to select the timer peripheral.
-/// @param  preload: new state of the timer peripheral Preload register
-///         This parameter can be one of the following values:
-///    @arg TIM_OCPreload_Enable
-///    @arg TIM_OCPreload_Disable
-/// @retval None.
-////////////////////////////////////////////////////////////////////////////////
-void TIM_OC5PreloadConfig(TIM_TypeDef* tim, TIMOCPE_Typedef preload)
-{
-#if defined(TIM_CCMR3_OC5PEN)
-    MODIFY_REG(tim->CCMR3, TIM_CCMR3_OC5PEN, preload);
-#endif    
-}
-
-////////////////////////////////////////////////////////////////////////////////
 /// @brief  Configures the timer channel 5 polarity.
 /// @param  tim: where timer can be 1 or 8 to select the timer peripheral.
 /// @param  polarity: specifies the OC5 Polarity
@@ -1802,12 +1786,11 @@ void TIM_OC5PreloadConfig(TIM_TypeDef* tim, TIMOCPE_Typedef preload)
 /// @retval None.
 ////////////////////////////////////////////////////////////////////////////////
 void TIM_OC5PolarityConfig(TIM_TypeDef* tim, TIMCCxP_Typedef polarity)
-{
-#if defined(TIM_CCER_CC5P)  
-    MODIFY_REG(tim->CCER, TIM_CCER_CC5P, polarity << 16);
-#endif    
+{ 
+    MODIFY_REG(tim->CCER, TIM_CCER_CC5P, polarity << 16);   
 }
 
+#if defined(__MM0P1) || defined(__MM0Q1) || defined(__MM0S1) || defined(__MM3U1)
 ////////////////////////////////////////////////////////////////////////////////
 /// @brief  Configures the timer Output Compare 5 Fast feature.
 /// @param  tim: where timer can be 1 or 8 to select the timer peripheral.
@@ -1819,9 +1802,7 @@ void TIM_OC5PolarityConfig(TIM_TypeDef* tim, TIMCCxP_Typedef polarity)
 ////////////////////////////////////////////////////////////////////////////////
 void TIM_OC5FastConfig(TIM_TypeDef* tim, TIMOCFE_Typedef fast)
 {
-#if defined(TIM_CCMR3_OC5FEN)
     MODIFY_REG(tim->CCMR3, TIM_CCMR3_OC5FEN, fast);
-#endif
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -1836,10 +1817,24 @@ void TIM_OC5FastConfig(TIM_TypeDef* tim, TIMOCFE_Typedef fast)
 ////////////////////////////////////////////////////////////////////////////////
 void TIM_ClearOC5Ref(TIM_TypeDef* tim, TIMOCCE_Typedef clear)
 {
-#if defined(TIM_CCMR3_OC5CEN)
     MODIFY_REG(tim->CCMR3, TIM_CCMR3_OC5CEN, clear);
-#endif
 }
+
+
+////////////////////////////////////////////////////////////////////////////////
+/// @brief  Enables or disables the timer peripheral Preload register on CCR5.
+/// @param  tim: where timer can be 1 or 8 to select the timer peripheral.
+/// @param  preload: new state of the timer peripheral Preload register
+///         This parameter can be one of the following values:
+///    @arg TIM_OCPreload_Enable
+///    @arg TIM_OCPreload_Disable
+/// @retval None.
+////////////////////////////////////////////////////////////////////////////////
+void TIM_OC5PreloadConfig(TIM_TypeDef* tim, TIMOCPE_Typedef preload)
+{
+    MODIFY_REG(tim->CCMR3, TIM_CCMR3_OC5PEN, preload);  
+}
+#endif
 
 ////////////////////////////////////////////////////////////////////////////////
 /// @brief  Enables or disables the timer complementary PWM output Status after 

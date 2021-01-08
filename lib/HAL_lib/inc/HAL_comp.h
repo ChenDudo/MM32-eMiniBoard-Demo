@@ -42,7 +42,7 @@
 ////////////////////////////////////////////////////////////////////////////////
 /// @brief COMP_InvertingInput
 ////////////////////////////////////////////////////////////////////////////////
-#if defined(__MZ306) || defined(__MT307) || defined(__MZ308) || defined(__MZ309) || defined(__MZ310)
+#if defined(__MZ306) || defined(__MT307) || defined(__MZ308) || defined(__MZ309) || defined(__MZ310) || defined(__MT3270)
 typedef enum {
 #if defined(__MZ306)
     emCOMP_InvertingInput_1_4VREFINT  	= COMP_CSR_INM_VREFINT_1_4, 	///< Vrefint 1/4 as COMP inverting input
@@ -54,7 +54,7 @@ typedef enum {
     emCOMP_InvertingInput_IO1 			= COMP_CSR_INM_INM6,  			///< INM6 as COMP inverting input
     emCOMP_InvertingInput_IO2 			= COMP_CSR_INM_INM7  			///< INM7 as COMP inverting input
 #endif
-#if defined(__MZ308) || defined(__MZ309) || defined(__MZ310) 
+#if defined(__MZ308) || defined(__MZ309) || defined(__MZ310) || defined(__MT3270)
     emCOMP_InvertingInput_IO0 			= COMP_CSR_INM_0,  				///< INM0 as COMP inverting input
     emCOMP_InvertingInput_IO1 			= COMP_CSR_INM_1,  				///< INM1 as COMP inverting input
     emCOMP_InvertingInput_IO2 			= COMP_CSR_INM_2,  				///< INM2 as COMP inverting input
@@ -66,7 +66,7 @@ typedef enum {
 ////////////////////////////////////////////////////////////////////////////////
 /// @brief COMP_NonInvertingInput
 ////////////////////////////////////////////////////////////////////////////////
-#if defined(__MZ306) || defined(__MT307) || defined(__MZ308) || defined(__MZ309) || defined(__MZ310)
+#if defined(__MZ306) || defined(__MT307) || defined(__MZ308) || defined(__MZ309) || defined(__MZ310) || defined(__MT3270)
 typedef enum {
     emCOMP_NonInvertingInput_IO1 		= COMP_CSR_INP_INP0,  			///< INP0 as COMP non-inverting input
     emCOMP_NonInvertingInput_IO2 		= COMP_CSR_INP_INP1,  			///< INP1 as COMP non-inverting input
@@ -84,7 +84,7 @@ typedef enum {
 ////////////////////////////////////////////////////////////////////////////////
 /// @brief COMP_Output
 ////////////////////////////////////////////////////////////////////////////////
-#if defined(__MZ306) || defined(__MT307) || defined(__MZ308) || defined(__MZ309) || defined(__MZ310)
+#if defined(__MZ306) || defined(__MT307) || defined(__MZ308) || defined(__MZ309) || defined(__MZ310) || defined(__MT3270)
 typedef enum {
 	emCOMP_Output_None = 0x00000000, ///< No output
 	emCOMP_Output_TIM1BKIN 		= COMP_CSR_OUT_TIM1_BRAKE, ///< Timer1 brake input
@@ -107,14 +107,16 @@ typedef enum {
 /// @brief COMP_OutputPoloarity
 ////////////////////////////////////////////////////////////////////////////////
 typedef enum {
-    emCOMP_NonInverted = 0x00000000,  											///< COMP non-inverting output
-    emCOMP_Inverted    = 0x00008000   											///< COMP inverting output
+    emCOMP_NonInverted                = 0x00000000,  											///< COMP non-inverting output
+    COMP_OutputPol_NonInverted        = 0x00000000,
+    emCOMP_Inverted                   = 0x00008000,   											///< COMP inverting output
+    COMP_OutputPol_Inverted           = 0x00008000
 } EM_COMP_OutputPol;
 
 ////////////////////////////////////////////////////////////////////////////////
 /// @brief COMP_Hysteresis
 ////////////////////////////////////////////////////////////////////////////////
-#if defined(__MZ306) || defined(__MZ308) || defined(__MZ309) || defined(__MZ310)
+#if defined(__MZ306) || defined(__MZ308) || defined(__MZ309) || defined(__MZ310) || defined(__MT3270)
 typedef enum {
     emCOMP_Hysteresis_No = COMP_CSR_HYST_0,  										///< Hysteresis Voltage: 0mV
 #if defined(__MZ306)
@@ -122,18 +124,29 @@ typedef enum {
     emCOMP_Hysteresis_Medium = COMP_CSR_HYST_18,  								///< Hysteresis Voltage: 18mV
     emCOMP_Hysteresis_High   = COMP_CSR_HYST_27   								///< Hysteresis Voltage: 27mV
 #endif
-#if defined(__MZ308) || defined(__MZ309) || defined(__MZ310) 
+#if defined(__MZ308) || defined(__MZ309) || defined(__MZ310) || defined(__MT3270)
     emCOMP_Hysteresis_Low    = COMP_CSR_HYST_15,  								///< Hysteresis Voltage: 15mV
     emCOMP_Hysteresis_Medium = COMP_CSR_HYST_30,  								///< Hysteresis Voltage: 30mV
     emCOMP_Hysteresis_High   = COMP_CSR_HYST_90   								///< Hysteresis Voltage: 90mV
 #endif
 } EM_COMP_Hysteresis;
 #endif
-
+#if defined(__MT3270)
+typedef enum {
+    COMP_Filter_0_Period                = COMP_CSR_OFLT_0,                      ///< filter is ((u32)0x00000000)
+    COMP_Filter_2_Period                = COMP_CSR_OFLT_1,                      ///< filter is ((u32)0x00040000)
+    COMP_Filter_4_Period                = COMP_CSR_OFLT_2,                      ///< filter is ((u32)0x00080000)
+    COMP_Filter_8_Period                = COMP_CSR_OFLT_3,                      ///< filter is ((u32)0x000C0000)
+    COMP_Filter_16_Period               = COMP_CSR_OFLT_4,                      ///< filter is ((u32)0x00100000)
+    COMP_Filter_32_Period               = COMP_CSR_OFLT_5,                      ///< filter is ((u32)0x00140000)
+    COMP_Filter_64_Period               = COMP_CSR_OFLT_6,                      ///< filter is ((u32)0x00180000)
+    COMP_Filter_128_Period              = COMP_CSR_OFLT_7,                      ///< filter is ((u32)0x001C0000)
+} EM_COMP_FILT;
+#endif
 ////////////////////////////////////////////////////////////////////////////////
 /// @brief COMP_Mode
 ////////////////////////////////////////////////////////////////////////////////
-#if defined(__MZ306) || defined(__MZ308) || defined(__MZ309) || defined(__MZ310)
+#if defined(__MZ306) || defined(__MZ308) || defined(__MZ309) || defined(__MZ310) || defined(__MT3270)
 typedef enum {
     emCOMP_Mode_HighSpeed = COMP_CSR_MODE_HIGHRATE,  								///< Comparator high rate mode
     emCOMP_Mode_MediumSpeed = COMP_CSR_MODE_MEDIUMRATE,  							///< Comparator medium rate mode
@@ -145,7 +158,7 @@ typedef enum {
 ////////////////////////////////////////////////////////////////////////////////
 /// @brief COMP_OutputLevel
 ////////////////////////////////////////////////////////////////////////////////
-#if defined(__MZ306) || defined(__MZ308) || defined(__MZ309) || defined(__MZ310)
+#if defined(__MZ306) || defined(__MZ308) || defined(__MZ309) || defined(__MZ310) || defined(__MT3270)
 typedef enum {
     emCOMP_OutputLevel_High = COMP_CSR_OUT,  ///<  High output
     emCOMP_OutputLevel_Low  = 0x00000000     ///<  Low output
@@ -155,21 +168,54 @@ typedef enum {
 ////////////////////////////////////////////////////////////////////////////////
 /// @brief  COMP Init structure definition
 ////////////////////////////////////////////////////////////////////////////////
-#if defined(__MZ306) || defined(__MZ308) || defined(__MZ309) || defined(__MZ310)
+#if defined(__MZ306) || defined(__MZ308) || defined(__MZ309) || defined(__MZ310) || defined(__MT3270)
 typedef struct {
-    u32 Invert;  															///< Selects the inverting input of the comparator.
-    u32 NonInvert;  														///< Selects the non inverting input of the comparator.
-    u32 Output;  															///< Selects the output redirection of the comparator.
-    u32 BlankingSrce;  													///< Selects the output blanking source of the comparator.
-    u32 OutputPol;  														///< Selects the output polarity of the comparator.
-    u32 Hysteresis;  														///< Selects the hysteresis voltage of the comparator.
-    u32 Mode;  															///< Selects the operating mode of the comparator and allows
-#if defined(__MZ308) || defined(__MZ309) || defined(__MZ310) 
-    u32 OFLT;                                                              ///< to adjust the speed/consumption.
+    union {
+        u32 COMP_InvertingInput;
+        u32 Invert;                                                             ///< Selects the inverting input of the comparator.
+    };
+    union {
+        u32 COMP_NonInvertingInput;
+        u32 NonInvert;                                                          ///< Selects the non inverting input of the comparator.
+    };
+    union {
+        u32 COMP_Output;
+        u32 Output;                                                             ///< Selects the output redirection of the comparator.
+        u32 BlankingSrce;                                                       ///< Selects the output blanking source of the comparator.
+    };
+    union {
+        u32 COMP_OutputPol;
+        u32 OutputPol;                                                          ///< Selects the output polarity of the comparator.
+    };
+    union {
+        u32 COMP_Hysteresis;
+        u32 Hysteresis;                                                         ///< Selects the hysteresis voltage of the comparator.
+    };
+    union {
+        u32 COMP_Mode;
+        u32 Mode;                                                               ///< Selects the operating mode of the comparator and allows
+    };
+#if defined(__MZ308) || defined(__MZ309) || defined(__MZ310) || defined(__MT3270)
+    union {
+        u32 COMP_Filter;
+        u32 OFLT;                                                               ///< to adjust the speed/consumption.
+    };
 #endif
 } COMP_InitTypeDef;
 #endif
 
+#if defined(__MZ306) || defined(__MZ308) || defined(__MZ309) || defined(__MZ310) || defined(__MT3270)
+typedef struct {
+
+    FunctionalState COMP_Poll_En;                                                ///< Selects the inverting input of the comparator.
+
+    u32 COMP_Poll_Ch;                                                            ///< Selects the non inverting input of the comparator.
+    u32 COMP_Poll_Fixn;                                                          ///< Selects the output redirection of the comparator.
+    u32 COMP_Poll_Period;                                                        ///< Selects the output polarity of the comparator.
+    u32 COMP_Poll_Pout;                                                          ///< Selects the hysteresis voltage of the comparator.
+
+} COMP_POLL_InitTypeDef;
+#endif
 /// @}
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -197,6 +243,11 @@ typedef struct {
     #define COMP1 				((u32)0x00000000)  								///< Select comparator 1
 #endif
 
+#if defined(__MT3270)
+    #define COMP1 				((u32)0x0000000c)  								///< Select comparator 1
+    #define COMP2 				((u32)0x00000010)  								///< Select comparator 2
+#endif
+
 #define COMP_BlankingSrce_None 	((u32)0x00000000)
 #define COMP_CSR_CLEAR_MASK 	((u32)0x00000003)
 
@@ -221,7 +272,7 @@ typedef struct {
 /// @defgroup COMP_Exported_Functions
 /// @{
 
-#if defined(__MZ306) || defined(__MZ308) || defined(__MZ309) || defined(__MZ310)
+#if defined(__MZ306) || defined(__MZ308) || defined(__MZ309) || defined(__MZ310) || defined(__MT3270)
 void COMP_DeInit(u32 selection);
 void COMP_Init(u32 selection, COMP_InitTypeDef *COMP_InitStruct);
 void COMP_StructInit(COMP_InitTypeDef *COMP_InitStruct);
@@ -230,8 +281,8 @@ void COMP_SwitchCmd(u32 selection, FunctionalState state);
 void COMP_LockConfig(u32 selection);
 
 u32 COMP_GetOutputLevel(u32 selection);
-
-#if defined(__MZ308) || defined(__MZ309) || defined(__MZ310)
+void COMP_SetCrv(u8 crv_select, u8 crv_level);
+#if defined(__MZ308) || defined(__MZ309) || defined(__MZ310) 
 void exCOMP_CrvCmd(FunctionalState state);
 void exCOMP_SwitchCrv(u32 crv);
 void exCOMP_CrvSrc(u32 src);

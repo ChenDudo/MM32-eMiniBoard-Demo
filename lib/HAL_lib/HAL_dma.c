@@ -36,7 +36,7 @@
 /// @addtogroup DMA_Exported_Functions
 /// @{
 
-#if defined(__MT304) || defined(__MZ306) || defined(__MT307) || defined(__MZ308) || defined(__MZ309) || defined(__MZ310)
+#if defined(__MT304) || defined(__MZ306) || defined(__MT307) || defined(__MZ308) || defined(__MZ309) || defined(__MZ310) || defined(__MT3270)
 ////////////////////////////////////////////////////////////////////////////////
 /// @brief  Deinitializes the DMA Channeln registers to their default reset
 ///         values.

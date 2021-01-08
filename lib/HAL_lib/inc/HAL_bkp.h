@@ -39,9 +39,11 @@
 /// @defgroup BKP_Exported_Types
 /// @{
 
+#if defined(__MT304) || defined(__MT307) || defined(__MZ306) || defined(__MZ308) || defined(__MZ310) || defined(__MT3270)
 ////////////////////////////////////////////////////////////////////////////////
 /// @brief  Data_Backup_Register
 /// @anchor Data_Backup_Register
+#if defined(__MT304) || defined(__MT307) || defined(__MZ306) || defined(__MZ308) 
 typedef enum {
     BKP_DR1  = 0x0004,
     BKP_DR2  = 0x0008,
@@ -66,8 +68,32 @@ typedef enum {
     BKP_DR20 = 0x0050
 #endif
 } BKPDR_Typedef;
-
-#if defined(__MT304) || defined(__MT307) || defined(__MZ310)
+#endif
+#if defined(__MZ310) || defined(__MM3U1)
+typedef enum {
+    BKP_DR1  = 0x0010,
+    BKP_DR2  = 0x0014,
+    BKP_DR3  = 0x0018,
+    BKP_DR4  = 0x001C,
+    BKP_DR5  = 0x0020,
+    BKP_DR6  = 0x0024,
+    BKP_DR7  = 0x0028,
+    BKP_DR8  = 0x002C,
+    BKP_DR9  = 0x0030,
+    BKP_DR10 = 0x0034,
+    BKP_DR11 = 0x0038,
+    BKP_DR12 = 0x003C,
+    BKP_DR13 = 0x0040,
+    BKP_DR14 = 0x0044,
+    BKP_DR15 = 0x0048,
+    BKP_DR16 = 0x004C,
+    BKP_DR17 = 0x0050,
+    BKP_DR18 = 0x0054,
+    BKP_DR19 = 0x0058,
+    BKP_DR20 = 0x005C
+} BKPDR_Typedef;
+#endif
+#if defined(__MT304) || defined(__MT307) || defined(__MZ310) || defined(__MT3270)
 
 ////////////////////////////////////////////////////////////////////////////////
 /// @brief Tamper_Pin_active_level
@@ -111,7 +137,7 @@ typedef enum {
 void BKP_WriteBackupRegister(BKPDR_Typedef BKP_DR, u16 Data);
 u16  BKP_ReadBackupRegister(BKPDR_Typedef BKP_DR);
 
-#if defined(__MT304) || defined(__MT307) || defined(__MZ310)
+#if defined(__MT304) || defined(__MT307) || defined(__MZ310) || defined(__MT3270)
 void BKP_DeInit(void);
 void BKP_ClearFlag(void);
 void BKP_ClearITPendingBit(void);
@@ -129,6 +155,8 @@ void exBKP_Init(void);
 void exBKP_ImmWrite(BKPDR_Typedef BKP_DR, u16 Data);
 u16  exBKP_ImmRead(BKPDR_Typedef BKP_DR);
 
+
+#endif
 /// @}
 
 /// @}

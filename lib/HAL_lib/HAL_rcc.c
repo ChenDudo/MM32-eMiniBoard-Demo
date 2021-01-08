@@ -49,6 +49,10 @@ void RCC_DeInit()
 #if defined(__MT304) || defined(__MZ306) || defined(__MT307) || defined(__MZ308) || defined(__MZ310)
     CLEAR_BIT(RCC->CR, RCC_CR_HSEON | RCC_CR_CSSON | RCC_CR_PLLON | RCC_CR_PLLDIV | RCC_CR_PLLMUL);
 #endif
+#if defined(__MT3270)
+    CLEAR_BIT(RCC->CR, RCC_CR_HSEON | RCC_CR_CSSON | RCC_CR_PLLON );
+    CLEAR_BIT(RCC->PLLCFGR, RCC_PLLCFGR_PLL_DN | RCC_PLLCFGR_PLL_DP);
+#endif
 #if defined(__MZ309) || defined(__MZ311)
     CLEAR_BIT(RCC->CR, RCC_CR_HSEON | RCC_CR_CSSON);
 #endif
@@ -96,7 +100,7 @@ void RCC_HSEConfig(RCCHSE_TypeDef state)
 ////////////////////////////////////////////////////////////////////////////////
 FlagStatus RCC_GetFlagStatus(RCC_FLAG_TypeDef flag)
 {
-#if defined(__MT304) || defined(__MT307) || defined(__MZ310)
+#if defined(__MT304) || defined(__MT307) || defined(__MZ310) || defined(__MT3270)
     return ((((flag >> 5) == CR_REG_INDEX) ? RCC->CR : (((flag >> 5) == BDCR_REG_INDEX) ? RCC->BDCR : RCC->CSR)) &
             (1 << (flag & 0x1F)))
                ? SET : RESET;
@@ -201,7 +205,7 @@ void RCC_SYSCLKConfig(SYSCLK_TypeDef sysClkSrc)
     MODIFY_REG(RCC->CFGR, RCC_CFGR_SW, (sysClkSrc << RCC_CFGR_SW_Pos));
 }
 
-#if defined(__MT304) || defined(__MZ306) || defined(__MT307) || defined(__MZ308) || defined(__MZ310)
+#if defined(__MT304) || defined(__MZ306) || defined(__MT307) || defined(__MZ308) || defined(__MZ310) || defined(__MT3270)
 ////////////////////////////////////////////////////////////////////////////////
 /// @brief  Configures the PLL clock source and DM DN factor.
 ///   This function must be used only when the PLL is disabled.
@@ -213,7 +217,12 @@ void RCC_SYSCLKConfig(SYSCLK_TypeDef sysClkSrc)
 ////////////////////////////////////////////////////////////////////////////////
 void RCC_PLLDMDNConfig(u32 plldn, u32 plldm)
 {
+#if defined(__MT304) || defined(__MZ306) || defined(__MT307) || defined(__MZ308) || defined(__MZ310)
     MODIFY_REG(RCC->CR, (RCC_CR_PLLMUL | RCC_CR_PLLDIV), ((plldn << RCC_CR_PLLMUL_Pos) | (plldm << RCC_CR_PLLDIV_Pos)));
+#endif
+#if defined(__MM3U1)
+    MODIFY_REG(RCC->PLLCFGR, (RCC_PLLCFGR_PLL_DN | RCC_PLLCFGR_PLL_DP), ((plldn << RCC_PLLCFGR_PLL_DN_Pos) | (plldm << RCC_PLLCFGR_PLL_DP_Pos)));
+#endif
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -252,11 +261,14 @@ void RCC_PLLConfig(RCC_PLLSource_TypeDef pllSrc, RCC_PLLMul_TypeDef pllMul)
                       0x13, 0x01, 0x15, 0x01, 0x17, 0x01, 0x19, 0x01,  // Frclk*20/2; Frclk*22/2; Frclk*24/2; Frclk*26/2;
                       0x1B, 0x01, 0x1D, 0x01, 0x1F, 0x01};             // Frclk*28/2; Frclk*30/2;
                                                                        // Frclk*32/2;
+#if defined(__MT3270)
+    MODIFY_REG(RCC->PLLCFGR, (RCC_PLLCFGR_PLLXTPRE | RCC_PLLCFGR_PLLSRC), pll_src);
+#endif
     RCC_PLLDMDNConfig((u32)DNDM_Item[pllMul >> 17], (u32)DNDM_Item[(pllMul >> 17) + 1]);
 }
 #endif
 
-#if defined(__MT304) || defined(__MZ306) || defined(__MT307) || defined(__MZ310)
+#if defined(__MT304) || defined(__MZ306) || defined(__MT307) || defined(__MZ310) || defined(__MT3270)
 ////////////////////////////////////////////////////////////////////////////////
 /// @brief  Configures the USB clock (USBCLK).
 /// @param  usbClkSrc: specifies the USB clock source.
@@ -331,7 +343,7 @@ void RCC_PCLK1Config(RCC_APB1_APB2_CLK_TypeDef HCLK)
     MODIFY_REG(RCC->CFGR, RCC_CFGR_PPRE1, HCLK);
 }
 
-#if defined(__MT304) || defined(__MZ306) || defined(__MT307)  || defined(__MZ308) || defined(__MZ309) || defined(__MZ310)
+#if defined(__MT304) || defined(__MZ306) || defined(__MT307)  || defined(__MZ308) || defined(__MZ309) || defined(__MZ310) || defined(__MT3270)
 ////////////////////////////////////////////////////////////////////////////////
 /// @brief  Configures the High Speed APB clock (PCLK2).
 /// @param  HCLK: defines the APB2 clock divider. This clock is derived from
@@ -366,7 +378,7 @@ void RCC_ADCCLKConfig(RCC_ADCCLKSOURCE_TypeDef PCLK2)
     MODIFY_REG(RCC->CFGR, ADC_CFGR_PRE, PCLK2);
 }
 
-#if defined(__MT304) || defined(__MT307) || defined(__MZ310)
+#if defined(__MT304) || defined(__MT307) || defined(__MZ310) || defined(__MT3270)
 ////////////////////////////////////////////////////////////////////////////////
 /// @brief  Configures the External Low Speed oscillator (LSE).
 /// @param  state: specifies the new state of the LSE.
@@ -429,7 +441,12 @@ void RCC_RTCCLKCmd(FunctionalState state)
 ////////////////////////////////////////////////////////////////////////////////
 void RCC_LSICmd(FunctionalState state)
 {
+#if defined(__MT304) || defined(__MZ306) || defined(__MT307) || defined(__MZ308) || defined(__MZ310)
     MODIFY_REG(RCC->CSR, RCC_CSR_LSION, (state << RCC_CSR_LSION_Pos));
+#endif
+#if defined(__MT3270)
+    MODIFY_REG(RCC->CSR, RCC_CSR_LSION | RCC_CSR_LSIOENLV, RCC_CSR_LSIOENLV | (state << RCC_CSR_LSION_Pos));
+#endif
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -439,7 +456,7 @@ void RCC_LSICmd(FunctionalState state)
 ////////////////////////////////////////////////////////////////////////////////
 u32 RCC_GetSysClockFreq(void)
 {
-#if defined(__MT304) || defined(__MZ306) || defined(__MT307) || defined(__MZ308) || defined(__MZ310)
+#if defined(__MT304) || defined(__MZ306) || defined(__MT307) || defined(__MZ308) || defined(__MZ310) || defined(__MT3270)
     u32 clock, mul, div;
 #endif
     switch (RCC->CFGR & RCC_CFGR_SWS) {
@@ -469,13 +486,24 @@ u32 RCC_GetSysClockFreq(void)
 
 			return  clock * mul / div;
 #endif
+#if defined(__MT3270)
+        case RCC_CFGR_SWS_PLL:
+            clock = READ_BIT(RCC->PLLCFGR, RCC_PLLCFGR_PLLSRC) ? (READ_BIT(RCC->PLLCFGR, RCC_PLLCFGR_PLLXTPRE) ? (HSE_VALUE >> 1) : HSE_VALUE)
+                    : HSI_VALUE_PLL_ON;
+            mul = ((RCC->PLLCFGR & (u32)RCC_PLLCFGR_PLL_DN) >> RCC_PLLCFGR_PLL_DN_Pos) + 1;
+            div = ((RCC->PLLCFGR & RCC_PLLCFGR_PLL_DP) >> RCC_PLLCFGR_PLL_DP_Pos) + 1;
 
+            return = clock * mul / div;
+#endif
 		default:
 #if defined(__MT304) || defined(__MZ306) || defined(__MT307) || defined(__MZ308) || defined(__MZ310) || defined(__MZ311)
 			return HSI_DIV6;
 #endif
 #if defined(__MZ309)
 			return (RCC->CR & RCC_CR_HSI_72M) ? HSI_72MHz_DIV6 : HSI_DIV6;
+#endif
+#if defined(__MT3270)
+            return =  HSI_VALUE;
 #endif
     }
 }
@@ -500,7 +528,7 @@ u32 RCC_GetPCLK1Freq(void)
     return (RCC_GetHCLKFreq() >> tbPresc[(RCC->CFGR & RCC_CFGR_PPRE1) >> RCC_CFGR_PPRE1_Pos]);
 }
 
-#if defined(__MT304) || defined(__MZ306) || defined(__MT307) || defined(__MZ308) || defined(__MZ309) || defined(__MZ310)
+#if defined(__MT304) || defined(__MZ306) || defined(__MT307) || defined(__MZ308) || defined(__MZ309) || defined(__MZ310) || defined(__MT3270)
 ////////////////////////////////////////////////////////////////////////////////
 /// @brief  Returns the PCLK2 frequency of different on chip clocks.
 /// @param  None.
@@ -525,7 +553,7 @@ void RCC_GetClocksFreq(RCC_ClocksTypeDef* clk)
     clk->SYSCLK_Frequency = RCC_GetSysClockFreq();
     clk->HCLK_Frequency   = RCC_GetHCLKFreq();
     clk->PCLK1_Frequency  = RCC_GetPCLK1Freq();
-#if defined(__MT304) || defined(__MZ306) || defined(__MT307) || defined(__MZ308) || defined(__MZ309) || defined(__MZ310)
+#if defined(__MT304) || defined(__MZ306) || defined(__MT307) || defined(__MZ308) || defined(__MZ309) || defined(__MZ310) || defined(__MT3270)
     clk->PCLK2_Frequency  = RCC_GetPCLK2Freq();
 #endif
     
@@ -595,8 +623,26 @@ void RCC_AHB1PeriphClockCmd(u32 RCC_AHB1Periph, FunctionalState state)
 }
 
 #endif
+#if defined(__MT3270)
+////////////////////////////////////////////////////////////////////////////////
+/// @brief  Enables or disables the AHB2 peripheral clock.
+/// @param  RCC_AHB2Periph: specifies the AHB3 peripheral to gates its clock.
+///   This parameter can be any combination of the following values:
+/// @arg RCC_AHB2ENR_AES
+/// @arg RCC_AHB2ENR_RNG
+/// @arg RCC_AHB2ENR_USBFS
+///   SRAM and FLITF clock can be disabled only during sleep mode.
+/// @param NewState: new state of the specified peripheral clock.
+///   This parameter can be: ENABLE or DISABLE.
+/// @retval : None
+////////////////////////////////////////////////////////////////////////////////
 
-#if defined(__MT304) || defined(__MZ306) || defined(__MZ308) || defined(__MZ309) || defined(__MZ310)  || defined(__MZ311)
+void RCC_AHB2PeriphClockCmd(u32 RCC_AHB2Periph, FunctionalState state)
+{
+    (state) ? (RCC->AHB2ENR |= RCC_AHB2Periph) : (RCC->AHB2ENR &= ~RCC_AHB2Periph);
+}
+#endif
+#if defined(__MT304) || defined(__MZ306) || defined(__MZ308) || defined(__MZ309) || defined(__MZ310)  || defined(__MZ311) || defined(__MT3270)
 ////////////////////////////////////////////////////////////////////////////////
 /// @brief  Enables or disables the AHB peripheral clock.
 /// @param  AHBPeriph: specifies the AHB peripheral to gates its clock.
@@ -632,7 +678,7 @@ void RCC_AHBPeriphClockCmd(u32 AHBPeriph, FunctionalState state)
 }
 #endif
 
-#if defined(__MT304) || defined(__MZ306) || defined(__MT307) || defined(__MZ308) || defined(__MZ309) || defined(__MZ310)
+#if defined(__MT304) || defined(__MZ306) || defined(__MT307) || defined(__MZ308) || defined(__MZ309) || defined(__MZ310) || defined(__MT3270)
 ////////////////////////////////////////////////////////////////////////////////
 /// @brief  Enables or disables the High Speed APB (APB2) peripheral clock.
 /// @param  APB2Periph: specifies the APB2 peripheral to gates its
@@ -723,7 +769,7 @@ void RCC_APB1PeriphClockCmd(u32 APB1Periph, FunctionalState state)
     (state) ? (RCC->APB1ENR |= APB1Periph) : (RCC->APB1ENR &= ~APB1Periph);
 }
 
-#if defined(__MT307)
+#if defined(__MT307) || defined(__MT3270)
 ////////////////////////////////////////////////////////////////////////////////
 /// @brief  Forces or releases AHB3 peripheral reset.
 /// @brief  Forces or releases AHB3 peripheral reset.
@@ -781,7 +827,7 @@ void RCC_AHB1PeriphResetCmd(u32 RCC_AHB1Periph, FunctionalState state)
 }
 #endif
 
-#if defined(__MT304) || defined(__MZ306) || defined(__MT307) || defined(__MZ308) || defined(__MZ309) || defined(__MZ310)
+#if defined(__MT304) || defined(__MZ306) || defined(__MT307) || defined(__MZ308) || defined(__MZ309) || defined(__MZ310) || defined(__MT3270)
 ////////////////////////////////////////////////////////////////////////////////
 /// @brief  Forces or releases High Speed APB (APB2) peripheral reset.
 /// @param  APB2Periph: specifies the APB2 peripheral to reset.
@@ -870,7 +916,7 @@ void RCC_APB1PeriphResetCmd(u32 APB1Periph, FunctionalState state)
     (state) ? (RCC->APB1RSTR |= APB1Periph) : (RCC->APB1RSTR &= ~APB1Periph);
 }
 
-#if defined(__MZ308) || defined(__MZ309) || defined(__MZ310) || defined(__MZ311)
+#if defined(__MZ308) || defined(__MZ309) || defined(__MZ310) || defined(__MZ311) || defined(__MT3270)
 ////////////////////////////////////////////////////////////////////////////////
 /// @brief  Forces or releases Low Speed AHB peripheral reset.
 /// @param  AHBPeriph: specifies the AHB peripheral to reset.
@@ -898,7 +944,7 @@ void RCC_AHBPeriphResetCmd(u32 AHBPeriph, FunctionalState state)
 }
 #endif
 
-#if defined(__MT304) || defined(__MT307) || defined(__MZ310)
+#if defined(__MT304) || defined(__MT307) || defined(__MZ310) || defined(__MT3270)
 ////////////////////////////////////////////////////////////////////////////////
 /// @brief  Forces or releases the Backup domain reset.
 /// @param  state: new state of the Backup domain reset.
@@ -1056,7 +1102,7 @@ void exRCC_BackupReset()
 #endif
 }
 
-#if defined(__MT304) || defined(__MZ306) || defined(__MT307) || defined(__MZ308) || defined(__MZ309) || defined(__MZ310)
+#if defined(__MT304) || defined(__MZ306) || defined(__MT307) || defined(__MZ308) || defined(__MZ309) || defined(__MZ310) || defined(__MT3270)
 ////////////////////////////////////////////////////////////////////////////////
 /// @brief  Forces or releases High Speed APB (APB2) peripheral reset.
 /// @param  RCC_APB2Periph: specifies the APB2 peripheral to reset.
@@ -1117,6 +1163,222 @@ void exRCC_SystickEnable(u32 sysTickPeriod)
 #define RCC_SW_TB			4
 #define RCC_SRC_TB			0
 
+void RCC_ADC_ClockCmd(ADC_TypeDef* peripheral, FunctionalState state)
+{
+    switch (*(u32*)&peripheral) {
+
+        case ADC1_BASE:
+#if defined(__MT304) || defined(__MZ306) || defined(__MT307) || defined(__MZ308) || defined(__MZ309) || defined(__MZ311) || defined(__MT3270)
+            (state) ? (RCC->APB2ENR |= RCC_APB2ENR_ADC1) : (RCC->APB2ENR &= ~RCC_APB2ENR_ADC1);
+#endif
+            break;
+#if defined(__MT304) || defined(__MMT3270)
+        case ADC2_BASE:
+            (state) ? (RCC->APB2ENR |= RCC_APB2ENR_ADC2) : (RCC->APB2ENR &= ~RCC_APB2ENR_ADC2);
+            break;
+#endif
+#if defined(__MT3270)
+        case ADC3_BASE:
+            (state) ? (RCC->APB2ENR |= RCC_APB2ENR_ADC3) : (RCC->APB2ENR &= ~RCC_APB2ENR_ADC3);
+            break;
+#endif
+        default:
+            break;
+    }
+
+}
+#if defined(__MT3270)
+
+////////////////////////////////////////////////////////////////////////////////
+/// @brief  Enables or disables the specified BKP peripheral Clock.
+/// @param  peripheral:select the BKP peripheral.
+/// @param  state: new state of the BKP peripheral.
+/// @retval None.
+////////////////////////////////////////////////////////////////////////////////
+void RCC_BKP_ClockCmd(BKP_TypeDef* peripheral, FunctionalState state)
+{
+    if(BKP == peripheral) {
+        (state) ? (RCC->APB1ENR |= RCC_APB1ENR_BKP) : (RCC->APB1ENR &= ~RCC_APB1ENR_BKP);
+        (state) ? (RCC->APB1ENR |= RCC_APB1ENR_PWR) : (RCC->APB1ENR &= ~RCC_APB1ENR_PWR);
+    }
+}
+#endif
+#if defined(__MT3270)
+////////////////////////////////////////////////////////////////////////////////
+/// @brief  Enables or disables the specified CAN peripheral Clock.
+/// @param  peripheral:select the CAN peripheral.
+/// @param  state: new state of the CAN peripheral.
+/// @retval None.
+////////////////////////////////////////////////////////////////////////////////
+void RCC_CAN_ClockCmd(CAN_TypeDef* peripheral, FunctionalState state)
+{
+    if(CAN1 == peripheral) {
+        (state) ? (RCC->APB1ENR |= RCC_APB1ENR_CAN) : (RCC->APB1ENR &= ~RCC_APB1ENR_CAN);
+    }
+}
+#endif
+#if defined(__MT3270)
+////////////////////////////////////////////////////////////////////////////////
+/// @brief  Enables or disables the specified COMP peripheral Clock.
+/// @param  peripheral:select the COMP peripheral.
+/// @param  state: new state of the COMP peripheral.
+/// @retval None.
+////////////////////////////////////////////////////////////////////////////////
+void RCC_COMP_ClockCmd(COMP_TypeDef* peripheral, FunctionalState state)
+{
+    if(COMP == peripheral) {
+        (state) ? (RCC->APB2ENR |= RCC_APB2ENR_COMP) : (RCC->APB2ENR &= ~RCC_APB2ENR_COMP);
+    }
+}
+#endif
+#if defined(__MT3270)
+////////////////////////////////////////////////////////////////////////////////
+/// @brief  Enables or disables the specified CRC peripheral Clock.
+/// @param  peripheral:select the CRC peripheral.
+/// @param  state: new state of the CRC peripheral.
+/// @retval None.
+////////////////////////////////////////////////////////////////////////////////
+void RCC_CRC_ClockCmd(CRC_TypeDef* peripheral, FunctionalState state)
+{
+    if(CRC == peripheral) {
+        (state) ? (RCC->AHBENR |= RCC_AHBENR_CRC) : (RCC->AHBENR &= ~RCC_AHBENR_CRC);
+    }
+}
+#endif
+#if defined(__MT3270)
+////////////////////////////////////////////////////////////////////////////////
+/// @brief  Enables or disables the specified DAC peripheral Clock.
+/// @param  peripheral:select the DAC peripheral.
+/// @param  state: new state of the DAC peripheral.
+/// @retval None.
+////////////////////////////////////////////////////////////////////////////////
+void RCC_DAC_ClockCmd(DAC_TypeDef* peripheral, FunctionalState state)
+{
+    if(DAC == peripheral) {
+        (state) ? (RCC->APB1ENR |= RCC_APB1ENR_DAC) : (RCC->APB1ENR &= ~RCC_APB1ENR_DAC);
+    }
+}
+#endif
+#if defined(__MT3270)
+////////////////////////////////////////////////////////////////////////////////
+/// @brief  Enables or disables the specified DMA peripheral Clock.
+/// @param  peripheral:select the DMA peripheral.
+/// @param  state: new state of the DMA peripheral.
+/// @retval None.
+////////////////////////////////////////////////////////////////////////////////
+void RCC_DMA_ClockCmd(DMA_TypeDef* peripheral, FunctionalState state)
+{
+    if(DMA1 == peripheral) {
+        (state) ? (RCC->AHBENR |= RCC_AHBENR_DMA1) : (RCC->AHBENR &= ~RCC_AHBENR_DMA1);
+    }
+    if(DMA2 == peripheral) {
+        (state) ? (RCC->AHBENR |= RCC_AHBENR_DMA2) : (RCC->AHBENR &= ~RCC_AHBENR_DMA2);
+    }
+}
+#endif
+////////////////////////////////////////////////////////////////////////////////
+/// @brief  Enables or disables the specified GPIO peripheral Clock.
+/// @param  peripheral:select the GPIO peripheral.
+/// @param  state: new state of the GPIO peripheral.
+/// @retval None.
+////////////////////////////////////////////////////////////////////////////////
+void RCC_GPIO_ClockCmd(GPIO_TypeDef* peripheral, FunctionalState state)
+{
+    switch (*(u32*)&peripheral) {
+#if defined(__MT304)
+        case (u32)GPIOA:
+            (state) ? (RCC->APB2ENR |= RCC_APB2ENR_GPIOA) : (RCC->APB2ENR &= ~RCC_APB2ENR_GPIOA);
+            break;
+        case (u32)GPIOB:
+            (state) ? (RCC->APB2ENR |= RCC_APB2ENR_GPIOB) : (RCC->APB2ENR &= ~RCC_APB2ENR_GPIOB);
+            break;
+        case (u32)GPIOC:
+            (state) ? (RCC->APB2ENR |= RCC_APB2ENR_GPIOC) : (RCC->APB2ENR &= ~RCC_APB2ENR_GPIOC);
+            break;
+        case (u32)GPIOD:
+            (state) ? (RCC->APB2ENR |= RCC_APB2ENR_GPIOD) : (RCC->APB2ENR &= ~RCC_APB2ENR_GPIOD);
+            break;
+#endif
+#if defined(__MZ306) || defined(__MT307) || defined(__MZ308) || defined(__MZ309) || defined(__MZ310) || defined(__MZ311) || defined(__MT3270)
+        case (u32)GPIOA:
+            (state) ? (RCC->AHBENR |= RCC_AHBENR_GPIOA) : (RCC->AHBENR &= ~RCC_AHBENR_GPIOA);
+            break;
+        case (u32)GPIOB:
+            (state) ? (RCC->AHBENR |= RCC_AHBENR_GPIOB) : (RCC->AHBENR &= ~RCC_AHBENR_GPIOB);
+            break;
+#endif
+#if defined(__MZ306) || defined(__MT307) || defined(__MZ308) || defined(__MZ309) || defined(__MZ310) || defined(__MT3270)
+        case (u32)GPIOC:
+            (state) ? (RCC->AHBENR |= RCC_AHBENR_GPIOC) : (RCC->AHBENR &= ~RCC_AHBENR_GPIOC);
+            break;
+        case (u32)GPIOD:
+            (state) ? (RCC->AHBENR |= RCC_AHBENR_GPIOD) : (RCC->AHBENR &= ~RCC_AHBENR_GPIOD);
+            break;
+#endif
+#if defined(__MT307) || defined(__MT3270)
+        case (u32)GPIOE:
+            (state) ? (RCC->AHBENR |= RCC_AHBENR_GPIOE) : (RCC->AHBENR &= ~RCC_AHBENR_GPIOE);
+            break;
+#endif
+#if defined(__MT3270)
+        case (u32)GPIOF:
+            (state) ? (RCC->AHBENR |= RCC_AHBENR_GPIOF) : (RCC->AHBENR &= ~RCC_AHBENR_GPIOF);
+            break;
+        case (u32)GPIOG:
+            (state) ? (RCC->AHBENR |= RCC_AHBENR_GPIOG) : (RCC->AHBENR &= ~RCC_AHBENR_GPIOG);
+            break;
+        case (u32)GPIOH:
+            (state) ? (RCC->AHBENR |= RCC_AHBENR_GPIOH) : (RCC->AHBENR &= ~RCC_AHBENR_GPIOH);
+            break;
+#endif
+        default:
+            break;
+    }
+}
+////////////////////////////////////////////////////////////////////////////////
+/// @brief  Deinitializes the uart peripheral registers to their
+///         default reset values.
+/// @param  peripheral: Select the UART or the UART peripheral.
+/// @retval None.
+////////////////////////////////////////////////////////////////////////////////
+void RCC_UART_ClockCmd(UART_TypeDef* peripheral, FunctionalState state)
+{
+    if(UART2 == peripheral) {
+        (state) ? (RCC->APB1ENR |= RCC_APB1ENR_UART2) : (RCC->APB1ENR &= ~RCC_APB1ENR_UART2);//exRCC_APB1PeriphReset(RCC_APB1ENR_UART2);
+    }
+#if defined(__MT304) || defined(__MZ306) || defined(__MT307) || defined(__MZ308) || defined(__MZ309) || defined(__MZ310) || defined(__MT3270)
+    if(UART1 == peripheral) {
+        (state) ? (RCC->APB2ENR |= RCC_APB2ENR_UART1) : (RCC->APB2ENR &= ~RCC_APB2ENR_UART1);//exRCC_APB2PeriphReset(RCC_APB2ENR_UART1);
+    }
+#endif
+#if defined(__MZ311)
+    if(UART1 == peripheral) {
+        (state) ? (RCC->APB1ENR |= RCC_APB1ENR_UART1) : (RCC->APB1ENR &= ~RCC_APB1ENR_UART1);//exRCC_APB1PeriphReset(RCC_APB1ENR_UART1);
+    }
+#endif
+#if defined(__MT304) || defined(__MT307)||defined(__MT3270)
+    if(UART3 == peripheral) {
+        (state) ? (RCC->APB1ENR |= RCC_APB1ENR_UART3) : (RCC->APB1ENR &= ~RCC_APB1ENR_UART3);//exRCC_APB1PeriphReset(RCC_APB1ENR_UART3);
+    }
+#endif
+#if defined(__MT307)||defined(__MT3270)
+    if(UART4 == peripheral) {
+        (state) ? (RCC->APB1ENR |= RCC_APB1ENR_UART4) : (RCC->APB1ENR &= ~RCC_APB1ENR_UART4);//exRCC_APB1PeriphReset(RCC_APB1ENR_UART4);
+    }
+    if(UART5 == peripheral) {
+        (state) ? (RCC->APB1ENR |= RCC_APB1ENR_UART5) : (RCC->APB1ENR &= ~RCC_APB1ENR_UART5);//exRCC_APB1PeriphReset(RCC_APB1ENR_UART5);
+    }
+    if(UART6 == peripheral) {
+        (state) ? (RCC->APB2ENR |= RCC_APB2ENR_UART6) : (RCC->APB2ENR &= ~RCC_APB2ENR_UART6);//exRCC_APB2PeriphReset(RCC_APB2ENR_UART6);
+    }
+    if(UART7 == peripheral) {
+        (state) ? (RCC->APB1ENR |= RCC_APB1ENR_UART7) : (RCC->APB1ENR &= ~RCC_APB1ENR_UART7);//exRCC_APB1PeriphReset(RCC_APB1ENR_UART7);
+    }
+    if(UART8 == peripheral) {
+        (state) ? (RCC->APB1ENR |= RCC_APB1ENR_UART8) : (RCC->APB1ENR &= ~RCC_APB1ENR_UART8);//exRCC_APB1PeriphReset(RCC_APB1ENR_UART8);
+    }
+#endif
+}
 ////////////////////////////////////////////////////////////////////////////////
 /// @brief  Configures the External High Speed oscillator (HSE).
 /// @param  para

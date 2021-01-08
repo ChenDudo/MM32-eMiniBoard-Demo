@@ -104,7 +104,7 @@ typedef enum {
     RCC_FLAG_HSIRDY = ((u8)((CR_REG_INDEX << 5U) | RCC_CR_HSIRDY_Pos)),  		///< Internal High Speed clock ready flag
     RCC_FLAG_HSERDY = ((u8)((CR_REG_INDEX << 5U) | RCC_CR_HSERDY_Pos)),  		///< External High Speed clock ready flag
 
-#if defined(__MT304) || defined(__MZ306) || defined(__MT307) || defined(__MZ308) || defined(__MZ310)
+#if defined(__MT304) || defined(__MZ306) || defined(__MT307) || defined(__MZ308) || defined(__MZ310) || defined(__MT3270)
     RCC_FLAG_PLLRDY = ((u8)((CR_REG_INDEX << 5U) | RCC_CR_PLLRDY_Pos)),  		///< PLL clock ready flag
 #else
     RCC_FLAG_PLLRDY     = 0,
@@ -118,11 +118,11 @@ typedef enum {
     RCC_FLAG_IWDGRST = ((u8)((CSR_REG_INDEX << 5U) | RCC_CSR_IWDGRSTF_Pos)),  	///< Independent Watchdog reset flag
     RCC_FLAG_WWDGRST = ((u8)((CSR_REG_INDEX << 5U) | RCC_CSR_WWDGRSTF_Pos)),  	///< Window watchdog reset flag
 
-#if defined(__MT307)
+#if defined(__MT307) 
     RCC_FLAG_LPWRST = ((u8)((CSR_REG_INDEX << 5U) | RCC_CSR_LPWRSTF_Pos)), 	///< Low power reset flag
 #endif
 
-#if defined(__MT304) || defined(__MT307) || defined(__MZ310)
+#if defined(__MT304) || defined(__MT307) || defined(__MZ310) || defined(__MT3270)
     // Flags in the BDCR register
     RCC_FLAG_LSERDY = ((u8)((BDCR_REG_INDEX << 5U) | RCC_BDCR_LSERDY_Pos))  	///< External Low Speed oscillator Ready
 #endif
@@ -134,13 +134,13 @@ typedef enum {
 typedef enum {
     RCC_HSI = 0,  // Set HSI as systemclock
     RCC_HSE = 1,  // Set HSE as systemclock
-#if defined(__MT304) || defined(__MZ306) || defined(__MT307) || defined (__MZ308) || defined(__MZ310)
+#if defined(__MT304) || defined(__MZ306) || defined(__MT307) || defined (__MZ308) || defined(__MZ310) || defined(__MT3270)
     RCC_PLL = 2,   // Set PLL as systemclock
 #endif
 //#if defined(__MZ309) || defined(__MZ311)  
 //    RCC_HSI = 2,
 //#endif
-#if defined(__MZ306) || defined(__MT307) || defined(__MZ308) || defined(__MZ309) || defined(__MZ310) || defined(__MZ311)
+#if defined(__MZ306) || defined(__MT307) || defined(__MZ308) || defined(__MZ309) || defined(__MZ310) || defined(__MZ311) || defined(__MT3270)
     RCC_LSI = 3  // Set LSI as systemclock
 #endif
 } SYSCLK_TypeDef;
@@ -148,21 +148,30 @@ typedef enum {
 ////////////////////////////////////////////////////////////////////////////////
 /// @brief PLL entry clock source
 ////////////////////////////////////////////////////////////////////////////////
+#if defined(__MT304) || defined(__MZ306)  || defined(__MT307) || defined(__MZ308) || defined(__MZ310) || defined(__MT3270)
+
+#if defined(__MT304) || defined(__MZ306)  || defined(__MT307) || defined(__MZ308) || defined(__MZ310)
 typedef enum {
     RCC_HSI_Div4 = 0,
-#if defined(__MT304) || defined(__MZ306)  || defined(__MT307) || defined(__MZ308) || defined(__MZ310)
+    RCC_HSI_Div = 0,
     RCC_HSE_Div1 = RCC_CFGR_PLLSRC,
     RCC_HSE_Div2 = (RCC_CFGR_PLLXTPRE | RCC_CFGR_PLLSRC)
-#else
-    RCC_HSE_Div1        = 0,
-    RCC_HSE_Div2        = 0
-#endif
 } RCC_PLLSource_TypeDef;
+#endif
+#if defined(__MT3270)
+typedef enum {
+    RCC_HSI_Div4 = 0,
+    RCC_HSI_Div = 0,
+    RCC_HSE_Div1 = RCC_PLLCFGR_PLLSRC,
+    RCC_HSE_Div2 = (RCC_PLLCFGR_PLLXTPRE | RCC_PLLCFGR_PLLSRC),
+} RCC_PLLSource_TypeDef;
+#endif
+#endif
 
 ////////////////////////////////////////////////////////////////////////////////
 /// @brief PLL multiplication factor
 ////////////////////////////////////////////////////////////////////////////////
-#if defined(__MT304) || defined(__MZ306) || defined(__MT307) || defined(__MZ308) || defined(__MZ310)
+#if defined(__MT304) || defined(__MZ306) || defined(__MT307) || defined(__MZ308) || defined(__MZ310) || defined(__MT3270)
 typedef enum {
     RCC_PLLMul_2  = 0x00000000U,
     RCC_PLLMul_3  = 0x00040000U,
@@ -211,7 +220,7 @@ typedef enum {
 ////////////////////////////////////////////////////////////////////////////////
 /// @brief USB Device clock source
 ////////////////////////////////////////////////////////////////////////////////
-#if defined(__MT304) || defined(__MZ306) || defined(__MT307) || defined(__MZ310)
+#if defined(__MT304) || defined(__MZ306) || defined(__MT307) || defined(__MZ310) || defined(__MT3270)
 typedef enum {
     RCC_USBCLKSource_PLLCLK_Div1 = 0,
     RCC_USBCLKSource_PLLCLK_Div2 = 1,
@@ -233,7 +242,7 @@ typedef enum {
 ////////////////////////////////////////////////////////////////////////////////
 /// @brief LSE configuration
 ////////////////////////////////////////////////////////////////////////////////
-#if defined(__MT304) || defined(__MT307) || defined(__MZ310)
+#if defined(__MT304) || defined(__MT307) || defined(__MZ310) || defined(__MT3270)
 typedef enum {
     RCC_LSE_OFF    = 0,               // LSE OFF
     RCC_LSE_ON     = RCC_BDCR_LSEON,  // LSE ON
@@ -260,7 +269,7 @@ typedef enum {
     RCC_MCO_HSI_Div12 = RCC_CFGR_MCO_HSI_DIV12,
 #endif
     RCC_MCO_LSI     = RCC_CFGR_MCO_LSI,    
-#if defined(__MT304) || defined(__MT307) || defined(__MZ310)
+#if defined(__MT304) || defined(__MT307) || defined(__MZ310) || defined(__MT3270)
     RCC_MCO_LSE = RCC_CFGR_MCO_LSE,
 #else
     RCC_MCO_LSE         = 0,
@@ -269,11 +278,11 @@ typedef enum {
 #if defined(__MZ311)
     RCC_MCO_HSI    = RCC_CFGR_MCO_HSI_DIV4,
 #endif    
-#if defined(__MT304) || defined(__MZ306) || defined(__MT307) || defined(__MZ308) || defined(__MZ309) || defined(__MZ310)
+#if defined(__MT304) || defined(__MZ306) || defined(__MT307) || defined(__MZ308) || defined(__MZ309) || defined(__MZ310) || defined(__MT3270)
     RCC_MCO_HSI    = RCC_CFGR_MCO_HSI,
 #endif        
     RCC_MCO_HSE    = RCC_CFGR_MCO_HSE,    
-#if defined(__MT304) || defined(__MZ306)|| defined(__MT307) || defined(__MZ308)
+#if defined(__MT304) || defined(__MZ306)|| defined(__MT307) || defined(__MZ308) || defined(__MT3270)
     RCC_MCO_PLLCLK_Div2 = RCC_CFGR_MCO_PLL_DIV2
 #endif        
 #if defined(__MZ309)
@@ -290,14 +299,14 @@ typedef enum {
 ////////////////////////////////////////////////////////////////////////////////
 typedef enum {
     RCC_IT_LSIRDY = RCC_CIR_LSIRDYF,
-#if defined(__MT304) || defined(__MT307) || defined(__MZ310)
+#if defined(__MT304) || defined(__MT307) || defined(__MZ310) || defined(__MT3270)
     RCC_IT_LSERDY = RCC_CIR_LSERDYF,
 #else
     RCC_IT_LSERDY       = 0,
 #endif
     RCC_IT_HSIRDY = RCC_CIR_HSIRDYF,
     RCC_IT_HSERDY = RCC_CIR_HSERDYF,
-#if defined(__MT304) || defined(__MZ306) || defined(__MT307) || defined(__MZ308) || defined(__MZ310)
+#if defined(__MT304) || defined(__MZ306) || defined(__MT307) || defined(__MZ308) || defined(__MZ310) || defined(__MT3270)
     RCC_IT_PLLRDY = RCC_CIR_PLLRDYF,
 #else
     RCC_IT_PLLRDY       = 0,
@@ -371,26 +380,29 @@ void RCC_HSEConfig(RCCHSE_TypeDef state);
 void RCC_HSICmd(FunctionalState state);
 void RCC_SYSCLKConfig(SYSCLK_TypeDef sysClkSrc);
 
-#if defined(__MT304) || defined(__MZ306) || defined(__MT307) || defined(__MZ308) || defined(__MZ310)
+#if defined(__MT304) || defined(__MZ306) || defined(__MT307) || defined(__MZ308) || defined(__MZ310) || defined(__MT3270)
 void RCC_PLLDMDNConfig(u32 plldn, u32 plldm);
 void RCC_PLLConfig(RCC_PLLSource_TypeDef pllSrc, RCC_PLLMul_TypeDef pllMul);
 void RCC_PLLCmd(FunctionalState state);
 #endif
 void RCC_HCLKConfig(RCC_AHB_CLK_TypeDef sysClk);
 void RCC_PCLK1Config(RCC_APB1_APB2_CLK_TypeDef HCLK);
-#if defined(__MT304) || defined(__MZ306) || defined(__MT307) || defined(__MZ308) || defined(__MZ309) || defined(__MZ310)
+#if defined(__MT3270)
+void RCC_PCLK2Config(RCC_APB1_APB2_CLK_TypeDef HCLK);
+#endif
+#if defined(__MT304) || defined(__MZ306) || defined(__MT307) || defined(__MZ308) || defined(__MZ309) || defined(__MZ310) 
 void RCC_PCLK2Config(RCC_APB1_APB2_CLK_TypeDef HCLK);
 void RCC_APB2PeriphClockCmd(u32 APB2Periph, FunctionalState state);
 void RCC_APB2PeriphResetCmd(u32 APB2Periph, FunctionalState state);
 u32 RCC_GetPCLK2Freq(void);
 #endif
-#if defined(__MT304) || defined(__MZ306) || defined(__MT307) || defined(__MZ310)
+#if defined(__MT304) || defined(__MZ306) || defined(__MT307) || defined(__MZ310) || defined(__MT3270)
 void RCC_USBCLKConfig(RCC_USBCLKSOURCE_TypeDef usbClkSrc);
 #endif
 void RCC_ADCCLKConfig(RCC_ADCCLKSOURCE_TypeDef PCLK2);
 void RCC_LSICmd(FunctionalState state);
 
-#if defined(__MT304) || defined(__MT307) || defined(__MZ310)
+#if defined(__MT304) || defined(__MT307) || defined(__MZ310) || defined(__MT3270)
 void RCC_RTCCLKCmd(FunctionalState state);
 void RCC_LSEConfig(RCC_LSE_TypeDef state);
 void RCC_RTCCLKConfig(RCC_RTCCLKSOURCE_TypeDef rtcClkSrc);
@@ -409,6 +421,12 @@ void RCC_AHB1PeriphResetCmd(u32 AHB1Periph, FunctionalState state);
 
 void RCC_GetClocksFreq(RCC_ClocksTypeDef* clk);
 void RCC_AHBPeriphClockCmd(u32 AHBPeriph, FunctionalState state);
+#if defined(__MT3270)
+void RCC_AHBPeriphResetCmd(u32 ahb_periph, FunctionalState state);
+void RCC_APB2PeriphClockCmd(u32 apb2_periph, FunctionalState state);
+void RCC_APB2PeriphResetCmd(u32 apb2_periph, FunctionalState state);
+#endif
+
 void RCC_APB1PeriphClockCmd(u32 APB1Periph, FunctionalState state);
 void RCC_APB1PeriphResetCmd(u32 APB1Periph, FunctionalState state);
 
@@ -423,6 +441,9 @@ u32 RCC_GetSysClockFreq(void);
 u32 RCC_GetHCLKFreq(void);
 
 u32 RCC_GetPCLK1Freq(void);
+#if defined(__MT3270)
+u32 RCC_GetPCLK2Freq(void);
+#endif
 
 FlagStatus  RCC_GetFlagStatus(RCC_FLAG_TypeDef flag);
 ErrorStatus RCC_WaitForHSEStartUp(void);
@@ -436,7 +457,7 @@ ErrorStatus exRCC_Init(RCCInitStruct_TypeDef* para);
 void exRCC_SystickDisable(void);
 void exRCC_SystickEnable(u32 sysTickPeriod);
 void exRCC_APB1PeriphReset(u32 RCC_APB1Periph);
-#if defined(__MT304) || defined(__MZ306) || defined(__MT307) || defined(__MZ308) || defined(__MZ309) || defined(__MZ310)
+#if defined(__MT304) || defined(__MZ306) || defined(__MT307) || defined(__MZ308) || defined(__MZ309) || defined(__MZ310) || defined(__MT3270)
 void exRCC_APB2PeriphReset(u32 RCC_APB2Periph);
 #endif
 void exRCC_BackupReset(void);

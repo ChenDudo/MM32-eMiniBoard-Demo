@@ -39,7 +39,7 @@
 /// @defgroup DMA_Exported_Types
 /// @{
 
-#if defined(__MT304) || defined(__MZ306) || defined(__MT307) || defined(__MZ308) || defined(__MZ309) || defined(__MZ310)
+#if defined(__MT304) || defined(__MZ306) || defined(__MT307) || defined(__MZ308) || defined(__MZ309) || defined(__MZ310) || defined(__MT3270)
 ////////////////////////////////////////////////////////////////////////////////
 /// @brief DMA data transfer direction Enumerate definition
 /// @anchor DMA_data_transfer_direction
@@ -120,7 +120,7 @@ typedef enum {
 /// @brief DMA auto reload Enumerate definition
 /// @anchor DMA_auto_reload
 ////////////////////////////////////////////////////////////////////////////////
-#if defined(__MZ308) || defined(__MZ309) || defined(__MZ310)
+#if defined(__MZ308) || defined(__MZ309) || defined(__MZ310) || defined(__MT3270)
 typedef enum {
     DMA_Auto_Reload_Disable = 0U,  //
     DMA_Auto_Reload_Enable  = DMA_CCR_ARE
@@ -166,7 +166,7 @@ typedef struct {
     DMA_memory_to_memory_TypeDef M2M;                       ///< Specifies if the DMA Channeln will be used in
                                                             ///< memory-to-memory transfer. This parameter can be a value
                                                             ///< of @ref DMA_memory_to_memory
-#if defined(__MZ308) || defined(__MZ309) || defined(__MZ310)
+#if defined(__MZ308) || defined(__MZ309) || defined(__MZ310) || defined(__MT3270)
     DMA_auto_reload_TypeDef AutoReload;  					///< Specifies if the DMA Channeln will auto reload the
                                              				///< CNDTR register. This parameter can be a value of
                                              				///< @ref DMA_auto_reload

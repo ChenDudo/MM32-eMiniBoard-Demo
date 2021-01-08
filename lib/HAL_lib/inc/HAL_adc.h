@@ -68,6 +68,20 @@ typedef enum {
     ADC_Channel_10 				= 0x0A,  	///< ADC Channel 10
     ADC_Channel_11 				= 0x0B,  	///< ADC Channel 11
 #endif
+
+#if defined(__MT3270)
+    ADC_Channel_8               = 0x08,     ///< ADC Channel 8
+    ADC_Channel_9               = 0x09,     ///< ADC Channel 9
+    ADC_Channel_10              = 0x0A,     ///< ADC Channel 10
+    ADC_Channel_11              = 0x0B,     ///< ADC Channel 11
+    ADC_Channel_12              = 0x0C,     ///< ADC Channel 12
+    ADC_Channel_13              = 0x0D,     ///< ADC Channel 13
+    ADC_Channel_14              = 0x0E,     ///< ADC Channel 14
+    ADC_Channel_15              = 0x0F,     ///< ADC Channel 15
+    ADC_Channel_TempSensor      = 0x0E,     ///< Temperature sensor channel(ADC1)
+    ADC_Channel_VoltReference   = 0x0F,     ///< Internal reference voltage channel(ADC1)
+    ADC_Channel_Vrefint         = 0x0F,     ///< Internal reference voltage channel(ADC1)
+#endif
 } ADCCHANNEL_TypeDef;
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -94,6 +108,30 @@ typedef enum {
 #endif
 } ADCSAM_TypeDef;
 
+#if defined(__MT3270)
+typedef enum {
+    ADC_Samctl_1_5   = ADC_SMPR1_SAMCTL0_2_5,   ///< ADC sample time select 1.5t
+    ADC_Samctl_2_5   = ADC_SMPR1_SAMCTL0_2_5,  ///< ADC sample time select 2.5t
+    ADC_Samctl_3_5   = ADC_SMPR1_SAMCTL0_3_5,  ///< ADC sample time select 3.5t
+    ADC_Samctl_4_5   = ADC_SMPR1_SAMCTL0_4_5,  ///< ADC sample time select 4.5t
+    ADC_Samctl_5_5   = ADC_SMPR1_SAMCTL0_5_5,  ///< ADC sample time select 5.5t
+    ADC_Samctl_6_5   = ADC_SMPR1_SAMCTL0_6_5,  ///< ADC sample time select 6.5t
+    ADC_Samctl_7_5   = ADC_SMPR1_SAMCTL0_7_5,   ///< ADC sample time select 7.5t
+    ADC_Samctl_8_5   = ADC_SMPR1_SAMCTL0_8_5,   ///< ADC sample time select 7.5t
+    ADC_Samctl_13_5  = ADC_SMPR1_SAMCTL0_14_5,  ///< ADC sample time select 13.5t
+    ADC_Samctl_14_5  = ADC_SMPR1_SAMCTL0_14_5,  ///< ADC sample time select 13.5t
+    ADC_Samctl_28_5  = ADC_SMPR1_SAMCTL0_29_5,  ///< ADC sample time select 28.5t
+    ADC_Samctl_29_5  = ADC_SMPR1_SAMCTL0_29_5,  ///< ADC sample time select 28.5t
+    ADC_Samctl_41_5  = ADC_SMPR1_SAMCTL0_42_5,  ///< ADC sample time select 41.5t
+    ADC_Samctl_42_5  = ADC_SMPR1_SAMCTL0_42_5,  ///< ADC sample time select 41.5t
+    ADC_Samctl_55_5  = ADC_SMPR1_SAMCTL0_56_5,  ///< ADC sample time select 55.5t
+    ADC_Samctl_56_5  = ADC_SMPR1_SAMCTL0_56_5,  ///< ADC sample time select 55.5t
+    ADC_Samctl_71_5  = ADC_SMPR1_SAMCTL0_72_5,  ///< ADC sample time select 71.5t
+    ADC_Samctl_72_5  = ADC_SMPR1_SAMCTL0_72_5,  ///< ADC sample time select 71.5t
+    ADC_Samctl_239_5 = ADC_SMPR1_SAMCTL0_240_5,  ///< ADC sample time select 239.5t
+    ADC_Samctl_240_5 = ADC_SMPR1_SAMCTL0_240_5  ///< ADC sample time select 239.5t
+} ADCSAM_TypeDef;
+#endif
 ////////////////////////////////////////////////////////////////////////////////
 /// @brief ADC_Resolution
 ////////////////////////////////////////////////////////////////////////////////
@@ -109,7 +147,7 @@ typedef enum {
 /// @brief ADC_Prescare
 ////////////////////////////////////////////////////////////////////////////////
 typedef enum {
-#if defined(__MZ309)
+#if defined(__MZ309) || defined(__MT3270)
     ADC_PCLK2_PRESCARE_3  = ADC_CFGR_PRE_3,   ///< ADC preclk 3
     ADC_PCLK2_PRESCARE_5  = ADC_CFGR_PRE_5,   ///< ADC preclk 5
     ADC_PCLK2_PRESCARE_7  = ADC_CFGR_PRE_7,   ///< ADC preclk 7
@@ -149,7 +187,7 @@ typedef enum {
     ADC1_ExternalTrigConv_T3_TRIG 		= ADC_CR_T3_TRIG,
     ADC1_ExternalTrigConv_T3_CC1  		= ADC_CR_T3_CC1,
     ADC1_ExternalTrigConv_EXTI_11 		= ADC_CR_EXTI_11,
-#if !defined(__MZ311)    
+#if !defined(__MZ311) || defined(__MT3207)   
     ADC1_ExternalTrigConv_T2_CC2  		= ADC_CR_T2_CC2,   
 #endif    
 #if defined(__MT304)
@@ -163,17 +201,17 @@ typedef enum {
     ADC2_ExternalTrigConv_T3_CC1  		= ADC_CR_T3_CC1,
     ADC2_ExternalTrigConv_EXTI_15 		= ADC_CR_EXTI_15
 #endif
-#if defined(__MZ308) || defined(__MZ309)
+#if defined(__MZ308) || defined(__MZ309) || defined(__MT3270)
     ADC1_ExternalTrigConv_T1_CC4_CC5 	= ADC_CR_T1_CC4_CC5,
     ADC1_ExternalTrigConv_T1_TRIG    	= ADC_CR_T1_TRIG,
-	#if defined(__MZ308)
+	#if defined(__MZ308) || defined(__MT3270)
     ADC1_ExternalTrigConv_T8_CC4     	= ADC_CR_T8_CC4,
     ADC1_ExternalTrigConv_T8_CC4_CC5 	= ADC_CR_T8_CC4_CC5,
 	#endif
     ADC1_ExternalTrigConv_T2_CC1     	= ADC_CR_T2_CC1,
     ADC1_ExternalTrigConv_T3_CC4     	= ADC_CR_T3_CC4,
     ADC1_ExternalTrigConv_T2_TRIG    	= ADC_CR_T2_TRIG,
-	#if defined(__MZ308)
+	#if defined(__MZ308) || defined(__MT3270)
     ADC1_ExternalTrigConv_T8_CC5     	= ADC_CR_T8_CC5,
 	#endif
     ADC1_ExternalTrigConv_EXTI_15    	= ADC_CR_EXTI_15,
@@ -194,9 +232,47 @@ typedef enum {
 /// @brief ADC_Flags_Definition
 ////////////////////////////////////////////////////////////////////////////////
 typedef enum {
-    ADC_IT_EOC,  							///< ADC conversion flag
-    ADC_IT_AWD   							///< ADC window comparator flag
+    ADC_IT_EOC = 1,                            ///< ADC conversion flag
+    ADC_FLAG_EOC = 1,
+    ADC_IT_AWD = 2,                            ///< ADC window comparator flag
+    ADC_FLAG_AWD = 2
 } ADCFLAG_TypeDef;
+
+#if defined(__MT3270)
+////////////////////////////////////////////////////////////////////////////////
+/// @brief ADC_Trig_Edge
+////////////////////////////////////////////////////////////////////////////////
+typedef enum {
+    ADC_ADC_Trig_Edge_Dual = ADC_CR_TRG_EDGE_DUAL,     ///< ADC trig edge dual mode down and up
+    ADC_ADC_Trig_Edge_Down = ADC_CR_TRG_EDGE_DOWN,     ///< ADC trig edge single mode down
+    ADC_ADC_Trig_Edge_Up   = ADC_CR_TRG_EDGE_UP,       ///< ADC trig edge single mode up
+    ADC_ADC_Trig_Edge_Mask = ADC_CR_TRG_EDGE_MASK      ///< ADC trig edge is mask, not allowed
+} ADCTRIGEDGE_TypeDef;
+#endif
+
+
+#if defined(__MT3270)
+////////////////////////////////////////////////////////////////////////////////
+/// @brief ADC_Scan_Direct
+////////////////////////////////////////////////////////////////////////////////
+typedef enum {
+    ADC_Scan_Direct_Up = ADC_CR_SCANDIR,     ///< ADC scan from low channel to high channel
+    ADC_Scan_Direct_Down  = 0                ///< ADC scan from High channel to low channel
+} ADCSCANDIRECT_TypeDef;
+////////////////////////////////////////////////////////////////////////////////
+/// @brief ADC_Trig_Shift
+////////////////////////////////////////////////////////////////////////////////
+typedef enum {
+    ADC_ADC_Trig_Shift_0    = ADC_CR_TRGSHIFT_0,     ///< ADC trig shift bit is 0
+    ADC_ADC_Trig_Shift_4    = ADC_CR_TRGSHIFT_4,     ///< ADC trig shift bit is 4
+    ADC_ADC_Trig_Shift_16   = ADC_CR_TRGSHIFT_16,    ///< ADC trig shift bit is 16
+    ADC_ADC_Trig_Shift_32   = ADC_CR_TRGSHIFT_32,    ///< ADC trig shift bit is 32
+    ADC_ADC_Trig_Shift_64   = ADC_CR_TRGSHIFT_64,    ///< ADC trig shift bit is 64
+    ADC_ADC_Trig_Shift_128  = ADC_CR_TRGSHIFT_128,   ///< ADC trig shift bit is 128
+    ADC_ADC_Trig_Shift_256  = ADC_CR_TRGSHIFT_256,   ///< ADC trig shift bit is 256
+    ADC_ADC_Trig_Shift_512  = ADC_CR_TRGSHIFT_512,   ///< ADC trig shift bit is 512
+} ADCTRIGSHIFT_TypeDef;
+#endif
 
 ////////////////////////////////////////////////////////////////////////////////
 /// @brief ADC Init Structure definition
@@ -288,10 +364,21 @@ FlagStatus ADC_GetSoftwareStartConvStatus(ADC_TypeDef* ADCx);
 FlagStatus ADC_GetFlagStatus(ADC_TypeDef* ADCx, ADCFLAG_TypeDef ADC_FLAG);
 ITStatus   ADC_GetITStatus(ADC_TypeDef* ADCx, ADCFLAG_TypeDef ADC_IT);
 
+void ADC_TempSensorCmd(FunctionalState state);
+void ADC_VrefintCmd(FunctionalState state);
 void exADC_TempSensorVrefintCmd(u32 chs, FunctionalState state);
-void ADC_ANY_CH_Config(ADC_TypeDef* adc, u8 rank, ADCCHANNEL_TypeDef adc_channel);
-void ADC_ANY_NUM_Config(ADC_TypeDef* adc, u8 num);
-void ADC_ANY_Cmd(ADC_TypeDef* adc, FunctionalState state);
+void ADC_ANY_CH_Config(ADC_TypeDef* ADCx, u8 rank, ADCCHANNEL_TypeDef adc_channel);
+void ADC_ANY_NUM_Config(ADC_TypeDef* ADCx, u8 num);
+void ADC_ANY_Cmd(ADC_TypeDef* ADCx, FunctionalState state);
+
+#if defined(__MT3270)
+void ADC_InjectedSequencerConfig(ADC_TypeDef* ADCx, u32 event, u32 sampleTime);
+void ADC_InjectedSequencerLengthConfig(ADC_TypeDef* ADCx, uint8_t Length);
+void ADC_InjectedSequencerChannelConfig(ADC_TypeDef* ADCx, uint8_t jqsn, uint8_t channel);
+u32 ADC_InjectedSequencerGetConversionValue(ADC_TypeDef* ADCx, uint8_t jqsn);
+void ADC_InjectedSequencerSetJQFR(ADC_TypeDef* ADCx, uint8_t jqsn, uint8_t value);
+#endif
+u32 ADC_GetChannelConvertedValue(ADC_TypeDef* ADCx, ADCCHANNEL_TypeDef channel);
 /// @}
 
 /// @}

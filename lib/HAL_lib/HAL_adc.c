@@ -180,6 +180,21 @@ void ADC_RegularChannelConfig(ADC_TypeDef* ADCn, u32 channel, u8 rank, ADCSAM_Ty
     else if (channel & ADC_CHSR_CHV)
         ADC_TempSensorVrefintCmd(ENABLE);
 #endif
+#if defined(__MT3270)
+    u32 tempchan;
+    sampleTime = sampleTime & 0xF;
+    tempchan = channel;
+    if(tempchan > 8) {
+        tempchan = tempchan & 0xF;
+        tempchan = tempchan - 8;
+        ADCn->SMPR2 &= ~(0xF << tempchan);
+        ADCn->SMPR2 |= (sampleTime << tempchan);
+    }
+    else {
+        ADCn->SMPR1 &= ~(0xF << tempchan);
+        ADCn->SMPR1 |= (sampleTime << tempchan);
+    }
+#endif
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -290,7 +305,7 @@ void ADC_TempSensorVrefintCmd(FunctionalState state)
             : (ADC1->CFGR &=  ~ADC_CFGR_TVEN,  ADC2->CFGR &= ~ADC_CFGR_TVEN);
 #endif
 
-#if defined(__MZ306) || defined(__MZ308) || defined(__MZ309) || defined(__MZ310)
+#if defined(__MZ306) || defined(__MZ308) || defined(__MZ309) || defined(__MZ310) || defined(__MT3270)
     (state) ? (ADC1->CFGR |=  (ADC_CFGR_TEN | ADC_CFGR_VEN))
 		    : (ADC1->CFGR &= ~(ADC_CFGR_TEN | ADC_CFGR_VEN));
 #endif
@@ -303,6 +318,19 @@ void ADC_TempSensorVrefintCmd(FunctionalState state)
 /// @param 	state: New state of the temperature sensor.
 /// @retval None.
 ////////////////////////////////////////////////////////////////////////////////
+void ADC_TempSensorCmd(FunctionalState state)
+{
+    ADC_TempSensorVrefintCmd(state);
+}
+////////////////////////////////////////////////////////////////////////////////
+/// @brief  Enables or disables the Vrefint channel.
+/// @param  state: New state of the Vrefint channel.
+/// @retval None.
+////////////////////////////////////////////////////////////////////////////////
+void ADC_VrefintCmd(FunctionalState state)
+{
+    ADC_TempSensorVrefintCmd(state);
+}
 void exADC_TempSensorVrefintCmd(u32 chs, FunctionalState state)
 {
 #if defined(__MT304)
@@ -312,7 +340,7 @@ void exADC_TempSensorVrefintCmd(u32 chs, FunctionalState state)
 	}
 #endif
 
-#if defined(__MZ306) || defined(__MZ308) || defined(__MZ309) || defined(__MZ310)
+#if defined(__MZ306) || defined(__MZ308) || defined(__MZ309) || defined(__MZ310) || defined(__MT3270)
 	if (chs & ADC_CHSR_CHT) {
 		(state) ? (ADC1->CFGR |=  ADC_CFGR_TEN)
 				: (ADC1->CFGR &= ~ADC_CFGR_TEN);
@@ -368,49 +396,141 @@ void ADC_ClearITPendingBit(ADC_TypeDef* ADCn, ADCFLAG_TypeDef ADC_IT)
     (ADC_IT == ADC_IT_EOC) ? (ADCn->SR |= ADC_SR_ADIF) : (ADCn->SR |= ADC_SR_ADWIF);
 }
 
-#if defined(__MZ311)
+#if defined(__MZ311) || defined(__MT3270)
 ////////////////////////////////////////////////////////////////////////////////
 /// @brief  Configures the adc any channels conversion rank and channel.
-/// @param  adc: select the ADC peripheral.
+/// @param  ADCn: select the ADC peripheral.
 /// @param  rank: rank can be 0x0~0xf for the convert sequence.
 /// @param  adc_channel: Configuring the target channel to be converted.
 /// @retval None.
 ////////////////////////////////////////////////////////////////////////////////
-void ADC_ANY_CH_Config(ADC_TypeDef* adc, u8 rank, ADCCHANNEL_TypeDef adc_channel)
+void ADC_ANY_CH_Config(ADC_TypeDef* ADCn, u8 rank, ADCCHANNEL_TypeDef adc_channel)
 {
     rank = rank & 0xF;
     if(rank < 8) {
-        adc->CHANY0 &= ~(0x0F << (4 * rank));
-        adc->CHANY0 |= (adc_channel << (4 * rank));
+        ADCn->CHANY0 &= ~(0x0F << (4 * rank));
+        ADCn->CHANY0 |= (adc_channel << (4 * rank));
     }
     else {
-        adc->CHANY1 &= ~(0x0F << (4 * (rank - 8)));
-        adc->CHANY1 |= (adc_channel << (4 * (rank - 8)));
+        ADCn->CHANY1 &= ~(0x0F << (4 * (rank - 8)));
+        ADCn->CHANY1 |= (adc_channel << (4 * (rank - 8)));
     }
 
 }
 ////////////////////////////////////////////////////////////////////////////////
 /// @brief  Configures the adc any channels conversion Max rank number
-/// @param  adc: select the ADC peripheral.
+/// @param  ADCn: select the ADC peripheral.
 /// @param  num: Configuring the max rank number for the ADC.
 /// @retval None.
 ////////////////////////////////////////////////////////////////////////////////
-void ADC_ANY_NUM_Config(ADC_TypeDef* adc, u8 num)
+void ADC_ANY_NUM_Config(ADC_TypeDef* ADCn, u8 num)
 {
     if(num > 15) num = 15;                                                      //15 ? 16 need to be confirmed
-    adc->ANY_CFG = num;
+    ADCn->ANY_CFG = num;
 }
 ////////////////////////////////////////////////////////////////////////////////
 /// @brief  Enables or disables the ANY channel converter.
 /// @param  state: enable or disable the ANY channel converter mode.
 /// @retval None.
 ////////////////////////////////////////////////////////////////////////////////
-void ADC_ANY_Cmd(ADC_TypeDef* adc, FunctionalState state)
+void ADC_ANY_Cmd(ADC_TypeDef* ADCn, FunctionalState state)
 {
-    (state) ? (adc->ANY_CR |= ADC_ANY_CR_CHANY_MDEN) : (adc->ANY_CR &= ~ADC_ANY_CR_CHANY_MDEN);
+    (state) ? (ADCn->ANY_CR |= ADC_ANY_CR_CHANY_MDEN) : (ADCn->ANY_CR &= ~ADC_ANY_CR_CHANY_MDEN);
 }
 #endif
 
+#if defined(__MT3270)
+////////////////////////////////////////////////////////////////////////////////
+/// @brief  Enable the selected ADC channel and configure its sample time. Please
+///         use this function if you want to be compatible with older versions
+///         of the library.
+/// @param  ADCn:  select the ADC peripheral.
+/// @param  event: the ADC external event to configure.
+/// @param  sampleTime: the ADC Channel n Sample time to configure.
+/// @retval None.
+////////////////////////////////////////////////////////////////////////////////
+void ADC_InjectedSequencerConfig(ADC_TypeDef* ADCn, u32 event, u32 sampleTime)
+{
+    ADCn->ANY_CR &= ~(ADC_ANY_CR_JCEN | ADC_ANY_CR_CHANY_MDEN | ADC_ANY_CR_JTRGSEL_EXTI12 \
+                    | ADC_ANY_CR_JTRGSHIFT_512 | ADC_ANY_CR_JTRGEN);
+    ADCn->ANY_CR |= (ADC_ANY_CR_JCEN | ADC_ANY_CR_CHANY_MDEN | sampleTime | event | ADC_ANY_CR_JTRGEN);
+}
+////////////////////////////////////////////////////////////////////////////////
+/// @brief  Injection channel length configuration.
+/// @param  adc:  select the ADC peripheral.
+/// @param  Length: Injection channel length.
+/// @retval None.
+////////////////////////////////////////////////////////////////////////////////
+void ADC_InjectedSequencerLengthConfig(ADC_TypeDef* ADCn, uint8_t Length)
+{
+    ADCn->JSQR &= ~(0x03 << ADC_JSQR_JL_Pos);
+    ADCn->JSQR |= Length << ADC_JSQR_JL_Pos;
+}
+////////////////////////////////////////////////////////////////////////////////
+/// @brief  Injection channel  configuration.
+/// @param  adc  :   select the ADC peripheral.
+/// @param  jqsn :   Injection channel.
+/// @param  channel: The sampling channel.
+/// @retval None.
+////////////////////////////////////////////////////////////////////////////////
+void ADC_InjectedSequencerChannelConfig(ADC_TypeDef* ADCn, uint8_t jqsn, uint8_t channel)
+{
+    ADCn->JSQR &= ~(0x1F << jqsn * 5);
+    ADCn->JSQR |= (channel << jqsn * 5);
+}
+////////////////////////////////////////////////////////////////////////////////
+/// @brief  Injection channel  configuration.
+/// @param  adc  :   select the ADC peripheral.
+/// @param  jqsn :   Injection channel.
+/// @param  channel: The sampling channel.
+/// @retval None.
+////////////////////////////////////////////////////////////////////////////////
+u32 ADC_InjectedSequencerGetConversionValue(ADC_TypeDef* ADCn, uint8_t jqsn)
+{
+    u32 value = 0;
+    switch(jqsn) {
+        case 0 :
+            value = ADCn->JDR0 - ADCn->JOFR0;
+            break;
+        case 1 :
+            value = ADCn->JDR1 - ADCn->JOFR1;
+            break;
+        case 2 :
+            value = ADCn->JDR2 - ADCn->JOFR2;
+            break;
+        case 3 :
+            value = ADCn->JDR3 - ADCn->JOFR3;
+            break;
+        default :
+            break;
+    }
+    return value & 0xFFF;
+}
+////////////////////////////////////////////////////////////////////////////////
+/// @brief  Injection channel compensation configuration.
+/// @param  adc  :   select the ADC peripheral.
+/// @param  jqsn :   Injection channel.
+/// @param  value: compensation value.
+/// @retval None.
+////////////////////////////////////////////////////////////////////////////////
+void ADC_InjectedSequencerSetJQFR(ADC_TypeDef* ADCn, uint8_t jqsn, uint8_t value)
+{
+    *(u32*)(*(u32*)&ADCn + 0x7C + jqsn * 4) = value;
+}
+#endif
+
+
+
+////////////////////////////////////////////////////////////////////////////////
+/// @brief  Get channel convertion result.
+/// @param  adc  :   select the ADC peripheral.
+/// @param  channel :   Converted channel.
+/// @retval The Data conversion value.
+////////////////////////////////////////////////////////////////////////////////
+u32 ADC_GetChannelConvertedValue(ADC_TypeDef* ADCn, ADCCHANNEL_TypeDef channel)
+{
+    return (*(u32*) ((u32)ADCn + 0x18 + 4 * ((u32)channel)));
+}
 /// @}
 
 /// @}

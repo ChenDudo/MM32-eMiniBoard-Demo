@@ -36,7 +36,7 @@
 /// @addtogroup COMP_Exported_Functions
 /// @{
 
-#if defined(__MZ306) || defined(__MZ308) || defined(__MZ309) || defined(__MZ310)
+#if defined(__MZ306) || defined(__MZ308) || defined(__MZ309) || defined(__MZ310) || defined(__MT3270)
 ////////////////////////////////////////////////////////////////////////////////
 /// @brief  Deinitializes COMP peripheral registers to their default reset
 ///         values.
@@ -78,6 +78,9 @@ void COMP_Init(u32 selection, COMP_InitTypeDef* pInitStruct)
 										pInitStruct->BlankingSrce	|
 										pInitStruct->Hysteresis	    |
 										pInitStruct->Mode;
+#if defined(__MT3270)
+                                        pInitStruct->OFLT;
+#endif
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -105,8 +108,8 @@ void COMP_StructInit(COMP_InitTypeDef* COMP_InitStruct)
 	COMP_InitStruct->Hysteresis 	= COMP_CSR_HYST_15;
 #endif
     COMP_InitStruct->Mode          	= emCOMP_Mode_UltraLowPower;                //mode = 0
-#if defined(__MZ308) || defined(__MZ309) || defined(__MZ310)
-    COMP_InitStruct->OFLT 		    = COMP_CSR_OFLT_0;
+#if defined(__MZ308) || defined(__MZ309) || defined(__MZ310) || defined(__MT3270)
+    COMP_InitStruct->OFLT 		    = COMP_CSR_OFLT_1;
 #endif
 }
 
@@ -129,6 +132,23 @@ void COMP_Cmd(u32 selection, FunctionalState state)
     (state) ? (*(u32*)(COMP_BASE + selection) |=  COMP_CSR_EN) :
               (*(u32*)(COMP_BASE + selection) &= ~COMP_CSR_EN);
 }
+#if defined(__MT3270)
+////////////////////////////////////////////////////////////////////////////////
+/// @brief  Select CRV param.
+/// @param  crv_select: Select source for CRV.
+/// @param  crv_level: Set level for CRV.
+/// @retval None.
+////////////////////////////////////////////////////////////////////////////////
+void COMP_SetCrv(u8 crv_select, u8 crv_level)
+{
+    u32 temreg = 0;
+    temreg = COMP->CRV;
+    temreg &= ~COMP_CRV_MASK;
+    // Load config to CRV and enable
+    temreg |= crv_select | crv_level | (1 << 4);
+    COMP->CRV = temreg;
+}
+#endif
 
 ////////////////////////////////////////////////////////////////////////////////
 /// @brief  Close or Open the SW1 switch.
@@ -188,7 +208,7 @@ void COMP_LockConfig(u32 selection)
     *(u32*)(COMP_BASE + selection) |= COMP_CSR_LOCK;
 }
 
-#if defined(__MZ308) || defined(__MZ309) || defined(__MZ310)
+#if defined(__MZ308) || defined(__MZ309) || defined(__MZ310) || defined(__MT3270)
 ////////////////////////////////////////////////////////////////////////////////
 /// @brief  Enable or disable the COMP register.
 /// @param  state: new state of the COMP peripheral.

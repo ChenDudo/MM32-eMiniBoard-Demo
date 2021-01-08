@@ -220,7 +220,7 @@ void RCC_PLLDMDNConfig(u32 plldn, u32 plldm)
 #if defined(__MT304) || defined(__MZ306) || defined(__MT307) || defined(__MZ308) || defined(__MZ310)
     MODIFY_REG(RCC->CR, (RCC_CR_PLLMUL | RCC_CR_PLLDIV), ((plldn << RCC_CR_PLLMUL_Pos) | (plldm << RCC_CR_PLLDIV_Pos)));
 #endif
-#if defined(__MM3U1)
+#if defined(__MT3270)
     MODIFY_REG(RCC->PLLCFGR, (RCC_PLLCFGR_PLL_DN | RCC_PLLCFGR_PLL_DP), ((plldn << RCC_PLLCFGR_PLL_DN_Pos) | (plldm << RCC_PLLCFGR_PLL_DP_Pos)));
 #endif
 }
@@ -262,7 +262,7 @@ void RCC_PLLConfig(RCC_PLLSource_TypeDef pllSrc, RCC_PLLMul_TypeDef pllMul)
                       0x1B, 0x01, 0x1D, 0x01, 0x1F, 0x01};             // Frclk*28/2; Frclk*30/2;
                                                                        // Frclk*32/2;
 #if defined(__MT3270)
-    MODIFY_REG(RCC->PLLCFGR, (RCC_PLLCFGR_PLLXTPRE | RCC_PLLCFGR_PLLSRC), pll_src);
+    MODIFY_REG(RCC->PLLCFGR, (RCC_PLLCFGR_PLLXTPRE | RCC_PLLCFGR_PLLSRC), pllSrc);
 #endif
     RCC_PLLDMDNConfig((u32)DNDM_Item[pllMul >> 17], (u32)DNDM_Item[(pllMul >> 17) + 1]);
 }
@@ -456,7 +456,10 @@ void RCC_LSICmd(FunctionalState state)
 ////////////////////////////////////////////////////////////////////////////////
 u32 RCC_GetSysClockFreq(void)
 {
-#if defined(__MT304) || defined(__MZ306) || defined(__MT307) || defined(__MZ308) || defined(__MZ310) || defined(__MT3270)
+#if defined(__MT3270)
+    return 0; //????chend
+#else
+#if defined(__MT304) || defined(__MZ306) || defined(__MT307) || defined(__MZ308) || defined(__MZ310)
     u32 clock, mul, div;
 #endif
     switch (RCC->CFGR & RCC_CFGR_SWS) {
@@ -486,15 +489,7 @@ u32 RCC_GetSysClockFreq(void)
 
 			return  clock * mul / div;
 #endif
-#if defined(__MT3270)
-        case RCC_CFGR_SWS_PLL:
-            clock = READ_BIT(RCC->PLLCFGR, RCC_PLLCFGR_PLLSRC) ? (READ_BIT(RCC->PLLCFGR, RCC_PLLCFGR_PLLXTPRE) ? (HSE_VALUE >> 1) : HSE_VALUE)
-                    : HSI_VALUE_PLL_ON;
-            mul = ((RCC->PLLCFGR & (u32)RCC_PLLCFGR_PLL_DN) >> RCC_PLLCFGR_PLL_DN_Pos) + 1;
-            div = ((RCC->PLLCFGR & RCC_PLLCFGR_PLL_DP) >> RCC_PLLCFGR_PLL_DP_Pos) + 1;
 
-            return = clock * mul / div;
-#endif
 		default:
 #if defined(__MT304) || defined(__MZ306) || defined(__MT307) || defined(__MZ308) || defined(__MZ310) || defined(__MZ311)
 			return HSI_DIV6;
@@ -502,10 +497,8 @@ u32 RCC_GetSysClockFreq(void)
 #if defined(__MZ309)
 			return (RCC->CR & RCC_CR_HSI_72M) ? HSI_72MHz_DIV6 : HSI_DIV6;
 #endif
-#if defined(__MT3270)
-            return =  HSI_VALUE;
-#endif
     }
+#endif
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -561,87 +554,26 @@ void RCC_GetClocksFreq(RCC_ClocksTypeDef* clk)
 }
 
 
-#if defined(__MT307)
+#if defined(__MT307) || defined(__MT3270)
 ////////////////////////////////////////////////////////////////////////////////
-/// @brief  Enables or disables the AHB3 peripheral clock.
-/// @param  RCC_AHB3Periph: specifies the AHB3 peripheral to gates its clock.
-///   This parameter can be any combination of the following values:
-/// @arg RCC_AHB3ENR_FSMC
-///   SRAM and FLITF clock can be disabled only during sleep mode.
-/// @param NewState: new state of the specified peripheral clock.
-///   This parameter can be: ENABLE or DISABLE.
-/// @retval : None
-////////////////////////////////////////////////////////////////////////////////
-
-void RCC_AHB3PeriphClockCmd(u32 RCC_AHB3Periph, FunctionalState state)
-{
-    (state) ? (RCC->AHB3ENR |= RCC_AHB3Periph) : (RCC->AHB3ENR &= ~RCC_AHB3Periph);
-}
-
-////////////////////////////////////////////////////////////////////////////////
-/// @brief  Enables or disables the AHB2 peripheral clock.
-/// @param  RCC_AHB2Periph: specifies the AHB3 peripheral to gates its clock.
-///   This parameter can be any combination of the following values:
-/// @arg RCC_AHB2ENR_AES
-/// @arg RCC_AHB2ENR_RNG
-/// @arg RCC_AHB2ENR_USBFS
-///   SRAM and FLITF clock can be disabled only during sleep mode.
-/// @param NewState: new state of the specified peripheral clock.
-///   This parameter can be: ENABLE or DISABLE.
-/// @retval : None
-////////////////////////////////////////////////////////////////////////////////
-
-void RCC_AHB2PeriphClockCmd(u32 RCC_AHB2Periph, FunctionalState state)
-{
-    (state) ? (RCC->AHB2ENR |= RCC_AHB2Periph) : (RCC->AHB2ENR &= ~RCC_AHB2Periph);
-}
-
-////////////////////////////////////////////////////////////////////////////////
-///  @brief  Enables or disables the AHB1 peripheral clock.
-///  @param RCC_AHB1Periph: specifies the AHB1 peripheral to gates its clock.
-///    This parameter can be any combination of the following values:
-///  @arg RCC_AHB1ENR_GPIOA
-///  @arg RCC_AHB1ENR_GPIOB
-///  @arg RCC_AHB1ENR_GPIOC
-///  @arg RCC_AHB1ENR_GPIOD
-///  @arg RCC_AHB1ENR_SDIO
-///  @arg RCC_AHB1ENR_CRC
-///  @arg RCC_AHB1ENR_FLASH
-///  @arg RCC_AHB1ENR_SRAM
-///  @arg RCC_AHB1ENR_DMA1
-///  @arg RCC_AHB1ENR_DMA2
-///  @arg RCC_AHB1ENR_ETHMAC
-///    SRAM and FLITF clock can be disabled only during sleep mode.
-///  @param NewState: new state of the specified peripheral clock.
-///    This parameter can be: ENABLE or DISABLE.
-///  @retval : None
-////////////////////////////////////////////////////////////////////////////////
-
 void RCC_AHB1PeriphClockCmd(u32 RCC_AHB1Periph, FunctionalState state)
 {
     (state) ? (RCC->AHB1ENR |= RCC_AHB1Periph) : (RCC->AHB1ENR &= ~RCC_AHB1Periph);
 }
 
-#endif
-#if defined(__MT3270)
 ////////////////////////////////////////////////////////////////////////////////
-/// @brief  Enables or disables the AHB2 peripheral clock.
-/// @param  RCC_AHB2Periph: specifies the AHB3 peripheral to gates its clock.
-///   This parameter can be any combination of the following values:
-/// @arg RCC_AHB2ENR_AES
-/// @arg RCC_AHB2ENR_RNG
-/// @arg RCC_AHB2ENR_USBFS
-///   SRAM and FLITF clock can be disabled only during sleep mode.
-/// @param NewState: new state of the specified peripheral clock.
-///   This parameter can be: ENABLE or DISABLE.
-/// @retval : None
-////////////////////////////////////////////////////////////////////////////////
-
 void RCC_AHB2PeriphClockCmd(u32 RCC_AHB2Periph, FunctionalState state)
 {
     (state) ? (RCC->AHB2ENR |= RCC_AHB2Periph) : (RCC->AHB2ENR &= ~RCC_AHB2Periph);
 }
+
+////////////////////////////////////////////////////////////////////////////////
+void RCC_AHB3PeriphClockCmd(u32 RCC_AHB3Periph, FunctionalState state)
+{
+    (state) ? (RCC->AHB3ENR |= RCC_AHB3Periph) : (RCC->AHB2ENR &= ~RCC_AHB3Periph);
+}
 #endif
+
 #if defined(__MT304) || defined(__MZ306) || defined(__MZ308) || defined(__MZ309) || defined(__MZ310)  || defined(__MZ311) || defined(__MT3270)
 ////////////////////////////////////////////////////////////////////////////////
 /// @brief  Enables or disables the AHB peripheral clock.
@@ -780,10 +712,11 @@ void RCC_APB1PeriphClockCmd(u32 APB1Periph, FunctionalState state)
 ///   This parameter can be: ENABLE or DISABLE.
 /// @retval : None
 ////////////////////////////////////////////////////////////////////////////////
-void RCC_AHB3PeriphResetCmd(u32 RCC_AHB3Periph, FunctionalState state)
+void RCC_AHB3PeriphResetCmd(u32 AHB3Periph, FunctionalState state)
 {
         (state) ? (RCC->AHB3RSTR |= AHB3Periph) : (RCC->AHB3RSTR &= ~AHB3Periph);
 }
+
 ////////////////////////////////////////////////////////////////////////////////
 /// @brief  Forces or releases AHB2 peripheral reset.
 /// @param RCC_AHB2Periph: specifies the AHB2 peripheral to reset.
@@ -795,10 +728,9 @@ void RCC_AHB3PeriphResetCmd(u32 RCC_AHB3Periph, FunctionalState state)
 ///   This parameter can be: ENABLE or DISABLE.
 /// @retval : None
 ////////////////////////////////////////////////////////////////////////////////
-
-void RCC_AHB2PeriphResetCmd(u32 RCC_AHB2Periph, FunctionalState state)
+void RCC_AHB2PeriphResetCmd(u32 AHB2Periph, FunctionalState state)
 {
-        (state) ? (RCC->AHB2RSTR |= AHB2Periph) : (RCC->AHB2RSTR &= ~AHB2Periph);
+    (state) ? (RCC->AHB2RSTR |= AHB2Periph) : (RCC->AHB2RSTR &= ~AHB2Periph);
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -821,9 +753,9 @@ void RCC_AHB2PeriphResetCmd(u32 RCC_AHB2Periph, FunctionalState state)
 /// @retval : None
 ////////////////////////////////////////////////////////////////////////////////
 
-void RCC_AHB1PeriphResetCmd(u32 RCC_AHB1Periph, FunctionalState state)
+void RCC_AHB1PeriphResetCmd(u32 AHB1Periph, FunctionalState state)
 {
-            (state) ? (RCC->AHB1RSTR |= AHB1Periph) : (RCC->AHB1RSTR &= ~AHB1Periph);
+    (state) ? (RCC->AHB1RSTR |= AHB1Periph) : (RCC->AHB1RSTR &= ~AHB1Periph);
 }
 #endif
 

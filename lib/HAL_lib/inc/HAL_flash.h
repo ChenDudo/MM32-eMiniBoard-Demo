@@ -64,13 +64,12 @@ typedef enum {
 /// @brief  Half_Cycle_Enable_Disable
 ////////////////////////////////////////////////////////////////////////////////
 typedef enum {
-#if defined(__MT304) || defined(__MZ306) || defined(__MT307) ||defined(__MZ308)|| defined(__MZ309)
-    FLASH_HalfCycleAccess_Enable  = FLASH_ACR_HLFCYA,  							///< FLASH Half Cycle Enable
-    FLASH_HalfCycleAccess_Disable = (int)~FLASH_ACR_HLFCYA  				    ///< FLASH Half Cycle Disable
-#endif
 #if defined(__MZ310)|| defined(__MZ311)
     FLASH_HalfCycleAccess_Enable  = 0,  							            ///< FLASH Half Cycle Enable
     FLASH_HalfCycleAccess_Disable = 0  							                ///< FLASH Half Cycle Disable
+#else
+    FLASH_HalfCycleAccess_Enable  = FLASH_ACR_HLFCYA,  							///< FLASH Half Cycle Enable
+    FLASH_HalfCycleAccess_Disable = (int)~FLASH_ACR_HLFCYA  				    ///< FLASH Half Cycle Disable   
 #endif
 } FLASH_HalfCycleAccess_TypeDef;
 

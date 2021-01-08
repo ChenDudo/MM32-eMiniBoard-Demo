@@ -143,7 +143,7 @@
 
 #endif
 
-#if defined(__MM32_MB022) || defined(__MM32_MB023) || defined(__MM32_MB024) || defined(__MM32_MB025)
+#if defined(__MM32_MB022) || defined(__MM32_MB023) || defined(__MM32_MB024) || defined(__MM32_MB025) || defined(__MM32_MB036) || defined(__MM32_MB039)
 
     #define LED1_PORT GPIOA
     #define LED2_PORT GPIOB
@@ -151,12 +151,21 @@
     #define LED4_PORT GPIOB
 
     #define LED1_BIT GPIO_Pin_15
+#if  defined(__MM32_MB036) || defined(__MM32_MB039)
     #define LED2_BIT GPIO_Pin_3
+#else
+    #define LED2_BIT GPIO_Pin_3
+#endif
+
     #define LED3_BIT GPIO_Pin_4
     #define LED4_BIT GPIO_Pin_5
 
     #define LED1_CONFIG {COMMON_EnableIpClock(emCLOCK_GPIOA);GPIO_SetBits(LED1_PORT, LED1_BIT); GPIO_Mode_OUT_OD_20MHz_Init(LED1_PORT, LED1_BIT, NO_REMAP, GPIO_AF_0);}
+#if defined(__MT3270)
+    #define LED2_CONFIG {COMMON_EnableIpClock(emCLOCK_GPIOB);GPIO_SetBits(LED2_PORT, LED2_BIT); GPIO_Mode_OUT_OD_20MHz_Init(LED2_PORT, LED2_BIT, EXTI_MAPR_SWJ_JTAGDISABLE, 0xF);}
+#else
     #define LED2_CONFIG {COMMON_EnableIpClock(emCLOCK_GPIOB);GPIO_SetBits(LED2_PORT, LED2_BIT); GPIO_Mode_OUT_OD_20MHz_Init(LED2_PORT, LED2_BIT, EXTI_MAPR_SWJ_JTAGDISABLE, GPIO_AF_0);}
+#endif
     #define LED3_CONFIG {                                    GPIO_SetBits(LED3_PORT, LED3_BIT); GPIO_Mode_OUT_OD_20MHz_Init(LED3_PORT, LED3_BIT, NO_REMAP, GPIO_AF_0);}
     #define LED4_CONFIG {                                    GPIO_SetBits(LED4_PORT, LED4_BIT); GPIO_Mode_OUT_OD_20MHz_Init(LED4_PORT, LED4_BIT, NO_REMAP, GPIO_AF_0);}
 

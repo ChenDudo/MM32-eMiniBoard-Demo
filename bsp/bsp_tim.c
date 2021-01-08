@@ -150,8 +150,8 @@ void BSP_TIM_CH1_GPIO_Configure(TIM_TypeDef* tim, bool remapEn, u8 remapIdx, boo
         else {
             if (remapIdx == 0) {
                 GPIOA_ClockEnable();
-                (inoutMode) ? GPIO_Mode_AF_PP_20MHz_Init(GPIOA, GPIO_Pin_8, EXTI_MAPR_TIM1_PARTIAL, GPIO_AF_2) :\
-                    GPIO_Mode_FLOATING_Init(GPIOA, GPIO_Pin_8, 	EXTI_MAPR_TIM1_PARTIAL, GPIO_AF_2);
+                (inoutMode) ? GPIO_Mode_AF_PP_20MHz_Init(GPIOA, GPIO_Pin_8, EXTI_MAPR_TIM1_PARTIAL, GPIO_AF_1) :\
+                    GPIO_Mode_FLOATING_Init(GPIOA, GPIO_Pin_8, 	EXTI_MAPR_TIM1_PARTIAL, GPIO_AF_1);
             }
         }
         break;

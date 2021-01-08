@@ -86,9 +86,9 @@ typedef enum {
 /// @brief  System clock configuration
 ////////////////////////////////////////////////////////////////////////////////
 typedef enum {
-#if defined(__MT304) || defined(__MZ306) || defined(__MZ308) || defined(__MZ310)
                                         //  Flash_Latency   Mul Div Sw  Src
     SYSCLK_HSI_6d       = 0x00000,      //	            0   0   0   0   0
+#if defined(__MT304) || defined(__MZ306) || defined(__MZ308) || defined(__MZ310)    
     SYSCLK_HSI_12MHz    = 0x00020,      //	            0   0   0   2   0
     SYSCLK_HSI_24MHz    = 0x01020,      //	            0   1   0   2   0
     SYSCLK_HSI_48MHz    = 0x13020,      //	            1   3   0   2   0
@@ -103,11 +103,19 @@ typedef enum {
     SYSCLK_HSE_12x      = 0x3B021,      //	            3   1   0   2   1
 #endif
 #if defined(__MZ309) || defined(__MZ311)
-    SYSCLK_HSI_6d       = 0x00000,      //              0   0   0   0   0
     SYSCLK_HSE_1x       = 0x00011,      //              0   0   0   1   1
     SYSCLK_HSI_48MHz    = 0x10020,      //              1   0   0   2   0
     SYSCLK_HSI_72MHz    = 0x20020,      //              2   0   0   2   0
     SYSCLK_LSI_40KHz    = 0x00032,      //              0   0   0   3   2   
+#endif
+#if defined(__MT3270)
+    SYSCLK_HSI_12MHz    = 0x00020,      //	            0   0   0   2   0
+    SYSCLK_HSI_24MHz    = 0x01020,      //	            0   1   0   2   0
+    SYSCLK_HSI_48MHz    = 0x13020,      //	            1   3   0   2   0
+    SYSCLK_HSI_72MHz    = 0x25020,      //	            2   5   0   2   0
+    SYSCLK_HSI_96MHz    = 0x37020,      //	            3   7   0   2   0
+    SYSCLK_HSE_1x       = 0x00011,      //	            0   0   0   1   1
+    
 #endif
 } EM_SystemClock;
 

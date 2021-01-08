@@ -410,6 +410,7 @@ void exGPIO_PinAFConfig(GPIO_TypeDef* GPIOx, u16 pin, s32 remap, s8 funcAF)
 		GPIO_PinRemapConfig(remap, ENABLE);
 	}
 #else
+    COMMON_EnableIpClock(emCLOCK_EXTI);
 	if (funcAF >= 0) {
 		for (u8 i = 0; i < 32; i++) {
 			if (pin & 0x01)	{

@@ -5,7 +5,7 @@
 #include <stdint.h>
 #include <stdbool.h>
 
-#if defined(__MT304) || defined(__MT307)
+#if defined(__MT304) || defined(__MT307) || defined(__MT3270)
     #define __MPU_PRESENT               (0)                                     ///< mm32f103/mm32l3xx does not provide a MPU present or not
     #define __NVIC_PRIO_BITS            (4)                                     ///< mm32f103/mm32l3xx uses 4 Bits for the Priority Levels
     #define __Vendor_SysTickConfig      (0)                                     ///< Set to 1 if different SysTick Config is used
@@ -39,7 +39,7 @@
         PendSV_IRQn                     = -2,                                   ///< 14 Cortex-M0 Pend SV Interrupt
         SysTick_IRQn                    = -1,                                   ///< 15 Cortex-M0 System Tick Interrupt
 #endif
-#if defined(__MT307)
+#if defined(__MT307) || defined(__MT3270)
     typedef enum IRQn {
         NonMaskableInt_IRQn             = -14,                                  ///< 2 Non Maskable Interrupt
         MemoryManagement_IRQn           = -12,                                  ///< 4 Cortex-M3 Memory Management Interrupt
@@ -1889,12 +1889,18 @@ typedef struct {
     __IO u32 CIR;                                                               ///< Clock Interrupt Register                       offset: 0x08
     __IO u32 AHB3RSTR;                                                          ///< Advanced High Peripheral Bus 3 Reset Register  offset: 0x0C
     __IO u32 AHB2RSTR;                                                          ///< Advanced High Peripheral Bus 2 Reset Register  offset: 0x10
-    __IO u32 AHB1RSTR;                                                          ///< Advanced High Peripheral Bus 1 Reset Register  offset: 0x14
+    union {
+        __IO u32 AHBRSTR;                                                        ///< Advanced High Performance Bus 1 Enable Register  offset: 0x28
+        __IO u32 AHB1RSTR;
+    };
     __IO u32 APB2RSTR;                                                          ///< Advanced Peripheral Bus 2 Reset Register       offset: 0x18
     __IO u32 APB1RSTR;                                                          ///< Advanced Peripheral Bus 1 Reset Register       offset: 0x1C
     __IO u32 AHB3ENR;                                                           ///< Advanced High Performance Bus 3 Enable Register  offset: 0x20
     __IO u32 AHB2ENR;                                                           ///< Advanced High Performance Bus 2 Enable Register  offset: 0x24
-    __IO u32 AHB1ENR;                                                           ///< Advanced High Performance Bus 1 Enable Register  offset: 0x28
+    union {
+        __IO u32 AHBENR;                                                        ///< Advanced High Performance Bus 1 Enable Register  offset: 0x28
+        __IO u32 AHB1ENR;
+    };
     __IO u32 APB2ENR;                                                           ///< Advanced Peripheral Bus 2 Enable Register      offset: 0x2C
     __IO u32 APB1ENR;                                                           ///< Advanced Peripheral Bus 1 Enable Register      offset: 0x30
     __IO u32 BDCR;                                                              ///< Backup Domain Control Register                 offset: 0x34
@@ -2349,6 +2355,18 @@ typedef struct {
 
 #if defined(GPIOE_BASE)
     #define GPIOE                       ((GPIO_TypeDef*) GPIOE_BASE)
+#endif
+
+#if defined(GPIOF_BASE)
+    #define GPIOF                       ((GPIO_TypeDef*) GPIOF_BASE)
+#endif
+
+#if defined(GPIOG_BASE)
+    #define GPIOG                       ((GPIO_TypeDef*) GPIOG_BASE)
+#endif
+
+#if defined(GPIOH_BASE)
+    #define GPIOH                       ((GPIO_TypeDef*) GPIOH_BASE)
 #endif
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -3963,16 +3981,15 @@ typedef struct {
     #define COMP_CSR_INP_Pos            (7)
     #define COMP_CSR_INP                (0x03U << COMP_CSR_INP_Pos)             ///< Comparator non-inverting input selection
     #define COMP_CSR_INP_INP0           (0x00U << COMP_CSR_INP_Pos)             ///< INP0 as COMP non-inverting input
+    #define COMP_CSR_INP_INP2           (0x02U << COMP_CSR_INP_Pos)             ///< INP2 as COMP non-inverting input
+ 
+#if defined(__MM0N1)||defined(__MM3O1)
     #define COMP_CSR_INP_INP3           (0x01U << COMP_CSR_INP_Pos)             ///< INP1 as COMP non-inverting input
-    #define COMP_CSR_INP_INP2           (0x02U << COMP_CSR_INP_Pos)             ///< INP2 as COMP non-inverting input
     #define COMP_CSR_INP_INP1           (0x03U << COMP_CSR_INP_Pos)             ///< INP3 as COMP non-inverting input
-
-    #define COMP_CSR_INP_Pos            (7)
-    #define COMP_CSR_INP                (0x03U << COMP_CSR_INP_Pos)             ///< Comparator non-inverting input selection
-    #define COMP_CSR_INP_INP0           (0x00U << COMP_CSR_INP_Pos)             ///< INP0 as COMP non-inverting input
+#else
     #define COMP_CSR_INP_INP1           (0x01U << COMP_CSR_INP_Pos)             ///< INP1 as COMP non-inverting input
-    #define COMP_CSR_INP_INP2           (0x02U << COMP_CSR_INP_Pos)             ///< INP2 as COMP non-inverting input
     #define COMP_CSR_INP_INP3           (0x03U << COMP_CSR_INP_Pos)             ///< INP3 as COMP non-inverting input
+#endif
 
     #define COMP_CSR_OUT_Pos            (10)
     #define COMP_CSR_OUT                (0x0FU << COMP_CSR_OUT_Pos)             ///< Comparator output selection
@@ -4092,6 +4109,7 @@ typedef struct {
 #if defined(__MZ308) || defined(__MZ309) || defined(__MZ310) || defined(__MT3270)
     #define COMP_CRV_Pos                (0)
     #define COMP_CRV                    (0x0FU << COMP_CRV_Pos)                 ///< Comparator external reference voltage select
+    #define COMP_CRV_MASK COMP_CRV
     #define COMP_CRV_1_20               (0x00U << COMP_CRV_Pos)                 ///< Comparator external reference voltage select
     #define COMP_CRV_2_20               (0x01U << COMP_CRV_Pos)                 ///< Comparator external reference voltage select
     #define COMP_CRV_3_20               (0x02U << COMP_CRV_Pos)                 ///< Comparator external reference voltage select

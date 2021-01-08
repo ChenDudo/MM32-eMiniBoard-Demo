@@ -109,7 +109,7 @@
     #define SPI2_MOSI_BIT   GPIO_Pin_15 // GPIO_Pin_14 // GPIO_Pin_12 // GPIO_Pin_13
     #define SPI2_MOSI_AF    GPIO_AF_0   // GPIO_AF_1   // GPIO_AF_3   // GPIO_AF_4  
 
-    #if defined(__MT304) || defined(__MZ306) || defined(__MT307) || defined(__MZ308) || defined(__MZ310)
+    #if defined(__MT304) || defined(__MZ306) || defined(__MT307) || defined(__MZ308) || defined(__MZ310) || defined(__MT3270)
     #define SPI2_NSS_PORT   GPIOB       // GPIOB       // GPIOB       // GPIOB       // GPIOB      
     #define SPI2_NSS_BIT    GPIO_Pin_12 // GPIO_Pin_15 // GPIO_Pin_13 // GPIO_Pin_14 // GPIO_Pin_9
     #define SPI2_NSS_AF     GPIO_AF_0   // GPIO_AF_1   // GPIO_AF_3   // GPIO_AF_4   // GPIO_AF_5  
@@ -134,7 +134,7 @@
     #define SPI2_MOSI_BIT   GPIO_Pin_14 // GPIO_Pin_12 // GPIO_Pin_13
     #define SPI2_MOSI_AF    GPIO_AF_1   // GPIO_AF_3   // GPIO_AF_4  
 
-    #if defined(__MT304) || defined(__MZ306) || defined(__MT307) || defined(__MZ308) || defined(__MZ310)
+    #if defined(__MT304) || defined(__MZ306) || defined(__MT307) || defined(__MZ308) || defined(__MZ310) || defined(__MT3270)
     #define SPI2_NSS_PORT   GPIOB       // GPIOB       // GPIOB       // GPIOB      
     #define SPI2_NSS_BIT    GPIO_Pin_15 // GPIO_Pin_13 // GPIO_Pin_14 // GPIO_Pin_9
     #define SPI2_NSS_AF     GPIO_AF_1   // GPIO_AF_3   // GPIO_AF_4   // GPIO_AF_5  
@@ -159,7 +159,7 @@
     #define SPI2_MOSI_BIT   GPIO_Pin_12 // GPIO_Pin_13
     #define SPI2_MOSI_AF    GPIO_AF_3   // GPIO_AF_4  
 
-    #if defined(__MT304) || defined(__MZ306) || defined(__MT307) || defined(__MZ308) || defined(__MZ310)
+    #if defined(__MT304) || defined(__MZ306) || defined(__MT307) || defined(__MZ308) || defined(__MZ310) || defined(__MT3270)
     #define SPI2_NSS_PORT   GPIOB       // GPIOB       // GPIOB      
     #define SPI2_NSS_BIT    GPIO_Pin_13 // GPIO_Pin_14 // GPIO_Pin_9
     #define SPI2_NSS_AF     GPIO_AF_3   // GPIO_AF_4   // GPIO_AF_5  
@@ -184,7 +184,7 @@
     #define SPI2_MOSI_BIT   GPIO_Pin_13
     #define SPI2_MOSI_AF    GPIO_AF_4  
 
-    #if defined(__MT304) || defined(__MZ306) || defined(__MT307) || defined(__MZ308) || defined(__MZ310)
+    #if defined(__MT304) || defined(__MZ306) || defined(__MT307) || defined(__MZ308) || defined(__MZ310) || defined(__MT3270)
     #define SPI2_NSS_PORT   GPIOB       // GPIOB      
     #define SPI2_NSS_BIT    GPIO_Pin_14 // GPIO_Pin_9
     #define SPI2_NSS_AF     GPIO_AF_4   // GPIO_AF_5  

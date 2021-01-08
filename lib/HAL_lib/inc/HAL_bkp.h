@@ -69,7 +69,7 @@ typedef enum {
 #endif
 } BKPDR_Typedef;
 #endif
-#if defined(__MZ310) || defined(__MM3U1)
+#if defined(__MZ310) || defined(__MT3270)
 typedef enum {
     BKP_DR1  = 0x0010,
     BKP_DR2  = 0x0014,

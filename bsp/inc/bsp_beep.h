@@ -43,26 +43,27 @@
 /// @{
 
 #if defined(__MM32_MB020)
-#define BEEP_TIMER TIM3
-#define BEEP_PWMCH 2
-#define CH_REMAPEN 1
-#define CH_REMAPID 0
+    #define BEEP_TIMER TIM3
+    #define BEEP_PWMCH 2
+    #define CH_REMAPEN 1
+    #define CH_REMAPID 0
+#elif defined(__MM32_MB032) || defined(__MM32_MB033)
+    #define BEEP_TIMER TIM1
+    #define BEEP_PWMCH 2
+    #define CH_REMAPEN 1
+    #define CH_REMAPID 1
+#elif defined(__MM32_MB036) || defined(__MM32_MB039)
+    #define BEEP_TIMER TIM1
+    #define BEEP_PWMCH 1
+    #define CH_REMAPEN 1
+    #define CH_REMAPID 0
+#else
+    #define BEEP_TIMER TIM1
+    #define BEEP_PWMCH 1
+    #define CH_REMAPEN 0
+    #define CH_REMAPID 0
 #endif
 
-#if defined(__MM32_MB021) || defined(__MM32_MB022) || defined(__MM32_MB023) || \
-defined(__MM32_MB024) || defined(__MM32_MB025)
-#define BEEP_TIMER TIM1
-#define BEEP_PWMCH 1
-#define CH_REMAPEN 0
-#define CH_REMAPID 0
-#endif
-
-#if defined(__MM32_MB032) || defined(__MM32_MB033)
-#define BEEP_TIMER TIM1
-#define BEEP_PWMCH 2
-#define CH_REMAPEN 1
-#define CH_REMAPID 1
-#endif
 
 /// @}
 

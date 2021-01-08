@@ -409,7 +409,7 @@ void RCC_RTCCLKConfig(RCC_RTCCLKSOURCE_TypeDef rtcClkSrc);
 void RCC_BackupResetCmd(FunctionalState state);
 #endif
 
-#if defined(__MT307)
+#if defined(__MT307) || defined(__MT3270)
 void RCC_AdjustHSICalibrationValue(u8 HSICalibrationValue);
 void RCC_AHB3PeriphClockCmd(u32 AHB3Periph, FunctionalState state);
 void RCC_AHB2PeriphClockCmd(u32 AHB2Periph, FunctionalState state);

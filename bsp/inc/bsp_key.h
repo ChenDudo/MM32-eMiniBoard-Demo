@@ -143,7 +143,7 @@ typedef void (*KEY_PRESSING_FUNC)(void);
 
 #endif
 
-#if defined(__MM32_MB022) || defined(__MM32_MB023) || defined(__MM32_MB024) || defined(__MM32_MB025)
+#if defined(__MM32_MB022) || defined(__MM32_MB023) || defined(__MM32_MB024) || defined(__MM32_MB025) || defined(__MM32_MB036) || defined(__MM32_MB039)
 
     #define KEY1_PORT GPIOB
     #define KEY2_PORT GPIOB

@@ -76,9 +76,11 @@ void initPara()
     sPlayMusic.PlayFlag = false;
 }
 
+#include "common.h"
 ////////////////////////////////////////////////////////////////////////////////
 void initPeri()
 {
+    COMMON_EnableIpClock(emCLOCK_GPIOA);
     BSP_BEEP_Configure(1000);
     BSP_KEY_Configure();
     BSP_LED_Configure();

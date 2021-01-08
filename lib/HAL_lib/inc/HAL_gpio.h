@@ -47,13 +47,11 @@ typedef enum {
     GPIO_Speed_10MHz = 1,  ///< Maximum speed is 10MHz
     GPIO_Speed_20MHz,      ///< Maximum speed is 20MHz
     GPIO_Speed_50MHz       ///< Maximum speed is 50MHz
-#endif
-#if defined(__MZ306) || defined(__MZ308)
+#elif defined(__MZ306) || defined(__MZ308)
     GPIO_Speed_50MHz = 1,  ///< Maximum speed is 50MHz
     GPIO_Speed_20MHz,      ///< Maximum speed is 20MHz
     GPIO_Speed_10MHz       ///< Maximum speed is 10MHz
-#endif
-#if defined(__MZ310) || defined(__MZ311)
+#else
     GPIO_Speed_50MHz = 1,  ///< Maximum speed is 50MHz
     GPIO_Speed_20MHz = 1,      ///< Maximum speed is 20MHz
     GPIO_Speed_10MHz = 1       ///< Maximum speed is 10MHz

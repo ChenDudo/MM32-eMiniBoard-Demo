@@ -41,7 +41,7 @@
 /// @addtogroup MM32_Exported_Constants
 /// @{
 
-#if defined(__MT304)
+#if defined(__MT304) || defined(__MT307) || defined(__MT3270)
 //	#define VECT_TAB_SRAM
 	#define VECT_TAB_OFFSET  0x0000
 #endif
@@ -230,7 +230,7 @@ EM_MCUID SetSystemClock(EM_SYSTICK enable , AppTick_fun callbackPtr)
 #if defined(__MZ309) || defined(__MZ311)
     return  SystemInit(SYSCLK_HSI_48MHz, enable, callbackPtr);
 #else
-    return  SystemInit(SYSCLK_HSE_6x, enable, callbackPtr);
+    return  SystemInit(SYSCLK_HSI_48MHz, enable, callbackPtr);
 #endif
 }
 

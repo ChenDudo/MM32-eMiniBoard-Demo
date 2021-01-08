@@ -45,7 +45,7 @@
 ////////////////////////////////////////////////////////////////////////////////
 void adcTick()
 {
-#if defined(__MM32_MB032)  
+#if defined(__MM32_MB032) 
     if(++adcCnt > 5){
         adcCnt = 0;
         ADC_SoftwareStartConvCmd(ADC1, ENABLE); 
@@ -94,7 +94,7 @@ void adcTick()
 ////////////////////////////////////////////////////////////////////////////////
 void BSP_ADC_Configure()
 {
-#if defined(__MZ311)    
+#if defined(__MZ311)
     ADC_InitTypeDef  ADC_InitStructure;
     ADC_StructInit(&ADC_InitStructure);
 

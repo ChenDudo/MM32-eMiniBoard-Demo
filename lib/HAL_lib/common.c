@@ -168,16 +168,29 @@ void COMMON_EnableIpClock(EM_CLOCK val)
 	u8 br = val >> 8;
 	u8 pos = val & 0x1F;
 
-	if 		(br >  4)	return;
+	if 		(br >  5)	return;
 	else if (br == 0)	RCC_APB1PeriphClockCmd(1 << pos, ENABLE);
 	else if	(br == 1){
 #if !defined(__MZ311)
             RCC_APB2PeriphClockCmd(1 << pos, ENABLE);
 #endif
     }	
-	else if	(br >= 2)	RCC_AHBPeriphClockCmd( 1 << pos, ENABLE);
+#if defined(__MT3270)
+    else if	(br == 2)	RCC_AHB1PeriphClockCmd( 1 << pos, ENABLE);
+    else if	(br == 3)	RCC_AHB2PeriphClockCmd( 1 << pos, ENABLE);
+    else if	(br == 4)	RCC_AHB3PeriphClockCmd( 1 << pos, ENABLE);
+#else
+    else if	(br >= 2)	RCC_AHBPeriphClockCmd( 1 << pos, ENABLE);
+#endif
 }
-
+/*
+0: APB1
+1: APB2
+2: AHB
+3: AHB2
+4: AHB3
+F: None
+*/
 ////////////////////////////////////////////////////////////////////////////////
 /// @brief  Disbles the AHB, APB (APB1, APB2) peripheral clock.
 /// @param  Periph Enumeration: emCLOCK_xxx.

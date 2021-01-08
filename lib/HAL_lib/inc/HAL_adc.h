@@ -106,10 +106,8 @@ typedef enum {
     ADC_Samctl_71_5  = ADC_CFGR_SAMCTL_71_5,  ///< ADC sample time select 71.5t
     ADC_Samctl_239_5 = ADC_CFGR_SAMCTL_239_5  ///< ADC sample time select 239.5t
 #endif
-} ADCSAM_TypeDef;
-
+        
 #if defined(__MT3270)
-typedef enum {
     ADC_Samctl_1_5   = ADC_SMPR1_SAMCTL0_2_5,   ///< ADC sample time select 1.5t
     ADC_Samctl_2_5   = ADC_SMPR1_SAMCTL0_2_5,  ///< ADC sample time select 2.5t
     ADC_Samctl_3_5   = ADC_SMPR1_SAMCTL0_3_5,  ///< ADC sample time select 3.5t
@@ -130,8 +128,11 @@ typedef enum {
     ADC_Samctl_72_5  = ADC_SMPR1_SAMCTL0_72_5,  ///< ADC sample time select 71.5t
     ADC_Samctl_239_5 = ADC_SMPR1_SAMCTL0_240_5,  ///< ADC sample time select 239.5t
     ADC_Samctl_240_5 = ADC_SMPR1_SAMCTL0_240_5  ///< ADC sample time select 239.5t
-} ADCSAM_TypeDef;
 #endif
+
+} ADCSAM_TypeDef;
+
+
 ////////////////////////////////////////////////////////////////////////////////
 /// @brief ADC_Resolution
 ////////////////////////////////////////////////////////////////////////////////
@@ -348,7 +349,7 @@ void ADC_Cmd(ADC_TypeDef* ADCx, FunctionalState state);
 void ADC_DMACmd(ADC_TypeDef* ADCx, FunctionalState state);
 void ADC_ITConfig(ADC_TypeDef* ADCx, ADCFLAG_TypeDef ADC_IT, FunctionalState state);
 void ADC_SoftwareStartConvCmd(ADC_TypeDef* ADCx, FunctionalState state);
-void ADC_RegularChannelConfig(ADC_TypeDef* ADCx, u32 channel, u8 rank, ADCSAM_TypeDef sampleTime);
+void ADC_RegularChannelConfig(ADC_TypeDef* ADCx, u32 channel, u8 rank, u16 sampleTime);
 void ADC_ExternalTrigConvCmd(ADC_TypeDef* ADCx, FunctionalState state);
 void ADC_ExternalTrigInjectedConvConfig(ADC_TypeDef* ADCx, EXTERTRIG_TypeDef ADC_ExternalTrigInjecConv);
 void ADC_AnalogWatchdogCmd(ADC_TypeDef* ADCx, FunctionalState state);

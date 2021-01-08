@@ -160,8 +160,23 @@ FlagStatus ADC_GetSoftwareStartConvStatus(ADC_TypeDef* ADCn)
 /// @param 	sampleTime: the ADC Channel n Sample time to configure.
 /// @retval None.
 ////////////////////////////////////////////////////////////////////////////////
-void ADC_RegularChannelConfig(ADC_TypeDef* ADCn, u32 channel, u8 rank, ADCSAM_TypeDef sampleTime)
+void ADC_RegularChannelConfig(ADC_TypeDef* ADCn, u32 channel, u8 rank, u16 sampleTime)
 {
+#if defined(__MT3270)
+    u32 tempchan;
+    sampleTime = (u16)sampleTime & 0xF;
+    tempchan = channel;
+    if(tempchan > 8) {
+        tempchan = tempchan & 0xF;
+        tempchan = tempchan - 8;
+        ADCn->SMPR2 &= ~(0xF << tempchan);
+        ADCn->SMPR2 |= (sampleTime << tempchan);
+    }
+    else {
+        ADCn->SMPR1 &= ~(0xF << tempchan);
+        ADCn->SMPR1 |= (sampleTime << tempchan);
+    }
+#else
     ADCn->CFGR &= ~ADC_CFGR_SAMCTL;
     ADCn->CFGR |= sampleTime;
 #if !defined(__MZ311)     
@@ -180,20 +195,6 @@ void ADC_RegularChannelConfig(ADC_TypeDef* ADCn, u32 channel, u8 rank, ADCSAM_Ty
     else if (channel & ADC_CHSR_CHV)
         ADC_TempSensorVrefintCmd(ENABLE);
 #endif
-#if defined(__MT3270)
-    u32 tempchan;
-    sampleTime = sampleTime & 0xF;
-    tempchan = channel;
-    if(tempchan > 8) {
-        tempchan = tempchan & 0xF;
-        tempchan = tempchan - 8;
-        ADCn->SMPR2 &= ~(0xF << tempchan);
-        ADCn->SMPR2 |= (sampleTime << tempchan);
-    }
-    else {
-        ADCn->SMPR1 &= ~(0xF << tempchan);
-        ADCn->SMPR1 |= (sampleTime << tempchan);
-    }
 #endif
 }
 
@@ -490,16 +491,16 @@ u32 ADC_InjectedSequencerGetConversionValue(ADC_TypeDef* ADCn, uint8_t jqsn)
     u32 value = 0;
     switch(jqsn) {
         case 0 :
-            value = ADCn->JDR0 - ADCn->JOFR0;
+            value = (u32)(ADCn->JDR0 - ADCn->JOFR0);
             break;
         case 1 :
-            value = ADCn->JDR1 - ADCn->JOFR1;
+            value = (u32)(ADCn->JDR1 - ADCn->JOFR1);
             break;
         case 2 :
-            value = ADCn->JDR2 - ADCn->JOFR2;
+            value = (u32)(ADCn->JDR2 - ADCn->JOFR2);
             break;
         case 3 :
-            value = ADCn->JDR3 - ADCn->JOFR3;
+            value = (u32)(ADCn->JDR3 - ADCn->JOFR3);
             break;
         default :
             break;

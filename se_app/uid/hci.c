@@ -30,6 +30,8 @@
 #include "music.h"
 #include "adc.h"
 
+//#include "core_cm3.h"
+//#include "intrinsics.h"
 ////////////////////////////////////////////////////////////////////////////////
 /// @addtogroup MM32_Example_Layer
 /// @{
@@ -129,6 +131,12 @@ void Key4Down()
     ledStatus[3] = !ledStatus[3];
 }
 
+void resetTest()
+{
+    void (*fp)(void);
+    fp = (void (*)(void))(* (vu32 *)(0x8000004));
+    (*fp)(); 
+}
 ////////////////////////////////////////////////////////////////////////////////
 void Key1Pressing()
 {
@@ -151,6 +159,7 @@ void Key3Pressing()
 void Key4Pressing()
 {
     ledStatus[3] = 1;
+    resetTest();
 }
 
 /// @}

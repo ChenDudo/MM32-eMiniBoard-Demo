@@ -59,8 +59,7 @@ void adcTick()
         }
         adcFlag = true;
     }
-#endif
-#if defined(__MM32_MB020) || defined(__MM32_MB021)
+#elif defined(__MM32_MB020) || defined(__MM32_MB021)
     if(++adcCnt > 5){
         adcCnt = 0;
         ADC_SoftwareStartConvCmd(ADC1, ENABLE); 
@@ -73,8 +72,21 @@ void adcTick()
         }
         adcFlag = true;
     }
-#endif
-#if defined(__MM32_MB022) || defined(__MM32_MB023)|| defined(__MM32_MB024)|| defined(__MM32_MB025)
+#elif defined(__MM32_MB039)
+    if(++adcCnt > 5){
+        adcCnt = 0;
+        ADC_SoftwareStartConvCmd(ADC1, ENABLE); 
+        if(ADC_GetFlagStatus(ADC1, ADC_IT_EOC)){
+            adcValue[0] = ADC1->CH5DR;
+            adcValue[1] = ADC1->CH4DR;
+            adcValue[2] = ADC1->CH1DR;
+        }
+        for(u8 i = 0; i < 3; i++){
+            rv[i] = (u16)((float)(rv[i] * 8 + adcValue[i] * 2) / 10);
+        }
+        adcFlag = true;
+    }
+#else //defined(__MM32_MB022) || defined(__MM32_MB023)|| defined(__MM32_MB024)|| defined(__MM32_MB025)
     if(++adcCnt > 5){
         adcCnt = 0;
         ADC_SoftwareStartConvCmd(ADC1, ENABLE); 
@@ -94,6 +106,60 @@ void adcTick()
 ////////////////////////////////////////////////////////////////////////////////
 void BSP_ADC_Configure()
 {
+#if defined(__MT3270)
+    ADC_InitTypeDef     ADC_InitStructure;
+    GPIO_InitTypeDef    GPIO_InitStructure;
+    //DMA_InitTypeDef     DMA_InitStructure;
+    
+    COMMON_EnableIpClock(emCLOCK_ADC1);
+    COMMON_EnableIpClock(emCLOCK_DMA1);
+    COMMON_EnableIpClock(emCLOCK_GPIOA);
+    
+    ADC_StructInit(&ADC_InitStructure);
+    ADC_InitStructure.ADC_Resolution        = ADC_Resolution_12b;
+    ADC_InitStructure.ADC_PRESCARE          = ADC_PCLK2_PRESCARE_16;
+    ADC_InitStructure.ADC_Mode              = ADC_Mode_Continue;
+    ADC_InitStructure.ADC_DataAlign         = ADC_DataAlign_Right;
+    ADC_InitStructure.ADC_ExternalTrigConv  = ADC1_ExternalTrigConv_T1_CC1;
+    ADC_Init(ADC1, &ADC_InitStructure);
+    
+    GPIO_InitStructure.GPIO_Pin  =  GPIO_Pin_5 | GPIO_Pin_4 | GPIO_Pin_1;
+    GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;
+    GPIO_InitStructure.GPIO_Mode = GPIO_Mode_AIN;
+    GPIO_Init(GPIOA, &GPIO_InitStructure);
+    
+    //DMA_DeInit(DMA1_ch1);
+    //DMA_InitStructure.PeripheralBaseAddr    = (u32)&(ADC1->DR);
+    //DMA_InitStructure.MemoryBaseAddr        = (u32)&adcValue[0];
+    //DMA_InitStructure.DIR                   = DMA_DIR_PeripheralSRC;
+    //DMA_InitStructure.BufferSize            = 3;
+    //DMA_InitStructure.PeripheralInc         = DMA_PeripheralInc_Disable;
+    //DMA_InitStructure.MemoryInc             = DMA_MemoryInc_Enable;
+    //DMA_InitStructure.PeripheralDataSize    = DMA_PeripheralDataSize_HalfWord;
+    //DMA_InitStructure.MemoryDataSize        = DMA_MemoryDataSize_Word;
+    //DMA_InitStructure.Mode                  = DMA_Mode_Circular;
+    //DMA_InitStructure.Priority              = DMA_Priority_High;
+    //DMA_InitStructure.M2M                   = DMA_M2M_Disable;
+    //DMA_Init(DMA1_ch1, &DMA_InitStructure);  
+
+    ADC_ANY_Cmd(ADC1, DISABLE);
+    //ADC_ANY_NUM_Config(ADC1, 3);
+    ADC_ANY_NUM_Config(ADC1, 2);
+    ADC_ANY_CH_Config(ADC1, 0, ADC_Channel_5);
+    ADC_ANY_CH_Config(ADC1, 1, ADC_Channel_4);
+    ADC_ANY_CH_Config(ADC1, 2, ADC_Channel_1);
+    //ADC_ANY_CH_Config(ADC1, 3, ADC_Channel_TempSensor);
+    ADC_ANY_Cmd(ADC1, ENABLE);
+    //ADC_RegularChannelConfig(ADC1, ADC_Channel_5, 0, ADC_Samctl_239_5);
+    
+    //ADC_ITConfig(ADC1, ADC_IT_EOC, ENABLE);
+    //ADC_TempSensorVrefintCmd(ENABLE);
+    //ADC_DMACmd(ADC1, ENABLE);
+    //DMA_Cmd(DMA1_ch1, ENABLE);
+	ADC_Cmd(ADC1, ENABLE);
+    
+	//ADC_SoftwareStartConvCmd(ADC1, ENABLE);
+#endif
 #if defined(__MZ311)
     ADC_InitTypeDef  ADC_InitStructure;
     ADC_StructInit(&ADC_InitStructure);

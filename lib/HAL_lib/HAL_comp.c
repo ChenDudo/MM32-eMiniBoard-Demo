@@ -77,10 +77,11 @@ void COMP_Init(u32 selection, COMP_InitTypeDef* pInitStruct)
 										pInitStruct->OutputPol 	    |
 										pInitStruct->BlankingSrce	|
 										pInitStruct->Hysteresis	    |
-										pInitStruct->Mode;
+										pInitStruct->Mode
 #if defined(__MT3270)
-                                        pInitStruct->OFLT;
+                                        | pInitStruct->OFLT
 #endif
+                                        ;
 }
 
 ////////////////////////////////////////////////////////////////////////////////

@@ -186,7 +186,7 @@ EM_MCUID SystemInit(EM_SystemClock ClockSource, EM_SYSTICK tickEn , AppTick_fun 
     
     if (tickEn && pCallback != NULL)
         AppTickPtr = pCallback;
-    
+
     if (tickEn) {
         u32 clock = 8000000;
         u32 pre   = 1000000;

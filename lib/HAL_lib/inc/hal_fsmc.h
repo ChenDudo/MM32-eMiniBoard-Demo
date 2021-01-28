@@ -16,11 +16,6 @@
 /// <H2><CENTER>&COPY; COPYRIGHT MINDMOTION </CENTER></H2>
 ////////////////////////////////////////////////////////////////////////////////
 
-#if 0
-/// change logs:
-/// Date           Author          Notes
-/// 2020-00-00
-#endif
 // Define to prevent recursive inclusion
 #ifndef __HAL_FSMC_H
 #define __HAL_FSMC_H
@@ -47,20 +42,12 @@
 /// @brief FSMC_interrupts_define
 ////////////////////////////////////////////////////////////////////////////////
 
-#if defined(__MM3O1)
-
-#endif
-#if defined(__MM3U1)
-
-
-
-//ʱ��������üĴ�����ѡ�� register set0 register set1 register set2
-
+#if defined(__MT3270)
+//register set0 register set1 register set2
 #define FSMC_TimingReg_Set0    ((uint32_t)0x00000000)
 #define FSMC_TimingReg_Set1    ((uint32_t)0x00000100)
 #define FSMC_TimingReg_Set2    ((uint32_t)0x00000200)
 
-//���DEVICE��������С
 #define FSMC_MemSize_None   ((uint32_t)0x00000000)
 #define FSMC_MemSize_64KB   ((uint32_t)0x00000001)
 #define FSMC_MemSize_128KB  ((uint32_t)0x00000002)
@@ -80,36 +67,25 @@
 #define FSMC_MemSize_2GB    ((uint32_t)0x00000010)
 #define FSMC_MemSize_4GB    ((uint32_t)0x00000011)
 
-
-//�洢����������λ������
 typedef enum {
     FSMC_DatWidth_set0 = 0,
     FSMC_DatWidth_set1,
     FSMC_DatWidth_set2
 } FSMCDataWidthSet_TypeDef;
 
-
-
 typedef struct {
-    uint32_t FSMC_SMReadPipe;      //sm_read_pipe[1:0] ��������ݵ����ڣ���hready_resp���ߵ�����
-
-    uint32_t FSMC_ReadyMode;       //ѡ��hready_resp�ź�������FSMC IP�ڲ��������ⲿDEVICE��ֻ�����д,���ⲿDEVICE������  0���ڲ�FSMC  1���ⲿDEVICE(������FSMC_NWAIT)
-
-    uint32_t FSMC_WritePeriod;     //д��������
-
-    uint32_t FSMC_WriteHoldTime;   //д����ʱ��ַ/���ݵı���ʱ��
-
-    uint32_t FSMC_AddrSetTime;      //��ַ����ʱ��
-
-    uint32_t FSMC_ReadPeriod;       //����������
-
-//    uint32_t FSMC_TimingMode;
-
+    uint32_t FSMC_SMReadPipe;   
+    uint32_t FSMC_ReadyMode;    
+    uint32_t FSMC_WritePeriod;  
+    uint32_t FSMC_WriteHoldTime;
+    uint32_t FSMC_AddrSetTime;  
+    uint32_t FSMC_ReadPeriod;   
+    //uint32_t FSMC_TimingMode;
 } FSMC_TimingInitTypeDef;
 
 typedef struct {
     uint32_t FSMC_Mode;
-//    uint32_t FSMC_DataAddressMux;
+    //uint32_t FSMC_DataAddressMux;
     uint32_t FSMC_MemoryDataWidth;
     uint32_t FSMC_TimingRegSelect;
     uint32_t FSMC_MemSize;
@@ -136,9 +112,30 @@ typedef struct {
 #define FSMC_AddrDataMUX            ((uint32_t)0x00000000)
 #define FSMC_AddrDataDeMUX          ((uint32_t)0x10000000)
 
-
 //#define FSMC_Synchronization        ((uint32_t)0x08000000)
 //#define FSMC_Asynchronization       ((uint32_t)0x00000000)
+
+/// @}
+
+////////////////////////////////////////////////////////////////////////////////
+/// @defgroup GPIO_Exported_Variables
+/// @{
+
+#ifdef _HAL_FSMC_C_
+
+#define GLOBAL
+#else
+#define GLOBAL extern
+#endif
+
+
+#undef GLOBAL
+
+/// @}
+
+////////////////////////////////////////////////////////////////////////////////
+/// @defgroup GPIO_Exported_Functions
+/// @{
 
 void FSMC_NORSRAMDeInit(u32 FSMC_Bank);
 void FSMC_NORSRAMStructInit(FSMC_InitTypeDef* init_struct);
@@ -146,7 +143,6 @@ void FSMC_NORSRAMInit(FSMC_InitTypeDef* init_struct);
 void FSMC_NORSRAMCmd(u32 FSMC_Bank, FunctionalState NewState);
 
 #endif
-
 /// @}
 
 /// @}

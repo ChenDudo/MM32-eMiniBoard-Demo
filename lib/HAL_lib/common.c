@@ -221,7 +221,22 @@ void COMMON_DisableIpClock(EM_CLOCK val)
 	else if	(br >= 2)	RCC_AHBPeriphClockCmd( 1 << pos, DISABLE);
 }
 
-
+////////////////////////////////////////////////////////////////////////////////
+bool delay(u16 ms)
+{
+    static u16 cnt = 0;
+    if (cnt == 0) {
+        cnt = ms;
+    }
+    else if (sysTickFlag1mS) {
+        sysTickFlag1mS = false;
+        if (cnt > 0)
+            cnt--;
+        if (cnt == 0)
+            return true;
+    }
+    return false;
+}
 /// @}
 
 

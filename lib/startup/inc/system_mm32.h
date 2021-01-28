@@ -69,7 +69,8 @@ typedef enum {
 	emMCUID_MM32F031_OLD,
 	emMCUID_MM32L395,
 	emMCUID_MM32F103_OLD,
-	emMCUID_MM32L373
+	emMCUID_MM32L373,
+    emMCUID_UNKNOWN
 }EM_MCUID;
 
 ////////////////////////////////////////////////////////////////////////////////

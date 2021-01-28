@@ -17,20 +17,15 @@
 /// <H2><CENTER>&COPY; COPYRIGHT MINDMOTION </CENTER></H2>
 ////////////////////////////////////////////////////////////////////////////////
 
-#if 0
-/// change logs:
-/// Date           Author          Notes
-/// 2020-00-00
-#endif
 // Define to prevent recursive inclusion
 #define _HAL_FSMC_C_
 
 // Files includes
-#include "reg_rcc.h"
 #include "types.h"
+#include "mm32.h"
+
 #include "hal_fsmc.h"
 
-#ifdef ENABLEFSMC
 ////////////////////////////////////////////////////////////////////////////////
 /// @addtogroup MM32_Hardware_Abstract_Layer
 /// @{
@@ -42,14 +37,13 @@
 ////////////////////////////////////////////////////////////////////////////////
 /// @addtogroup FSMC_Exported_Functions
 /// @{
-#if defined(__MT307)
-#endif
-#if defined(__MT3270)
 
+#if defined(__MT3270)
 void FSMC_NORSRAMDeInit(u32 FSMC_Bank)
 {
 }
 
+////////////////////////////////////////////////////////////////////////////////
 void FSMC_NORSRAMStructInit(FSMC_InitTypeDef* init_struct)
 {
     init_struct->FSMC_Mode = 0;
@@ -70,10 +64,11 @@ void FSMC_NORSRAMStructInit(FSMC_InitTypeDef* init_struct)
     init_struct->FSMC_MemoryDataWidth = 0;
 }
 
+////////////////////////////////////////////////////////////////////////////////
 void FSMC_NORSRAMInit(FSMC_InitTypeDef* init_struct)
 {
 
-    SYSCFG->CFGR = (u32)init_struct->FSMC_Mode |
+    EXTI->CFGR = (u32)init_struct->FSMC_Mode |
                    init_struct->FSMC_AddrDataMode;
 
     FSMC->SMSKR0 = (u32)init_struct->FSMC_TimingRegSelect |
@@ -91,6 +86,8 @@ void FSMC_NORSRAMInit(FSMC_InitTypeDef* init_struct)
     FSMC->SMCTLR = (u32)(init_struct->FSMC_MemoryDataWidth << 7) | 0x00000001;
 
 }
+
+////////////////////////////////////////////////////////////////////////////////
 void FSMC_NORSRAMCmd(u32 FSMC_Bank, FunctionalState NewState)
 {
     if (NewState != DISABLE) {
@@ -102,7 +99,6 @@ void FSMC_NORSRAMCmd(u32 FSMC_Bank, FunctionalState NewState)
 
     }
 }
-#endif
 
 /// @}
 

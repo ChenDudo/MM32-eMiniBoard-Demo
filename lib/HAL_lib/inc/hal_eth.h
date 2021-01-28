@@ -22,7 +22,8 @@
 
 // Files includes
 #include "types.h"
-#include "mm32_device.h"
+#include "MM32.h"
+
 #include "HAL_eth_conf.h"
 
 ////////////////////////////////////////////////////////////////////////////////

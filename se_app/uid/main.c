@@ -35,6 +35,7 @@
 #include "music.h"
 #include "adc.h"
 #include "hci.h"
+#include "lcd.h"
 
 #if defined(__MM32_MB020) || defined(__MM32_MB021)
 #include "ble.h"
@@ -76,30 +77,32 @@ void initPara()
     sPlayMusic.PlayFlag = false;
 }
 
-#include "common.h"
 ////////////////////////////////////////////////////////////////////////////////
 void initPeri()
 {
-    COMMON_EnableIpClock(emCLOCK_GPIOA);
-    BSP_BEEP_Configure(1000);
     BSP_KEY_Configure();
-    BSP_LED_Configure();
-    BSP_ADC_Configure();
-    
     BSP_KeyFuncSet(1, Key1Down, Key1Pressing);
     BSP_KeyFuncSet(2, Key2Down, Key2Pressing);
     BSP_KeyFuncSet(3, Key3Down, Key3Pressing);
     BSP_KeyFuncSet(4, Key4Down, Key4Pressing);
     
+    BSP_BEEP_Configure(1000);
     for(u8 i = 0; i < 2; i++){
         OpenLED();
         BEEP_on(1500);
         while(!delay(50));
-        
         CloseLED();
         BEEP_off();
         while(!delay(200));
     }
+    
+    BSP_ADC_Configure();
+    BSP_LED_Configure();
+    BSP_LCD_Configure();
+    
+    initLcdDemo();
+	clearLeftScreen();
+    clearButtomScreen();
     ready = true;
     
 #if defined(__MM32_MB020) || defined(__MM32_MB021)
@@ -115,13 +118,17 @@ void initPeri()
 void AppTaskTick()
 {
     if (tickCnt++ >= 500) {
-        //tickCnt  = 0;
-        //tickFlag = true;
+        tickCnt = 0;
+        tickFlag = true;
     }
     if(ready){
         if (playCnt++ >= 20) {
-            playCnt  = 0;
+            playCnt = 0;
             musicTick();
+        }
+        if(lcdCnt++ >= adcValue[0] / 20 + 50){
+            lcdCnt = 0;
+            randRefresh();
         }
     }
     
@@ -146,6 +153,7 @@ int main(void)
 
     initPeri();
     initPara();
+    drawMM(20, 160, 20);
     
     while (1) {
         hci_task();

@@ -415,6 +415,7 @@ void COMMON_NVIC_Configure(u8 ch, u8 pri, u8 sub);
 
 void COMMON_EnableIpClock(EM_CLOCK val);
 void COMMON_DisableIpClock(EM_CLOCK val);
+bool delay(u16 ms);
 
 /// @}
 

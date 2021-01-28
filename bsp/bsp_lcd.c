@@ -1,205 +1,148 @@
 ////////////////////////////////////////////////////////////////////////////////
-#define _LCD_C_
+#define _BSP_LCD_C_
 ////////////////////////////////////////////////////////////////////////////////
 
 #include <string.h>
-#include "hal_gpio.h"
 
 #include "common.h"
 #include "bsp_lcd.h"
 #include "font_evb.h"
 #include "font.h"
 
+#include "hal_gpio.h"
+#include "hal_fsmc.h"
+
+////////////////////////////////////////////////////////////////////////////////
+//  LCD Bus Ctrl
+////////////////////////////////////////////////////////////////////////////////
+// ¢NNone	nRST
+// ¢PPF_11	BLC 
+// ¢PPD_13	RS  
+// ¢PPD_7 	nCS 
+// ¢PPD_5 	nWR 
+// ¢PPD_4 	nRD 
+//   FMC D0-D15
 ////////////////////////////////////////////////////////////////////////////////
 void initGPIO_LCD()
 {
-	GPIO_InitTypeDef GPIO_InitStructure;	
+	GPIO_InitTypeDef GPIO_InitStructure;
 
-	GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;
-	
-	//  ====== LCD_busCtrl ======
-	//	pd2		nRST
-	GPIO_ResetBits(GPIOD, GPIO_Pin_2);
-	
-	GPIO_InitStructure.GPIO_Pin = GPIO_Pin_2;
-	GPIO_InitStructure.GPIO_Mode =  GPIO_Mode_Out_PP;
-	GPIO_Init(GPIOD, &GPIO_InitStructure);
+    COMMON_EnableIpClock(emCLOCK_GPIOD);
+    COMMON_EnableIpClock(emCLOCK_GPIOE);
+    COMMON_EnableIpClock(emCLOCK_GPIOF);
 
-	//	pc11	BLC
-	GPIO_ResetBits(GPIOC, GPIO_Pin_11);
-	GPIO_InitStructure.GPIO_Pin = GPIO_Pin_11;
-	GPIO_InitStructure.GPIO_Mode =  GPIO_Mode_Out_PP;
-	GPIO_Init(GPIOC, &GPIO_InitStructure);
-	
-#ifdef MDM2803	
-	//	pc12	RS
-	GPIO_SetBits(GPIOC,  GPIO_Pin_12);
-	
-	GPIO_InitStructure.GPIO_Pin = GPIO_Pin_12;
-	GPIO_InitStructure.GPIO_Mode =  GPIO_Mode_Out_PP;
-	GPIO_Init(GPIOC, &GPIO_InitStructure);
-	
-	//	pb12	nCS
-	//	pb13	nWR
-	//	pb14	nRD
-	GPIO_SetBits(GPIOB, GPIO_Pin_12 | GPIO_Pin_13 | GPIO_Pin_14);
-	
-	GPIO_InitStructure.GPIO_Pin = GPIO_Pin_12 | GPIO_Pin_13 | GPIO_Pin_14;
-	GPIO_InitStructure.GPIO_Mode =  GPIO_Mode_Out_PP;
-	GPIO_Init(GPIOB, &GPIO_InitStructure);
-	
-	GPIO_InitStructure.GPIO_Pin = GPIO_Pin_0 | GPIO_Pin_1 | GPIO_Pin_2 | GPIO_Pin_3 | GPIO_Pin_4 | GPIO_Pin_5 | GPIO_Pin_6 | GPIO_Pin_7;
-	GPIO_InitStructure.GPIO_Mode =  GPIO_Mode_Out_PP;
-	GPIO_Init(GPIOC, &GPIO_InitStructure);
+    GPIO_PinAFConfig(GPIOB, GPIO_PinSource7, GPIO_AF_12);
+    GPIO_PinAFConfig(GPIOD, GPIO_PinSource0, GPIO_AF_12);
+    GPIO_PinAFConfig(GPIOD, GPIO_PinSource1, GPIO_AF_12);
+    GPIO_PinAFConfig(GPIOD, GPIO_PinSource2, GPIO_AF_12);
+    GPIO_PinAFConfig(GPIOD, GPIO_PinSource3, GPIO_AF_12);
+    GPIO_PinAFConfig(GPIOD, GPIO_PinSource4, GPIO_AF_12);
+    GPIO_PinAFConfig(GPIOD, GPIO_PinSource5, GPIO_AF_12);
+    GPIO_PinAFConfig(GPIOD, GPIO_PinSource6, GPIO_AF_12);
+    GPIO_PinAFConfig(GPIOD, GPIO_PinSource7, GPIO_AF_12);
+    GPIO_PinAFConfig(GPIOD, GPIO_PinSource8, GPIO_AF_12);
+    GPIO_PinAFConfig(GPIOD, GPIO_PinSource9, GPIO_AF_12);
+    GPIO_PinAFConfig(GPIOD, GPIO_PinSource10, GPIO_AF_12);
+    GPIO_PinAFConfig(GPIOD, GPIO_PinSource11, GPIO_AF_12);
+    GPIO_PinAFConfig(GPIOD, GPIO_PinSource12, GPIO_AF_12);
+    GPIO_PinAFConfig(GPIOD, GPIO_PinSource13, GPIO_AF_12);
+    GPIO_PinAFConfig(GPIOD, GPIO_PinSource14, GPIO_AF_12);
+    GPIO_PinAFConfig(GPIOD, GPIO_PinSource15, GPIO_AF_12);
+    GPIO_PinAFConfig(GPIOE, GPIO_PinSource0, GPIO_AF_12);
+    GPIO_PinAFConfig(GPIOE, GPIO_PinSource1, GPIO_AF_12);
+    GPIO_PinAFConfig(GPIOE, GPIO_PinSource2, GPIO_AF_12);
+    GPIO_PinAFConfig(GPIOE, GPIO_PinSource3, GPIO_AF_12);
+    GPIO_PinAFConfig(GPIOE, GPIO_PinSource4, GPIO_AF_12);
+    GPIO_PinAFConfig(GPIOE, GPIO_PinSource5, GPIO_AF_12);
+    GPIO_PinAFConfig(GPIOE, GPIO_PinSource6, GPIO_AF_12);
+    GPIO_PinAFConfig(GPIOE, GPIO_PinSource7, GPIO_AF_12);
+    GPIO_PinAFConfig(GPIOE, GPIO_PinSource8, GPIO_AF_12);
+    GPIO_PinAFConfig(GPIOE, GPIO_PinSource9, GPIO_AF_12);
+    GPIO_PinAFConfig(GPIOE, GPIO_PinSource10, GPIO_AF_12);
+    GPIO_PinAFConfig(GPIOE, GPIO_PinSource11, GPIO_AF_12);
+    GPIO_PinAFConfig(GPIOE, GPIO_PinSource12, GPIO_AF_12);
+    GPIO_PinAFConfig(GPIOE, GPIO_PinSource13, GPIO_AF_12);
+    GPIO_PinAFConfig(GPIOE, GPIO_PinSource14, GPIO_AF_12);
+    GPIO_PinAFConfig(GPIOE, GPIO_PinSource15, GPIO_AF_12);
 
-	GPIO_InitStructure.GPIO_Pin = GPIO_Pin_0 | GPIO_Pin_1 | GPIO_Pin_2 | GPIO_Pin_3 | GPIO_Pin_4 | GPIO_Pin_5 | GPIO_Pin_6 | GPIO_Pin_7;
-	GPIO_InitStructure.GPIO_Mode =  GPIO_Mode_Out_PP;
-	GPIO_Init(GPIOB, &GPIO_InitStructure);
-	
-	lcdCsL();
-#else			// MDM2802
-	//	pb12	nCS
-	//	pb14	nRD
-	GPIO_SetBits(GPIOB, GPIO_Pin_12);
-	
-	GPIO_InitStructure.GPIO_Pin = GPIO_Pin_12;
-	GPIO_InitStructure.GPIO_Mode =  GPIO_Mode_Out_PP;
-	GPIO_Init(GPIOB, &GPIO_InitStructure);
+    GPIO_InitStructure.GPIO_Pin     =  GPIO_Pin_All;
+    GPIO_InitStructure.GPIO_Speed   = GPIO_Speed_50MHz;
+    GPIO_InitStructure.GPIO_Mode    = GPIO_Mode_AF_PP;
+    GPIO_Init(GPIOD, &GPIO_InitStructure);
+    GPIO_Init(GPIOE, &GPIO_InitStructure);
 
-	//	pb13	nWR	/ SCK
-	//	pb15	MOSI
-	GPIO_SetBits(GPIOB, GPIO_Pin_13 | GPIO_Pin_15);
-	
-	GPIO_InitStructure.GPIO_Pin = GPIO_Pin_13 | GPIO_Pin_15;
-	GPIO_InitStructure.GPIO_Mode =  GPIO_Mode_AF_PP;
-	GPIO_Init(GPIOB, &GPIO_InitStructure);
-	
-#endif	
+    GPIO_ResetBits(GPIOF, GPIO_Pin_11);
+	GPIO_InitStructure.GPIO_Pin     = GPIO_Pin_11;
+	GPIO_InitStructure.GPIO_Mode    = GPIO_Mode_Out_PP;
+	GPIO_Init(GPIOF, &GPIO_InitStructure);  
+    
+    lcdCsL();
 }
 
+////////////////////////////////////////////////////////////////////////////////
+void initFSMC(void)
+{
+    FSMC_InitTypeDef        FSMC_InitStructure;
+    FSMC_TimingInitTypeDef  FSMC_TimingInitStructure;
 
+    COMMON_EnableIpClock(emCLOCK_FSMC);
+    
+    FSMC_TimingInitStructure.FSMC_SMReadPipe    = 0;
+    FSMC_TimingInitStructure.FSMC_ReadyMode     = 0;
+    FSMC_TimingInitStructure.FSMC_WritePeriod   = 0x2;
+    FSMC_TimingInitStructure.FSMC_WriteHoldTime = 1;
+    FSMC_TimingInitStructure.FSMC_AddrSetTime   = 3;
+    FSMC_TimingInitStructure.FSMC_ReadPeriod    = 0x1;
+    
+    FSMC_InitStructure.FSMC_Mode                = FSMC_Mode_8080;
+    FSMC_InitStructure.FSMC_MemoryDataWidth     = FSMC_DataWidth_16bits;
+    FSMC_InitStructure.FSMC_TimingRegSelect     = FSMC_TimingReg_Set0;
+    FSMC_InitStructure.FSMC_MemSize             = FSMC_MemSize_64MB;
+    FSMC_InitStructure.FSMC_MemType             = FSMC_MemType_NorSRAM;
+    FSMC_InitStructure.FSMC_AddrDataMode        = FSMC_AddrDataMUX;
+    FSMC_InitStructure.FSMC_TimingStruct        = &FSMC_TimingInitStructure;
 
-////////////////////////////////////////////////////////////////////////////////
-////////////////////////////////////////////////////////////////////////////////
-////////////////////////////////////////////////////////////////////////////////
+    FSMC_NORSRAMInit(&FSMC_InitStructure);
+}
+
 ////////////////////////////////////////////////////////////////////////////////
 void lcdCmd(u8 cmd)
-{
-#ifdef MDM2803	
-    lcdRsL();
-	GPIO_Write(GPIOC, (GPIO_ReadOutputData(GPIOC) & 0xFF00) |  ( cmd       & 0x00FF));
-	GPIO_Write(GPIOB, (GPIO_ReadOutputData(GPIOB) & 0xFF00) |  ((cmd >> 8) & 0x00FF));
-	lcdWriteL();
-	lcdWriteH();
-#else
-	#ifndef MM32F103xA	
-		u32 crh;
-		lcdCsL();
-		spiSoftLow();
-		spiWrite(cmd);
-		lcdCsH();
-	#else
-		u32 crh;
-		lcdCsL();
-		spiSoftLow();
-		spiWrite(cmd);
-		lcdCsH();
-		
-	#endif	
-		
-#endif
+{	
+    *(u16*)(0x60000000) = cmd;
 }
 
+////////////////////////////////////////////////////////////////////////////////
 void lcdData(u8 dat)
 {	
-#ifdef MDM2803	
-    lcdRsH();
-	GPIO_Write(GPIOC, (GPIO_ReadOutputData(GPIOC) & 0xFF00) |  ( dat       & 0x00FF));
-	GPIO_Write(GPIOB, (GPIO_ReadOutputData(GPIOB) & 0xFF00) |  ((dat >> 8) & 0x00FF));
-	lcdWriteL();
-	lcdWriteH();
-#else
-	#ifndef MM32F103xA	
-		u32 crh;
-		lcdCsL();
-		spiSoftHigh();
-		spiWrite(dat);
-		lcdCsH();
-	#else
-		u32 crh;
-		lcdCsL();
-		spiWrite(dat | 0x80);
-		lcdCsH();
-		
-	#endif
-#endif
+    *(u16*)(0x60000000 | (0x01 << 19)) = dat;   //chend: FMC_A18= 1 << (18 + 1) why???
 }
 
+////////////////////////////////////////////////////////////////////////////////
 void lcdData16(u16 dat)
 {	
-#ifdef MDM2803	
-    lcdRsH();
-	GPIO_Write(GPIOC, (GPIO_ReadOutputData(GPIOC) & 0xFF00) |  ( dat       & 0x00FF));
-	GPIO_Write(GPIOB, (GPIO_ReadOutputData(GPIOB) & 0xFF00) |  ((dat >> 8) & 0x00FF));
-	lcdWriteL();
-	lcdWriteH();
-#else
-	#ifndef MM32F103xA	
-		u32 crh;
-		lcdCsL();
-		spiSoftHigh();
-		spiWrite(dat >> 8);
-		spiSoftHigh();
-		spiWrite(dat);
-		lcdCsH();
-	#else
-		u32 crh;
-		lcdCsL();
-		spiWrite(((dat >> 8) & 0x00ff)| 0x80);
-		spiWrite((dat & 0x00ff) | 0x80);
-		lcdCsH();
-	#endif
-#endif
+    *(u16*)(0x60000000 | (0x01 << 19)) = dat;
 }
 
-
-
-////////////////////////////////////////////////////////////////////////////////
-////////////////////////////////////////////////////////////////////////////////
-////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
 void lcdSetWindow(u32 x, u32 y, u32 w, u32 h) 
 {
     lcdCmd(0x2A);
-#ifdef MDM2803
     lcdData(x >> 8);
     lcdData(x & 0xFF);
     lcdData((x + w - 1) >> 8);
-    lcdData((x + w - 1) & 0xFF);	
-#else
-	lcdData16(x);
-	lcdData16(x + w - 1);
-#endif
+    lcdData((x + w - 1) & 0xFF);
 	
     lcdCmd(0x2B);
-#ifdef MDM2803
     lcdData(y >> 8);
     lcdData(y & 0xFF);
     lcdData((y + h - 1) >> 8);
     lcdData((y + h - 1) & 0xFF);
-#else	
-	lcdData16(y);
-	lcdData16(y + h - 1);
-#endif	
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 void lcdRst()
 {
- 	GPIOD->BRR =   GPIO_Pin_2;
-	_delay(20000);
-	GPIOD->BSRR =  GPIO_Pin_2;
-	_delay(100000);
+    
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -209,20 +152,16 @@ void lcdFillColor(u16 c)
     lcdCmd(0x2c);
 
 #ifdef MDM2803	
-	lcdRsH();
-	GPIO_Write(GPIOC, (GPIO_ReadOutputData(GPIOC) & 0xFF00) |  ( c       & 0x00FF));
-	GPIO_Write(GPIOB, (GPIO_ReadOutputData(GPIOB) & 0xFF00) |  ((c >> 8) & 0x00FF));
-
-	for(u16 i = 0; i < (WIDTH * HEIGHT) / 8  ; i++) {
-		wrPulse();
-		wrPulse();
-		wrPulse();
-		wrPulse();
-		
-		wrPulse();
-		wrPulse();
-		wrPulse();
-		wrPulse();
+    lcdData(c);
+	for(u16 i = 0; i < (WIDTH * HEIGHT) / 8 ; i++) {
+		lcdData(0x0000);
+        lcdData(0x0000);
+        lcdData(0x0000);
+        lcdData(0x0000);
+        lcdData(0x0000);
+        lcdData(0x0000);
+        lcdData(0x0000);
+        lcdData(0x0000);
 	}
 #else
 	for(u16 i = 0; i < (WIDTH * HEIGHT) / 8  ; i++) {
@@ -239,11 +178,6 @@ void lcdFillColor(u16 c)
 #endif	
 }
 
-
-
-////////////////////////////////////////////////////////////////////////////////
-////////////////////////////////////////////////////////////////////////////////
-////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
 void drawSquare(u16 x, u16 y, u16 w, u16 h, u8 frame, u8 fill)
 {
@@ -267,7 +201,6 @@ void drawShadow(u16 x, u16 y, u16 w, u16 h,u8 frame, u16 c)
 	drawLine (x + w, y + 1, 	x + w, y + h, c);
 }
 
-
 ////////////////////////////////////////////////////////////////////////////////
 void drawFrame(u16 x, u16 y, u16 w, u16 h,u8 frame, u8 sel)
 {
@@ -278,12 +211,12 @@ void drawFrame(u16 x, u16 y, u16 w, u16 h,u8 frame, u8 sel)
 }
 
 
-////
+////////////////////////////////////////////////////////////////////////////////
 void drawSquare_1(u16 x, u16 y, u16 w, u16 h, u16 c)
 {
 	drawRec (x, y, w, h, c);
 }
-
+////////////////////////////////////////////////////////////////////////////////
 void drawFrame_1(u16 x, u16 y, u16 w, u16 h, u16 c)
 {
 	drawRec (x, 			y, 			w, 	1, c);
@@ -291,7 +224,6 @@ void drawFrame_1(u16 x, u16 y, u16 w, u16 h, u16 c)
 	drawRec (x, 			y, 			1, 	h, c);
 	drawRec (x + w - 1, 	y, 			1, 	h, c);
 }
-
 
 ////////////////////////////////////////////////////////////////////////////////
 void drawDialog(u16 w, u16 h, char* str, Color_Def c)
@@ -306,13 +238,13 @@ void drawDialog(u16 w, u16 h, char* str, Color_Def c)
 	putStr(x + 12,  y + 1, 2, 1, str);
 }
 
+////////////////////////////////////////////////////////////////////////////////
 void clearDialog(u16 w, u16 h, Color_Def c)
 {
 	u16 x = (320 - w) / 2;
 	u16 y = (240 - h) / 2;
 	drawSquare_1(x, y, w, h, c.back);
 }
-
 
 ////////////////////////////////////////////////////////////////////////////////
 void drawButton(u16 x, u16 y, u16 w, u16 h, u8 frame, u8 sel, char* str)
@@ -321,7 +253,6 @@ void drawButton(u16 x, u16 y, u16 w, u16 h, u8 frame, u8 sel, char* str)
 	putStr(x + (w -  strlen((char*)str) * 8) / 2,  y + 3, 2, 0, str);
 }
 
-////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
 static void _delay(u32 n)
 { 
@@ -368,6 +299,7 @@ void drawChar_8x16(u16 x, u16 y, u8 bc, u8 chr)
     }
 }
 
+////////////////////////////////////////////////////////////////////////////////
 void drawChar_8x12(u16 x, u16 y,  u8 bc, char c) 
 {
 }
@@ -450,12 +382,11 @@ void drawRec (u16 x, u16 y, u16 w, u16 h, u16 c)
 	}
 }
 
+////////////////////////////////////////////////////////////////////////////////
 void drawPoint(u16 x, u16 y, u16 c) 
 {
 	drawRec(x, y, 1, 1, c);
 }
-
-
 
 ////////////////////////////////////////////////////////////////////////////////
 void drawLine (s16 x1, s16 y1, s16 x2, s16 y2, u16 c)
@@ -493,7 +424,6 @@ void drawLine (s16 x1, s16 y1, s16 x2, s16 y2, u16 c)
 	}
 }
 
-
 ////////////////////////////////////////////////////////////////////////////////
 void drawTab(u16 x, u16 y, u16 w, u16 h, u8 m, u8 n)
 {
@@ -504,19 +434,17 @@ void drawTab(u16 x, u16 y, u16 w, u16 h, u8 m, u8 n)
 		drawLine (x,  y + i * (h / n),  x + w,  y + i * (h / n),  color.c1);
 	}
 	drawSquare(x, y, w, h, SPACE, NUL);
-}	
-	
+}
+
+////////////////////////////////////////////////////////////////////////////////
 void drawTabTitle(u16 x, u16 y, u16 w, u16 h, u8 m, u8 n)
 {	
 	char str[8];
 	strcpy( str, "ADC");
 	putStr(175, 165, 0, 1, str);
 
-	
-	
 	strcpy( str, "IR");
 	putStr(253, 165, 0, 1, str);
-	
 	
 	strcpy( str, "UART1");
 	putStr(175, 180, 0, 1, str);
@@ -524,20 +452,15 @@ void drawTabTitle(u16 x, u16 y, u16 w, u16 h, u8 m, u8 n)
 	strcpy( str, "UART2");
 	putStr(243, 180, 0, 1, str);
 	
-
 	strcpy( str, "SPI");
 	putStr(175, 195, 0, 1, str);
-	
 
 	strcpy( str, "I2C");
 	putStr(175, 210, 0, 1, str);
 
-
 	strcpy( str, "CAN");
 	putStr(175, 225, 0, 1, str);
 }
-
-
 
 ////////////////////////////////////////////////////////////////////////////////
 void drawCircle(u16 x, u16 y, u16 r, u16 c)
@@ -565,8 +488,6 @@ void drawCircle(u16 x, u16 y, u16 r, u16 c)
         CurX++;
     }
 }
-
-
 
 ////////////////////////////////////////////////////////////////////////////////
 void lcdSetTextColor (u16 _color) 
@@ -698,5 +619,3 @@ void LCDC_Init_Reg()
     _delay(200000);
     lcdCmd(0x29);   //display on
 }
-
-////////////////////////////////////////////////////////////////////////////////

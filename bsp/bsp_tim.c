@@ -26,6 +26,8 @@
 #include "bsp.h"
 #include "bsp_tim.h"
 
+#include "common.h"
+
 ////////////////////////////////////////////////////////////////////////////////
 /// @addtogroup MM32_Board_Support_Package
 /// @{
@@ -95,6 +97,8 @@
 #if defined(__MM32_MB032) || defined(__MM32_MB033)
 void BSP_TIM_CH1_GPIO_Configure(TIM_TypeDef* tim, bool remapEn, u8 remapIdx, bool inoutMode)
 {
+    COMMON_EnableIpClock(emCLOCK_GPIOA);
+    
     switch (*(u32*)&tim) {
         case (u32)TIM1:
         if (!remapEn) {
@@ -139,6 +143,11 @@ void BSP_TIM_CH1_GPIO_Configure(TIM_TypeDef* tim, bool remapEn, u8 remapIdx, boo
 ////////////////////////////////////////////////////////////////////////////////
 void BSP_TIM_CH1_GPIO_Configure(TIM_TypeDef* tim, bool remapEn, u8 remapIdx, bool inoutMode)
 {
+    COMMON_EnableIpClock(emCLOCK_GPIOA);
+    COMMON_EnableIpClock(emCLOCK_GPIOB);
+    COMMON_EnableIpClock(emCLOCK_GPIOC);
+    COMMON_EnableIpClock(emCLOCK_GPIOD);
+    
     switch (*(u32*)&tim) {
 #if defined(TIM1)        
         case (u32)TIM1:
@@ -336,6 +345,8 @@ void BSP_TIM_CH1_GPIO_Configure(TIM_TypeDef* tim, bool remapEn, u8 remapIdx, boo
 #if defined(__MM32_MB032) || defined(__MM32_MB033)
 void BSP_TIM_CH2_GPIO_Configure(TIM_TypeDef* tim, bool remapEn, u8 remapIdx, bool inoutMode)
 {
+    COMMON_EnableIpClock(emCLOCK_GPIOA);
+    
     switch (*(u32*)&tim) {
         case (u32)TIM1:
         if (!remapEn) {
@@ -368,11 +379,18 @@ void BSP_TIM_CH2_GPIO_Configure(TIM_TypeDef* tim, bool remapEn, u8 remapIdx, boo
 ////////////////////////////////////////////////////////////////////////////////
 void BSP_TIM_CH2_GPIO_Configure(TIM_TypeDef* tim, bool remapEn, u8 remapIdx, bool inoutMode)
 {
+    COMMON_EnableIpClock(emCLOCK_GPIOA);
+    COMMON_EnableIpClock(emCLOCK_GPIOB);
+    COMMON_EnableIpClock(emCLOCK_GPIOC);
+    COMMON_EnableIpClock(emCLOCK_GPIOD);
+    
     switch (*(u32*)&tim) {
 #if defined(TIM1)
         case (u32)TIM1:
         if (!remapEn) {
-            GPIOA_ClockEnable();
+            //GPIOA_ClockEnable();
+            
+            
             (inoutMode) ? GPIO_Mode_AF_PP_20MHz_Init(GPIOA, GPIO_Pin_9, NO_REMAP, GPIO_AF_2) :
                     	  GPIO_Mode_FLOATING_Init(GPIOA, GPIO_Pin_9, 	NO_REMAP, GPIO_AF_2);
         }

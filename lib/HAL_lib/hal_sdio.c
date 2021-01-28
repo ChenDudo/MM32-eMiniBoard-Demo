@@ -15,18 +15,14 @@
 /// <H2><CENTER>&COPY; COPYRIGHT MINDMOTION </CENTER></H2>
 ////////////////////////////////////////////////////////////////////////////////
 
-#if 0
-/// change logs:
-/// Date           Author          Notes
-/// 2020-00-00
-#endif
 // Define to prevent recursive inclusion
 #define _HAL_SDIO_C_
-#include "reg_sdio.h"
+
+#include "types.h"
+#include "mm32.h"
+
 #include "hal_sdio.h"
 #include "hal_rcc.h"
-
-
 
 ////////////////////////////////////////////////////////////////////////////////
 /// @addtogroup MM32_Hardware_Abstract_Layer
@@ -39,7 +35,7 @@
 ////////////////////////////////////////////////////////////////////////////////
 /// @addtogroup SDIO_Exported_Functions
 /// @{
-#if defined(__MM3O1) || defined(__MM3U1)
+#if defined(__MM3O1) || defined(__MT3270)
 ////////////////////////////////////////////////////////////////////////////////
 /// @brief  Deinitializes the SDIO peripheral registers to their default reset
 ///         values.
@@ -50,6 +46,7 @@ void SDIO_DeInit(void)
 {
 
 }
+
 ////////////////////////////////////////////////////////////////////////////////
 /// @brief  Fills each SDIO_InitStruct member with its default value.
 /// @param  SDIO_InitStruct: pointer to an SDIO_InitTypeDef structure which
@@ -77,6 +74,7 @@ void SDIO_ClockSet(uint32_t value)
     SDIO->MMC_CARDSEL &= ~SDIO_MMC_CARDSEL_MASK;
     SDIO->MMC_CARDSEL |= (SDIO_MMC_CARDSEL_CTREN | SDIO_MMC_CARDSEL_ENPCLK | (value & 0x3F));
 }
+
 ////////////////////////////////////////////////////////////////////////////////
 /// @brief  Initializes the SDIO peripheral according to the specified
 ///         parameters in the SDIO_InitStruct.
@@ -92,6 +90,7 @@ void SDIO_Init(SDIO_InitTypeDef* SDIO_InitStruct)
                        SDIO_InitStruct->SDIO_SelPTSM | SDIO_InitStruct->SDIO_DATWT |
                        SDIO_InitStruct->SDIO_MDEN);
 }
+
 ////////////////////////////////////////////////////////////////////////////////
 /// @brief  Enables or disables the SDIO interrupts.
 /// @param  SDIO_IT: specifies the SDIO interrupt sources to be enabled or disabled.
@@ -102,6 +101,7 @@ void SDIO_ITConfig(uint32_t SDIO_IT, FunctionalState state)
 {
     (state) ?  (SDIO->MMC_INT_MASK |= SDIO_IT) : (SDIO->MMC_INT_MASK &= ~SDIO_IT);
 }
+
 ////////////////////////////////////////////////////////////////////////////////
 /// @brief  Enables or disables the SDIO CRC.
 /// @param  SDIO_CRC: specifies the SDIO CRC sources to be enabled or disabled.
@@ -123,6 +123,7 @@ void SDIO_Clock_Set(u8 clkdiv)
     SDIO->MMC_CTRL &= ~SDIO_MMC_CTRL_SelPTSM;
     (clkdiv) ? (SDIO->MMC_CTRL |= SDIO_MMC_CTRL_SelPTSM) : (SDIO->MMC_CTRL &= ~SDIO_MMC_CTRL_SelPTSM);
 }
+
 ////////////////////////////////////////////////////////////////////////////////
 /// @brief  Turn off the SDIO switch.
 /// @param  None.
@@ -133,6 +134,7 @@ SD_Error SD_PowerOFF(void)
     SDIO->MMC_CARDSEL &= ~(SDIO_MMC_CARDSEL_ENPCLK | SDIO_MMC_CARDSEL_CTREN);
     return SD_OK;
 }
+
 ////////////////////////////////////////////////////////////////////////////////
 /// @brief  SDIO sends command functions.
 /// @param  cmdindex : Type the command.
@@ -164,6 +166,7 @@ void SDIO_Send_Cmd(uint8_t cmdindex, uint8_t waitrsp, uint32_t arg)
     else {
     }
 }
+
 ////////////////////////////////////////////////////////////////////////////////
 /// @brief  Check the execution status of CMD0.
 /// @param  None.
@@ -182,6 +185,7 @@ SD_Error CmdError(void)
     SDIO->CLR_MMC_INT = SDIO_CLR_MMC_INT_MASK;
     return errorstatus;
 }
+
 ////////////////////////////////////////////////////////////////////////////////
 /// @brief  Check the execution status of CMD2.
 /// @param  None.
@@ -209,6 +213,7 @@ SD_Error CmdResp2Error(void)
     SDIO->CLR_MMC_INT = SDIO_CLR_MMC_INT_MASK;
     return errorstatus;
 }
+
 ////////////////////////////////////////////////////////////////////////////////
 /// @brief  Check the execution status of CMD3.
 /// @param  None.
@@ -229,6 +234,7 @@ SD_Error CmdResp3Error(void)
     SDIO->CLR_MMC_INT = SDIO_CLR_MMC_INT_MASK;
     return SD_OK;
 }
+
 ////////////////////////////////////////////////////////////////////////////////
 /// @brief  Check the execution status of CMD6.
 /// @param  None.
@@ -272,6 +278,7 @@ SD_Error CmdResp6Error(u8 cmd, u16* prca)
     }
     return errorstatus;
 }
+
 ////////////////////////////////////////////////////////////////////////////////
 /// @brief  Check the execution status of CMD7.
 /// @param  None.
@@ -298,6 +305,7 @@ SD_Error CmdResp7Error(void)
     }
     return errorstatus;
 }
+
 ////////////////////////////////////////////////////////////////////////////////
 /// @brief  Check the error status of the R1 response.
 /// @param  cmd : Current command.
@@ -374,6 +382,7 @@ void SDIO_Send_Data_Cfg(u32 datatimeout, u32 datalen, u8 blksize, u8 dir)
     SDIO->MMC_IO = tmpreg1;
     SDIO->BUF_CTL = tmpreg2;
 }
+
 ////////////////////////////////////////////////////////////////////////////////
 /// @brief  Clears the SDIO's interrupt pending bits.
 /// @param  SDIO_IT: specifies the interrupt pending bit to clear.
@@ -383,6 +392,7 @@ void SDIO_ClearITPendingBit(uint32_t SDIO_IT)
 {
     SDIO->CLR_MMC_INT |= SDIO_IT;
 }
+
 ////////////////////////////////////////////////////////////////////////////////
 /// @brief  Checks whether the specified SDIO flag is set or not.
 /// @param  SDIO_FLAG: specifies the flag to check.
@@ -392,6 +402,7 @@ FlagStatus SDIO_GetFlagStatus(uint32_t SDIO_FLAG)
 {
     return ((SDIO->CLR_MMC_INT & SDIO_FLAG) ? SET : RESET);
 }
+
 ////////////////////////////////////////////////////////////////////////////////
 /// @brief  Reads the value of the data transfer timeout count
 /// @param  None.
@@ -401,6 +412,7 @@ uint32_t SDIO_GetTimeOutCounter(void)
 {
     return (SDIO->MMC_TIMEOUTCNT & 0xFF);
 }
+
 ////////////////////////////////////////////////////////////////////////////////
 /// @brief  Read one data word from FIFO.
 /// @param  None.
@@ -410,6 +422,7 @@ uint32_t SDIO_ReadData(void)
 {
     return SDIO->DATA_BUF0;
 }
+
 ////////////////////////////////////////////////////////////////////////////////
 /// @brief  Write one data word to FIFO.
 /// @param  tempbuff : Write data.
@@ -419,6 +432,7 @@ void SDIO_WriteData(u32 tempbuff)
 {
     SDIO->DATA_BUF0 = tempbuff;
 }
+
 ////////////////////////////////////////////////////////////////////////////////
 /// @brief  Enable or Dsiable DMA .
 /// @param  tempbuff : Write data.
@@ -427,7 +441,6 @@ void SDIO_WriteData(u32 tempbuff)
 void SDIO_DMACmd(FunctionalState state)
 {
     (state) ?  ((SDIO->BUF_CTL |= SDIO_BUF_CTLL_DMAHEN), SDIO->BUF_CTL &= (~(SDIO_BUF_CTLL_DRM))) : (SDIO->BUF_CTL &= ~SDIO_BUF_CTLL_DMAHEN);
-
 }
 
 #endif

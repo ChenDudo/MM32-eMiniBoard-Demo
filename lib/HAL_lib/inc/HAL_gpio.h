@@ -126,6 +126,15 @@ typedef struct {
 #define GPIO_AF_6 					(0x06U)  									///< Alternative function 6
 #define GPIO_AF_7 					(0x07U)  									///< Alternative function 7
 
+#define GPIO_AF_8                   (0x08U)                                     ///< Alternative function 8 
+#define GPIO_AF_9                   (0x09U)                                     ///< Alternative function 9 
+#define GPIO_AF_10                  (0x0AU)                                     ///< Alternative function 10
+#define GPIO_AF_11                  (0x0BU)                                     ///< Alternative function 11
+#define GPIO_AF_12                  (0x0CU)                                     ///< Alternative function 12
+#define GPIO_AF_13                  (0x0DU)                                     ///< Alternative function 13
+#define GPIO_AF_14                  (0x0EU)                                     ///< Alternative function 14
+#define GPIO_AF_15                  (0x0FU)                                     ///< Alternative function 15
+
 #define GPIO_PortSourceGPIOA 		(0x00U)
 #define GPIO_PortSourceGPIOB 		(0x01U)
 #define GPIO_PortSourceGPIOC 		(0x02U)
@@ -188,9 +197,7 @@ u16 GPIO_ReadOutputData(GPIO_TypeDef* GPIOx);
 
 #if defined(__MT304)
 void GPIO_PinRemapConfig(u32 GPIO_Remap, FunctionalState newState);
-#endif
-
-#if defined(__MZ306) || defined(__MZ308) || defined(__MZ309)
+#else
 void GPIO_PinAFConfig(GPIO_TypeDef* GPIOx, u8 pin, u8 GPIO_AF);
 #endif
 

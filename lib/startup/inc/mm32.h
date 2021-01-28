@@ -526,7 +526,7 @@
 /// @brief ETH Base Address Definition
 ////////////////////////////////////////////////////////////////////////////////
 #if defined(__MT307) || defined(__MT3270)
-    #define ETH_BASE                    (AHB1PERIPH_BASE + 0x8000)              ///< Base Address: 0x40028000
+    #define ETH_BASE                    (AHBPERIPH_BASE + 0x8000)              ///< Base Address: 0x40028000
 #endif
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -1918,7 +1918,7 @@ typedef struct {
 ////////////////////////////////////////////////////////////////////////////////
 /// @brief RTC Registers Structure Definition
 ////////////////////////////////////////////////////////////////////////////////
-#if defined(__MT304) || defined(__MT307) || defined(__MZ310)
+#if defined(__MT304) || defined(__MT307) || defined(__MZ310) || defined(__MT3270)
 typedef struct {
     __IO u32 CR;                                                                ///< Control Register,                      offset: 0x00
     __IO u32 CSR;                                                               ///< Control & Status Register,             offset: 0x04
@@ -2340,6 +2340,13 @@ typedef struct {
 #define FLASH                           ((FLASH_TypeDef*) FLASH_REG_BASE)
 
 ////////////////////////////////////////////////////////////////////////////////
+/// @brief FSMC type pointer Definition
+////////////////////////////////////////////////////////////////////////////////
+#if defined(FSMC_BASE)
+    #define FSMC                         ((FSMC_TypeDef*) FSMC_BASE)
+#endif
+
+////////////////////////////////////////////////////////////////////////////////
 /// @brief GPIO type pointer Definition
 ////////////////////////////////////////////////////////////////////////////////
 #define GPIOA                           ((GPIO_TypeDef*) GPIOA_BASE)
@@ -2424,6 +2431,13 @@ typedef struct {
 ////////////////////////////////////////////////////////////////////////////////
 #if defined(RTC_BASE)
     #define RTC                         ((RTC_TypeDef*)RTC_BASE)
+#endif
+
+////////////////////////////////////////////////////////////////////////////////
+/// @brief SDIO type pointer Definition
+////////////////////////////////////////////////////////////////////////////////
+#if defined(SDIO_BASE)
+    #define SDIO                            ((SDIO_TypeDef*) SDIO_BASE)
 #endif
 
 ////////////////////////////////////////////////////////////////////////////////

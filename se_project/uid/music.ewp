@@ -8742,6 +8742,9 @@
       <name>$PROJ_DIR$\..\..\se_app\uid\hci.c</name>
     </file>
     <file>
+      <name>$PROJ_DIR$\..\..\se_app\uid\lcd.c</name>
+    </file>
+    <file>
       <name>$PROJ_DIR$\..\..\se_app\uid\main.c</name>
     </file>
     <file>
@@ -8865,10 +8868,16 @@
       <name>$PROJ_DIR$\..\..\lib\HAL_lib\HAL_dma.c</name>
     </file>
     <file>
+      <name>$PROJ_DIR$\..\..\lib\HAL_lib\hal_eth.c</name>
+    </file>
+    <file>
       <name>$PROJ_DIR$\..\..\lib\HAL_lib\HAL_exti.c</name>
     </file>
     <file>
       <name>$PROJ_DIR$\..\..\lib\HAL_lib\HAL_flash.c</name>
+    </file>
+    <file>
+      <name>$PROJ_DIR$\..\..\lib\HAL_lib\hal_fsmc.c</name>
     </file>
     <file>
       <name>$PROJ_DIR$\..\..\lib\HAL_lib\HAL_gpio.c</name>
@@ -8893,6 +8902,9 @@
     </file>
     <file>
       <name>$PROJ_DIR$\..\..\lib\HAL_lib\HAL_rtc.c</name>
+    </file>
+    <file>
+      <name>$PROJ_DIR$\..\..\lib\HAL_lib\hal_sdio.c</name>
     </file>
     <file>
       <name>$PROJ_DIR$\..\..\lib\HAL_lib\HAL_spi.c</name>

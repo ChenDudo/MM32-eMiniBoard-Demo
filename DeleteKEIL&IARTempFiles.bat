@@ -1,0 +1,2 @@
+del *.bak *.ddk *.edk *.lst *.lnp *.mpf *.mpj *.obj *.omf *.plg *.rpt *.tmp *.__i *.crf *.o *.d *.axf *.tra *.dep JLinkLog.txt *.iex *.htm  *.map *.hex *.uvoptx *.uvguix *.pbi *.pbi.cout *.out *.cout *.browse *.pbd *.TMP *.uvguix.* *.uvmpw.uvgui.* *.scc *.sim *.i *.pbi.xcl *.pbd.linf *.wsdt *.dbgdt *.wspos *.Debug.general.xcl *.Debug.driver.xcl /s
+pause

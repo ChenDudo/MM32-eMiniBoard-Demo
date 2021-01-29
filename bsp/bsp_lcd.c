@@ -2,6 +2,8 @@
 #define _BSP_LCD_C_
 ////////////////////////////////////////////////////////////////////////////////
 
+#if defined(__MDM2803)
+
 #include <string.h>
 
 #include "common.h"
@@ -619,3 +621,4 @@ void LCDC_Init_Reg()
     _delay(200000);
     lcdCmd(0x29);   //display on
 }
+#endif

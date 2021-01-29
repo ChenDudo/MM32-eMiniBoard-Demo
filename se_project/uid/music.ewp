@@ -7944,7 +7944,7 @@
           <state>__IAR</state>
           <state>__MT3270</state>
           <state>__MM32_MB039</state>
-          <state>_MDM2803</state>
+          <state>__MDM2803</state>
           <state>CLOCK=8000000</state>
         </option>
         <option>
@@ -8743,6 +8743,9 @@
     </file>
     <file>
       <name>$PROJ_DIR$\..\..\se_app\uid\lcd.c</name>
+      <excluded>
+        <configuration>MB024</configuration>
+      </excluded>
     </file>
     <file>
       <name>$PROJ_DIR$\..\..\se_app\uid\main.c</name>

@@ -27,6 +27,7 @@
 
 #include "mm32.h"
 #include "main.h"
+#include "common.h"
 
 #include "bsp_led.h"
 #include "bsp_key.h"
@@ -52,23 +53,6 @@
 ////////////////////////////////////////////////////////////////////////////////
 /// @addtogroup UID_Exported_Functions
 /// @{
-
-////////////////////////////////////////////////////////////////////////////////
-bool delay(u16 ms)
-{
-    static u16 cnt = 0;
-    if (cnt == 0) {
-        cnt = ms;
-    }
-    else if (sysTickFlag1mS) {
-        sysTickFlag1mS = false;
-        if (cnt > 0)
-            cnt--;
-        if (cnt == 0)
-            return true;
-    }
-    return false;
-}
 
 ////////////////////////////////////////////////////////////////////////////////
 void initPara()
@@ -98,11 +82,15 @@ void initPeri()
     
     BSP_ADC_Configure();
     BSP_LED_Configure();
-    BSP_LCD_Configure();
     
+#if defined(__MDM2803)
+    BSP_LCD_Configure();
     initLcdDemo();
 	clearLeftScreen();
     clearButtomScreen();
+    drawMM(20, 160, 20);
+#endif    
+
     ready = true;
     
 #if defined(__MM32_MB020) || defined(__MM32_MB021)
@@ -126,10 +114,12 @@ void AppTaskTick()
             playCnt = 0;
             musicTick();
         }
+#if defined(__MDM2803)
         if(lcdCnt++ >= adcValue[0] / 20 + 50){
             lcdCnt = 0;
             randRefresh();
         }
+#endif
     }
     
     adcTick();
@@ -153,7 +143,7 @@ int main(void)
 
     initPeri();
     initPara();
-    drawMM(20, 160, 20);
+    
     
     while (1) {
         hci_task();

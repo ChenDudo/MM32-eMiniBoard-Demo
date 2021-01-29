@@ -7850,6 +7850,7 @@ typedef struct {
 #define RCC_CFGR_MCO_Pos            (24)
 #define RCC_CFGR_MCO                (0x07U << RCC_CFGR_MCO_Pos)             ///< MCO[2:0] bits (Microcontroller Clock Output)
 #define RCC_CFGR_MCO_NOCLOCK        (0x00U << RCC_CFGR_MCO_Pos)             ///< No clock
+#define RCC_CFGR_MCO_HSI_DIV4       (0x01U << RCC_CFGR_MCO_Pos)             ///< HSI clock divided by 4 selected
 #define RCC_CFGR_MCO_LSI            (0x02U << RCC_CFGR_MCO_Pos)             ///< LSI clock
 #define RCC_CFGR_MCO_LSE            (0x03U << RCC_CFGR_MCO_Pos)             ///< LSE clock
 #define RCC_CFGR_MCO_SYSCLK         (0x04U << RCC_CFGR_MCO_Pos)             ///< System clock selected
@@ -8625,17 +8626,6 @@ typedef struct {
     #define RCC_APB2ENR_COMP            (0x01U << RCC_APB2ENR_COMP_Pos)         ///< COMP enable
 #endif
 
-
-////////////////////////////////////////////////////////////////////////////////
-/// @brief RCC_CFGR2 Register Bit Definition
-////////////////////////////////////////////////////////////////////////////////
-#if defined(__MZ310)
-#define RCC_CFGR2_TIMADV_CKSEL_Pos      (0)
-#define RCC_CFGR2_TIMADV_CKSEL          (0x01U << RCC_CFGR2_TIMADV_CKSEL_Pos)   ///< Timadv_clk Selection
-#define RCC_CFGR2_TIMADV_PRE_Pos        (1)
-#define RCC_CFGR2_TIMADV_PRE            (0x0FU << RCC_CFGR2_TIMADV_PRE_Pos)     ///< Timadv_clk Prescaler
-#endif
-
 ////////////////////////////////////////////////////////////////////////////////
 /// @brief RCC_APB1ENR Register Bit Definition
 ////////////////////////////////////////////////////////////////////////////////
@@ -8812,6 +8802,12 @@ typedef struct {
 ////////////////////////////////////////////////////////////////////////////////
 /// @brief RCC_CFGR2 Register Bit Definition
 ////////////////////////////////////////////////////////////////////////////////
+#if defined(__MZ310)
+#define RCC_CFGR2_TIMADV_CKSEL_Pos      (0)
+#define RCC_CFGR2_TIMADV_CKSEL          (0x01U << RCC_CFGR2_TIMADV_CKSEL_Pos)   ///< Timadv_clk Selection
+#define RCC_CFGR2_TIMADV_PRE_Pos        (1)
+#define RCC_CFGR2_TIMADV_PRE            (0x0FU << RCC_CFGR2_TIMADV_PRE_Pos)     ///< Timadv_clk Prescaler
+#else
 #define RCC_CFGR2_TIMADVCKSEL_Pos         (1)
 #define RCC_CFGR2_TIMADVCKSEL             (0x01U << RCC_CFGR2_TIMADVCKSEL_Pos)    ///< TIMADV_CKSEL
 #define RCC_CFGR2_TIMADV_PRE_Pos          (1)
@@ -8820,6 +8816,9 @@ typedef struct {
 #define RCC_CFGR2_FSMC_PRE                (0x1FU << RCC_CFGR2_FSMC_PRE_Pos)       ///< FSMC Output clock frequency division factor
 #define RCC_CFGR2_APB1_CLK_HV_PRE_Pos     (16)
 #define RCC_CFGR2_APB1_CLK_HV_PRE         (0x0FU << RCC_CFGR2_APB1_CLK_HV_PRE_Pos) ///< APB1 Output clock frequency division factor
+#endif
+
+
 ////////////////////////////////////////////////////////////////////////////////
 /// @brief RCC_ICSCR Register Bit Definition
 ////////////////////////////////////////////////////////////////////////////////

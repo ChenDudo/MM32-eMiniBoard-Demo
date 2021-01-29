@@ -2,6 +2,10 @@
 #ifndef _BSP_LCD_H
 #define _BSP_LCD_H
 ////////////////////////////////////////////////////////////////////////////////
+
+
+#if defined(__MDM2803)
+
 #define WIDTH       320                 /* Screen Width (in pixels)           */
 #define HEIGHT      240                 /* Screen Hight (in pixels)           */
 
@@ -157,4 +161,5 @@ static void _delay(u32 n);
 void initGPIO_LCD();
 void initFSMC(void);
 
+#endif
 #endif

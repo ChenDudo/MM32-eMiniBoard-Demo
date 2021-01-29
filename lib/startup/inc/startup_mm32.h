@@ -471,6 +471,98 @@ typedef struct _DeviceVectors {
 #endif
 
 ////////////////////////////////////////////////////////////////////////////////
+#if defined(__MT3270)
+////////////////////////////////////////////////////////////////////////////////
+/// @brief  Device Vectors struct definition.
+////////////////////////////////////////////////////////////////////////////////
+typedef struct _DeviceVectors {
+// Stack pointer
+    void* pvStack;
+
+// Cortex-M handlers
+    void* pfnReset_Handler;							///< Reset Handler
+    void* pfnNMI_Handler;                   		///< NMI Handler
+    void* pfnHardFault_Handler;             		///< Hard Fault Handler
+    void* pfnMemManage_Handler;             		///< MPU Fault Handler
+    void* pfnBusFault_Handler;              		///< Bus Fault Handler
+    void* pfnUsageFault_Handler;            		///< Usage Fault Handler
+    void* pfnReserved1_Handler;             		///< Reserved
+    void* pfnReserved2_Handler;             		///< Reserved
+    void* pfnReserved3_Handler;             		///< Reserved
+    void* pfnReserved4_Handler;             		///< Reserved
+    void* pfnSVC_Handler;                   		///< SVCall Handler
+    void* pfnDebugMon_Handler;              		///< Debug Monitor Handler
+    void* pfnReserved5_Handler;             		///< Reserved
+    void* pfnPendSV_Handler;                		///< PendSV Handler
+    void* pfnSysTick_Handler;               		///< SysTick Handler
+
+// Peripheral handlers
+    void* pfnWDG_IRQHandler;                        ///< Window WatchDog Interrupt
+    void* pfnPVD_IRQHandler;                        ///< PVD through EXTI Line detection Interrupt
+    void* pfnTAMPER_IRQHandler;                     ///< Tamper Interrupt
+    void* pfnRTC_IRQHandler;                        ///< RTC global Interrupt
+    void* pfnFLASH_IRQHandler;                      ///< FLASH global Interrupt
+    void* pfnRCC_CRS_IRQHandler;                    ///< RCC global Interrupt
+    void* pfnEXTI0_IRQHandler;                      ///< EXTI Line0 Interrupt
+    void* pfnEXTI1_IRQHandler;                      ///< EXTI Line1 Interrupt
+    void* pfnEXTI2_IRQHandler;                      ///< EXTI Line2 Interrupt
+    void* pfnEXTI3_IRQHandler;                      ///< EXTI Line3 Interrupt
+    void* pfnEXTI4_IRQHandler;                      ///< EXTI Line4 Interrupt
+    void* pfnDMA1_Channel1_IRQHandler;              ///< DMA1 Channel 1 global Interrupt
+    void* pfnDMA1_Channel2_IRQHandler;              ///< DMA1 Channel 2 global Interrupt
+    void* pfnDMA1_Channel3_IRQHandler;              ///< DMA1 Channel 3 global Interrupt
+    void* pfnDMA1_Channel4_IRQHandler;              ///< DMA1 Channel 4 global Interrupt
+    void* pfnDMA1_Channel5_IRQHandler;              ///< DMA1 Channel 5 global Interrupt
+    void* pfnDMA1_Channel6_IRQHandler;              ///< DMA1 Channel 6 global Interrupt
+    void* pfnDMA1_Channel7_IRQHandler;              ///< DMA1 Channel 7 global Interrupt
+    void* pfnADC1_IRQHandler;                       ///< ADC1 et ADC2 global Interrupt
+    void* pfnFlashCache_IRQHandler;                 
+    void* pfnCAN1_RX_IRQHandler;                    ///< CAN1 RX1 Interrupt
+    void* pfnEXTI9_5_IRQHandler;                    ///< External Line[9:5] Interrupts
+    void* pfnTIM1_BRK_IRQHandler;                   ///< TIM1 Break Interrupt
+    void* pfnTIM1_UP_IRQHandler;                    ///< TIM1 Update Interrupt
+    void* pfnTIM1_TRG_COM_IRQHandler;               ///< TIM1 Trigger and Commutation Interrupt
+    void* pfnTIM1_CC_IRQHandler;                    ///< TIM1 Capture Compare Interrupt
+    void* pfnTIM2_IRQHandler;                       ///< TIM2 global Interrupt
+    void* pfnTIM3_IRQHandler;                       ///< TIM3 global Interrupt
+    void* pfnTIM4_IRQHandler;                       ///< TIM4 global Interrupt
+    void* pfnI2C1_IRQHandler;                       ///< I2C1 Event Interrupt
+    void* pfnI2C2_IRQHandler;                       ///< I2C2 Event Interrupt
+    void* pfnSPI1_IRQHandler;                       ///< SPI1 global Interrupt
+    void* pfnSPI2_IRQHandler;                       ///< SPI2 global Interrupt
+    void* pfnUART1_IRQHandler;                      ///< UART1 global Interrupt
+    void* pfnUART2_IRQHandler;                      ///< UART2 global Interrupt
+    void* pfnUART3_IRQHandler;                      ///< UART3 global Interrupt
+    void* pfnEXTI15_10_IRQHandler;                  ///< External Line[15:10] Interrupts
+    void* pfnRTCAlarm_IRQHandler;                   ///< RTC Alarm through EXTI Line Interrupt
+    void* pfnUSB_WKUP_IRQHandler;                   ///< USB WakeUp from suspend through EXTI Line Interrupt
+    void* pfnTIM8_BRK_IRQHandler;                   ///< TIM8 Break Interrupt
+    void* pfnTIM8_UP_IRQHandler;                    ///< TIM8 Update Interrupt
+    void* pfnTIM8_TRG_COM_IRQHandler;               ///< TIM8 Trigger and Commutation Interrupt
+    void* pfnTIM8_CC_IRQHandler;                    ///< TIM8 Capture Compare Interrupt
+    void* pfnADC3_IRQHandler;                       ///< ADC3
+    void* pfnSDIO_IRQHandler;                       ///< SDIO
+    void* pfnTIM5_IRQHandler;                       ///< TIM5
+    void* pfnSPI3_IRQHandler;                       ///< SPI3
+    void* pfnUART4_IRQHandler;                      ///< UART4
+    void* pfnUART5_IRQHandler;                      ///< UART5
+    void* pfnTIM6_IRQHandler;                       ///< TIM6
+    void* pfnTIM7_IRQHandler;                       ///< TIM7
+    void* pfnDMA2_Channel1_IRQHandler;              ///< DMA2 Channel 1
+    void* pfnDMA2_Channel2_IRQHandler;              ///< DMA2 Channel 2
+    void* pfnDMA2_Channel3_IRQHandler;              ///< DMA2 Channel 3
+    void* pfnDMA2_Channel4_IRQHandler;              ///< DMA2 Channel 4
+    void* pfnDMA2_Channel5_IRQHandler;              ///< DMA2 Channel 5
+    void* pfnETH_IRQHandler;                        ///< Ethernet
+    void* pfnCOMP1_2_IRQHandler;                    ///< COMP1,COMP2
+    void* pfnUSB_OTG_FS_IRQHandler;                 ///< USB_FS
+    void* pfnUART6_IRQHandler;                      ///< UART6
+    void* pfnUART7_IRQHandler;                      ///< UART7
+    void* pfnUART8_IRQHandler;                      ///< UART8
+} DeviceVectors;
+#endif
+
+////////////////////////////////////////////////////////////////////////////////
 #if defined(__MT304)
 // Cortex-M core handlers
     #pragma weak NMI_Handler						=	Dummy_Handler
@@ -771,6 +863,84 @@ typedef struct _DeviceVectors {
     #pragma weak SPI1_IRQHandler                    =	Dummy_Handler
     #pragma weak UART1_IRQHandler                   =	Dummy_Handler
     #pragma weak UART2_IRQHandler                   =	Dummy_Handler
+#endif
+
+////////////////////////////////////////////////////////////////////////////////
+#if defined(__MT3270)
+// Cortex-M core handlers
+    #pragma weak NMI_Handler						=	Dummy_Handler
+    #pragma weak HardFault_Handler					=	Dummy_Handler
+    #pragma weak MemManage_Handler					=	Dummy_Handler
+    #pragma weak BusFault_Handler					=	Dummy_Handler
+    #pragma weak UsageFault_Handler					=	Dummy_Handler
+    #pragma weak SVC_Handler						=	Dummy_Handler
+    #pragma weak DebugMon_Handler					=	Dummy_Handler
+    #pragma weak PendSV_Handler						=	Dummy_Handler
+    #pragma weak SysTick_Handler					=	Dummy_Handler
+
+// Peripheral handlers
+    #pragma weak WDG_IRQHandler                     =	Dummy_Handler
+    #pragma weak PVD_IRQHandler                     =	Dummy_Handler
+    #pragma weak TAMPER_IRQHandler                  =	Dummy_Handler
+    #pragma weak RTC_IRQHandler                     =	Dummy_Handler
+    #pragma weak FLASH_IRQHandler                   =	Dummy_Handler
+    #pragma weak RCC_CRS_IRQHandler                 =	Dummy_Handler
+    #pragma weak EXTI0_IRQHandler                   =	Dummy_Handler
+    #pragma weak EXTI1_IRQHandler                   =	Dummy_Handler
+    #pragma weak EXTI2_IRQHandler                   =	Dummy_Handler
+    #pragma weak EXTI3_IRQHandler                   =	Dummy_Handler
+    #pragma weak EXTI4_IRQHandler                   =	Dummy_Handler
+    #pragma weak DMA1_Channel1_IRQHandler           =	Dummy_Handler
+    #pragma weak DMA1_Channel2_IRQHandler           =	Dummy_Handler
+    #pragma weak DMA1_Channel3_IRQHandler           =	Dummy_Handler
+    #pragma weak DMA1_Channel4_IRQHandler           =	Dummy_Handler
+    #pragma weak DMA1_Channel5_IRQHandler           =	Dummy_Handler
+    #pragma weak DMA1_Channel6_IRQHandler           =	Dummy_Handler
+    #pragma weak DMA1_Channel7_IRQHandler           =	Dummy_Handler
+    #pragma weak ADC1_IRQHandler                    =	Dummy_Handler
+    #pragma weak FlashCache_IRQHandler              =	Dummy_Handler
+    #pragma weak CAN1_RX_IRQHandler                 =	Dummy_Handler
+    #pragma weak EXTI9_5_IRQHandler                 =	Dummy_Handler
+    #pragma weak TIM1_BRK_IRQHandler                =	Dummy_Handler
+    #pragma weak TIM1_UP_IRQHandler                 =	Dummy_Handler
+    #pragma weak TIM1_TRG_COM_IRQHandler            =	Dummy_Handler
+    #pragma weak TIM1_CC_IRQHandler                 =	Dummy_Handler
+    #pragma weak TIM2_IRQHandler                    =	Dummy_Handler
+    #pragma weak TIM3_IRQHandler                    =	Dummy_Handler
+    #pragma weak TIM4_IRQHandler                    =	Dummy_Handler
+    #pragma weak I2C1_IRQHandler                    =	Dummy_Handler
+    #pragma weak I2C2_IRQHandler                    =	Dummy_Handler
+    #pragma weak SPI1_IRQHandler                    =	Dummy_Handler
+    #pragma weak SPI2_IRQHandler                    =	Dummy_Handler
+    #pragma weak UART1_IRQHandler                   =	Dummy_Handler
+    #pragma weak UART2_IRQHandler                   =	Dummy_Handler
+    #pragma weak UART3_IRQHandler                   =	Dummy_Handler
+    #pragma weak EXTI15_10_IRQHandler               =	Dummy_Handler
+    #pragma weak RTCAlarm_IRQHandler                =	Dummy_Handler
+    #pragma weak USB_WKUP_IRQHandler                =	Dummy_Handler
+    #pragma weak TIM8_BRK_IRQHandler                =	Dummy_Handler
+    #pragma weak TIM8_UP_IRQHandler                 =	Dummy_Handler
+    #pragma weak TIM8_TRG_COM_IRQHandler            =	Dummy_Handler
+    #pragma weak TIM8_CC_IRQHandler                 =	Dummy_Handler
+    #pragma weak ADC3_IRQHandler                    =	Dummy_Handler
+    #pragma weak SDIO_IRQHandler                    =	Dummy_Handler
+    #pragma weak TIM5_IRQHandler                    =	Dummy_Handler
+    #pragma weak SPI3_IRQHandler                    =	Dummy_Handler
+    #pragma weak UART4_IRQHandler                   =	Dummy_Handler
+    #pragma weak UART5_IRQHandler                   =	Dummy_Handler
+    #pragma weak TIM6_IRQHandler                    =	Dummy_Handler
+    #pragma weak TIM7_IRQHandler                    =	Dummy_Handler
+    #pragma weak DMA2_Channel1_IRQHandler           =	Dummy_Handler
+    #pragma weak DMA2_Channel2_IRQHandler           =	Dummy_Handler
+    #pragma weak DMA2_Channel3_IRQHandler           =	Dummy_Handler
+    #pragma weak DMA2_Channel4_IRQHandler           =	Dummy_Handler
+    #pragma weak DMA2_Channel5_IRQHandler           =	Dummy_Handler
+    #pragma weak ETH_IRQHandler                     =	Dummy_Handler
+    #pragma weak COMP1_2_IRQHandler                 =	Dummy_Handler
+    #pragma weak USB_OTG_FS_IRQHandler              =	Dummy_Handler
+    #pragma weak UART6_IRQHandler                   =	Dummy_Handler
+    #pragma weak UART7_IRQHandler                   =	Dummy_Handler
+    #pragma weak UART8_IRQHandler                   =	Dummy_Handler
 #endif
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -1110,6 +1280,86 @@ void Dummy_Handler(void);
     void UART1_IRQHandler(void);
     void UART2_IRQHandler(void);
 #endif
+
+////////////////////////////////////////////////////////////////////////////////
+#if defined(__MT3270)
+// Cortex-M core handlers
+    void Reset_Handler(void);
+    void NMI_Handler(void);
+    void HardFault_Handler(void);
+    void MemManage_Handler(void);
+    void BusFault_Handler(void);
+    void UsageFault_Handler(void);
+    void SVC_Handler(void);
+    void DebugMon_Handler(void);
+    void PendSV_Handler(void);
+    void SysTick_Handler(void);
+
+// Peripherals handlers
+    void WDG_IRQHandler(void);              
+    void PVD_IRQHandler(void);              
+    void TAMPER_IRQHandler(void);           
+    void RTC_IRQHandler(void);              
+    void FLASH_IRQHandler(void);            
+    void RCC_CRS_IRQHandler(void);          
+    void EXTI0_IRQHandler(void);            
+    void EXTI1_IRQHandler(void);            
+    void EXTI2_IRQHandler(void);            
+    void EXTI3_IRQHandler(void);            
+    void EXTI4_IRQHandler(void);            
+    void DMA1_Channel1_IRQHandler(void);    
+    void DMA1_Channel2_IRQHandler(void);    
+    void DMA1_Channel3_IRQHandler(void);    
+    void DMA1_Channel4_IRQHandler(void);    
+    void DMA1_Channel5_IRQHandler(void);    
+    void DMA1_Channel6_IRQHandler(void);    
+    void DMA1_Channel7_IRQHandler(void);    
+    void ADC1_IRQHandler(void);             
+    void FlashCache_IRQHandler(void);             
+    void CAN1_RX_IRQHandler(void);          
+    void EXTI9_5_IRQHandler(void);          
+    void TIM1_BRK_IRQHandler(void);         
+    void TIM1_UP_IRQHandler(void);          
+    void TIM1_TRG_COM_IRQHandler(void);     
+    void TIM1_CC_IRQHandler(void);          
+    void TIM2_IRQHandler(void);             
+    void TIM3_IRQHandler(void);             
+    void TIM4_IRQHandler(void);             
+    void I2C1_IRQHandler(void);             
+    void I2C2_IRQHandler(void);             
+    void SPI1_IRQHandler(void);             
+    void SPI2_IRQHandler(void);             
+    void UART1_IRQHandler(void);            
+    void UART2_IRQHandler(void);            
+    void UART3_IRQHandler(void);            
+    void EXTI15_10_IRQHandler(void);        
+    void RTCAlarm_IRQHandler(void);         
+    void USB_WKUP_IRQHandler(void);         
+    void TIM8_BRK_IRQHandler(void);         
+    void TIM8_UP_IRQHandler(void);          
+    void TIM8_TRG_COM_IRQHandler(void);     
+    void TIM8_CC_IRQHandler(void);  
+    void ADC3_IRQHandler(void);  
+    void SDIO_IRQHandler(void);             
+    void TIM5_IRQHandler(void);             
+    void SPI3_IRQHandler(void);             
+    void UART4_IRQHandler(void);            
+    void UART5_IRQHandler(void);            
+    void TIM6_IRQHandler(void);             
+    void TIM7_IRQHandler(void);             
+    void DMA2_Channel1_IRQHandler(void);    
+    void DMA2_Channel2_IRQHandler(void);    
+    void DMA2_Channel3_IRQHandler(void);    
+    void DMA2_Channel4_IRQHandler(void);    
+    void DMA2_Channel5_IRQHandler(void);    
+    void ETH_IRQHandler(void);              
+    void COMP1_2_IRQHandler(void);          
+    void USB_OTG_FS_IRQHandler(void);       
+    void UART6_IRQHandler(void);            
+    void UART7_IRQHandler(void);            
+    void UART8_IRQHandler(void);            
+#endif
+
     
 /// @}
 

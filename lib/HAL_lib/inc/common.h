@@ -338,7 +338,7 @@ typedef enum {
     emCLOCK_DMA1  = 0x215,
     emCLOCK_DMA2  = 0x216,
     emCLOCK_ETH   = 0x219,
-    emCLOCK_EXTI  = 0x20E,
+    emCLOCK_EXTI  = 0x10E,
     emCLOCK_FSMC  = 0x400,
     emCLOCK_GPIOA =	0x200,
 	emCLOCK_GPIOB =	0x201,

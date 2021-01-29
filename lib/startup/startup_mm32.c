@@ -307,9 +307,103 @@ extern void __main     (void) __attribute__((noreturn)); 						///< PreeMain (C 
     .pfnTRNG_IRQHandler                 = (void*)TRNG_IRQHandler,               ///< TRNG
     .pfnUART7_IRQHandler                = (void*)UART7_IRQHandler,              ///< UART7
     .pfnUART8_IRQHandler                = (void*)UART8_IRQHandler,              ///< UART8
-} DeviceVectors 
+}; 
 #endif
 
+////////////////////////////////////////////////////////////////////////////////
+#if defined(__MT3270)
+#if defined(__KEIL)
+	const DeviceVectors __Vectors __attribute__((section ("RESET")));
+	const DeviceVectors __Vectors = {
+		.pvStack						= (void*)(&__initial_sp),               ///< Keil Initial Stack Pointer
+#else
+	#pragma section 	= ".intvec"
+	#pragma location 	= ".intvec"
+	const DeviceVectors __vector_table = {
+		(void*) __sfe("CSTACK"),												///< IAR Initial Stack Pointer
+#endif
+// Cortex-M core handlers
+	.pfnReset_Handler      				= (void*)Reset_Handler,                 ///< Reset Handler
+	.pfnNMI_Handler        				= (void*)NMI_Handler,                   ///< NMI Handler
+	.pfnHardFault_Handler  				= (void*)HardFault_Handler,             ///< Hard Fault Handler
+	.pfnMemManage_Handler  				= (void*)MemManage_Handler,             ///< MPU Fault Handler
+	.pfnBusFault_Handler   				= (void*)BusFault_Handler,              ///< Bus Fault Handler
+	.pfnUsageFault_Handler 				= (void*)UsageFault_Handler,            ///< Usage Fault Handler
+	.pfnReserved1_Handler  				= (void*)(0UL),           				///< Reserved
+	.pfnReserved2_Handler  				= (void*)(0UL),           				///< Reserved
+	.pfnReserved3_Handler  				= (void*)(0UL),           				///< Reserved
+	.pfnReserved4_Handler  				= (void*)(0UL),           				///< Reserved
+	.pfnSVC_Handler        				= (void*)SVC_Handler,                   ///< SVCall Handler
+	.pfnDebugMon_Handler   				= (void*)DebugMon_Handler,              ///< Debug Monitor Handler
+	.pfnReserved5_Handler  				= (void*)(0UL),           				///< Reserved
+	.pfnPendSV_Handler     				= (void*)PendSV_Handler,                ///< PendSV Handler
+	.pfnSysTick_Handler    				= (void*)SysTick_Handler,               ///< SysTick Handler
+
+// Peripheral handlers
+    .pfnWDG_IRQHandler                  = (void*)WDG_IRQHandler,                ///< Window WatchDog Interrupt
+    .pfnPVD_IRQHandler                  = (void*)PVD_IRQHandler,                ///< PVD through EXTI Line detection Interrupt
+    .pfnTAMPER_IRQHandler               = (void*)TAMPER_IRQHandler,             ///< Tamper Interrupt
+    .pfnRTC_IRQHandler                  = (void*)RTC_IRQHandler,                ///< RTC global Interrupt
+    .pfnFLASH_IRQHandler                = (void*)FLASH_IRQHandler,              ///< FLASH global Interrupt
+    .pfnRCC_CRS_IRQHandler              = (void*)RCC_CRS_IRQHandler,            ///< RCC global Interrupt
+    .pfnEXTI0_IRQHandler                = (void*)EXTI0_IRQHandler,              ///< EXTI Line0 Interrupt
+    .pfnEXTI1_IRQHandler                = (void*)EXTI1_IRQHandler,              ///< EXTI Line1 Interrupt
+    .pfnEXTI2_IRQHandler                = (void*)EXTI2_IRQHandler,              ///< EXTI Line2 Interrupt
+    .pfnEXTI3_IRQHandler                = (void*)EXTI3_IRQHandler,              ///< EXTI Line3 Interrupt
+    .pfnEXTI4_IRQHandler                = (void*)EXTI4_IRQHandler,              ///< EXTI Line4 Interrupt
+    .pfnDMA1_Channel1_IRQHandler        = (void*)DMA1_Channel1_IRQHandler,      ///< DMA1 Channel 1 global Interrupt
+    .pfnDMA1_Channel2_IRQHandler        = (void*)DMA1_Channel2_IRQHandler,      ///< DMA1 Channel 2 global Interrupt
+    .pfnDMA1_Channel3_IRQHandler        = (void*)DMA1_Channel3_IRQHandler,      ///< DMA1 Channel 3 global Interrupt
+    .pfnDMA1_Channel4_IRQHandler        = (void*)DMA1_Channel4_IRQHandler,      ///< DMA1 Channel 4 global Interrupt
+    .pfnDMA1_Channel5_IRQHandler        = (void*)DMA1_Channel5_IRQHandler,      ///< DMA1 Channel 5 global Interrupt
+    .pfnDMA1_Channel6_IRQHandler        = (void*)DMA1_Channel6_IRQHandler,      ///< DMA1 Channel 6 global Interrupt
+    .pfnDMA1_Channel7_IRQHandler        = (void*)DMA1_Channel7_IRQHandler,      ///< DMA1 Channel 7 global Interrupt
+    .pfnADC1_IRQHandler                 = (void*)ADC1_IRQHandler,               ///< ADC1 et ADC2 global Interrupt
+    .pfnFlashCache_IRQHandler           = (void*)FlashCache_IRQHandler,               ///< ADC1 et ADC2 global Interrupt
+    .pfnCAN1_RX_IRQHandler              = (void*)CAN1_RX_IRQHandler,            ///< CAN1 RX1 Interrupt
+    .pfnEXTI9_5_IRQHandler              = (void*)EXTI9_5_IRQHandler,            ///< External Line[9:5] Interrupts
+    .pfnTIM1_BRK_IRQHandler             = (void*)TIM1_BRK_IRQHandler,           ///< TIM1 Break Interrupt
+    .pfnTIM1_UP_IRQHandler              = (void*)TIM1_UP_IRQHandler,            ///< TIM1 Update Interrupt
+    .pfnTIM1_TRG_COM_IRQHandler         = (void*)TIM1_TRG_COM_IRQHandler,       ///< TIM1 Trigger and Commutation Interrupt
+    .pfnTIM1_CC_IRQHandler              = (void*)TIM1_CC_IRQHandler,            ///< TIM1 Capture Compare Interrupt
+    .pfnTIM2_IRQHandler                 = (void*)TIM2_IRQHandler,               ///< TIM2 global Interrupt
+    .pfnTIM3_IRQHandler                 = (void*)TIM3_IRQHandler,               ///< TIM3 global Interrupt
+    .pfnTIM4_IRQHandler                 = (void*)TIM4_IRQHandler,               ///< TIM4 global Interrupt
+    .pfnI2C1_IRQHandler                 = (void*)I2C1_IRQHandler,               ///< I2C1 Event Interrupt
+    .pfnI2C2_IRQHandler                 = (void*)I2C2_IRQHandler,               ///< I2C2 Event Interrupt
+    .pfnSPI1_IRQHandler                 = (void*)SPI1_IRQHandler,               ///< SPI1 global Interrupt
+    .pfnSPI2_IRQHandler                 = (void*)SPI2_IRQHandler,               ///< SPI2 global Interrupt
+    .pfnUART1_IRQHandler                = (void*)UART1_IRQHandler,              ///< UART1 global Interrupt
+    .pfnUART2_IRQHandler                = (void*)UART2_IRQHandler,              ///< UART2 global Interrupt
+    .pfnUART3_IRQHandler                = (void*)UART3_IRQHandler,              ///< UART3 global Interrupt
+    .pfnEXTI15_10_IRQHandler            = (void*)EXTI15_10_IRQHandler,          ///< External Line[15:10] Interrupts
+    .pfnRTCAlarm_IRQHandler             = (void*)RTCAlarm_IRQHandler,           ///< RTC Alarm through EXTI Line Interrupt
+    .pfnUSB_WKUP_IRQHandler             = (void*)USB_WKUP_IRQHandler,           ///< USB WakeUp from suspend through EXTI Line Interrupt
+    .pfnTIM8_BRK_IRQHandler             = (void*)TIM8_BRK_IRQHandler,           ///< TIM8 Break Interrupt
+    .pfnTIM8_UP_IRQHandler              = (void*)TIM8_UP_IRQHandler,            ///< TIM8 Update Interrupt
+    .pfnTIM8_TRG_COM_IRQHandler         = (void*)TIM8_TRG_COM_IRQHandler,       ///< TIM8 Trigger and Commutation Interrupt
+    .pfnTIM8_CC_IRQHandler              = (void*)TIM8_CC_IRQHandler,            ///< TIM8 Capture Compare Interrupt
+    .pfnADC3_IRQHandler                 = (void*)ADC3_IRQHandler,               ///< ADC3
+    .pfnSDIO_IRQHandler                 = (void*)SDIO_IRQHandler,               ///< SDIO
+    .pfnTIM5_IRQHandler                 = (void*)TIM5_IRQHandler,               ///< TIM5
+    .pfnSPI3_IRQHandler                 = (void*)SPI3_IRQHandler,               ///< SPI3
+    .pfnUART4_IRQHandler                = (void*)UART4_IRQHandler,              ///< UART4
+    .pfnUART5_IRQHandler                = (void*)UART5_IRQHandler,              ///< UART5
+    .pfnTIM6_IRQHandler                 = (void*)TIM6_IRQHandler,               ///< TIM6
+    .pfnTIM7_IRQHandler                 = (void*)TIM7_IRQHandler,               ///< TIM7
+    .pfnDMA2_Channel1_IRQHandler        = (void*)DMA2_Channel1_IRQHandler,      ///< DMA2 Channel 1
+    .pfnDMA2_Channel2_IRQHandler        = (void*)DMA2_Channel2_IRQHandler,      ///< DMA2 Channel 2
+    .pfnDMA2_Channel3_IRQHandler        = (void*)DMA2_Channel3_IRQHandler,      ///< DMA2 Channel 3
+    .pfnDMA2_Channel4_IRQHandler        = (void*)DMA2_Channel4_IRQHandler,      ///< DMA2 Channel 4
+    .pfnDMA2_Channel5_IRQHandler        = (void*)DMA2_Channel5_IRQHandler,      ///< DMA2 Channel 5
+    .pfnETH_IRQHandler                  = (void*)ETH_IRQHandler,                ///< Ethernet
+    .pfnCOMP1_2_IRQHandler              = (void*)COMP1_2_IRQHandler,            ///< COMP1,COMP2
+    .pfnUSB_OTG_FS_IRQHandler           = (void*)USB_OTG_FS_IRQHandler,         ///< USB_FS
+    .pfnUART6_IRQHandler                = (void*)UART6_IRQHandler,              ///< UART6
+    .pfnUART7_IRQHandler                = (void*)UART7_IRQHandler,              ///< UART7
+    .pfnUART8_IRQHandler                = (void*)UART8_IRQHandler,              ///< UART8
+}; 
+#endif
 
 ////////////////////////////////////////////////////////////////////////////////
 #if defined(__MZ308)

@@ -369,7 +369,7 @@
               <MiscControls></MiscControls>
               <Define>__KEIL __MZ309 __MM32_MB020  CLOCK=8000000</Define>
               <Undefine></Undefine>
-              <IncludePath>..\..\se_app\uid\inc;..\..\lib\HAL_lib\inc;..\..\lib\startup\inc;..\..\bsp\inc;..\..\ble\inc</IncludePath>
+              <IncludePath>..\..\app\uid\inc;..\..\lib\HAL_lib\inc;..\..\lib\startup\inc;..\..\bsp\inc;..\..\ble\inc</IncludePath>
             </VariousControls>
           </Cads>
           <Aads>
@@ -415,22 +415,22 @@
             <File>
               <FileName>adc.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\..\se_app\uid\adc.c</FilePath>
+              <FilePath>..\..\app\uid\adc.c</FilePath>
             </File>
             <File>
               <FileName>hci.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\..\se_app\uid\hci.c</FilePath>
+              <FilePath>..\..\app\uid\hci.c</FilePath>
             </File>
             <File>
               <FileName>main.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\..\se_app\uid\main.c</FilePath>
+              <FilePath>..\..\app\uid\main.c</FilePath>
             </File>
             <File>
               <FileName>music.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\..\se_app\uid\music.c</FilePath>
+              <FilePath>..\..\app\uid\music.c</FilePath>
             </File>
           </Files>
         </Group>
@@ -1072,7 +1072,7 @@
               <MiscControls></MiscControls>
               <Define>__KEIL __MT304 __MM32_MB021 CLOCK=8000000</Define>
               <Undefine></Undefine>
-              <IncludePath>..\..\se_app\uid\inc;..\..\lib\HAL_lib\inc;..\..\lib\startup\inc;..\..\bsp\inc;..\..\ble\inc</IncludePath>
+              <IncludePath>..\..\app\uid\inc;..\..\lib\HAL_lib\inc;..\..\lib\startup\inc;..\..\bsp\inc;..\..\ble\inc</IncludePath>
             </VariousControls>
           </Cads>
           <Aads>
@@ -1118,22 +1118,22 @@
             <File>
               <FileName>adc.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\..\se_app\uid\adc.c</FilePath>
+              <FilePath>..\..\app\uid\adc.c</FilePath>
             </File>
             <File>
               <FileName>hci.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\..\se_app\uid\hci.c</FilePath>
+              <FilePath>..\..\app\uid\hci.c</FilePath>
             </File>
             <File>
               <FileName>main.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\..\se_app\uid\main.c</FilePath>
+              <FilePath>..\..\app\uid\main.c</FilePath>
             </File>
             <File>
               <FileName>music.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\..\se_app\uid\music.c</FilePath>
+              <FilePath>..\..\app\uid\music.c</FilePath>
             </File>
           </Files>
         </Group>
@@ -1837,7 +1837,7 @@
               <MiscControls></MiscControls>
               <Define>__KEIL __MZ309  __MM32_MB022  CLOCK=8000000</Define>
               <Undefine></Undefine>
-              <IncludePath>..\..\se_app\uid\inc;..\..\lib\HAL_lib\inc;..\..\lib\startup\inc;..\..\bsp\inc</IncludePath>
+              <IncludePath>..\..\app\uid\inc;..\..\lib\HAL_lib\inc;..\..\lib\startup\inc;..\..\bsp\inc</IncludePath>
             </VariousControls>
           </Cads>
           <Aads>
@@ -1883,22 +1883,22 @@
             <File>
               <FileName>adc.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\..\se_app\uid\adc.c</FilePath>
+              <FilePath>..\..\app\uid\adc.c</FilePath>
             </File>
             <File>
               <FileName>hci.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\..\se_app\uid\hci.c</FilePath>
+              <FilePath>..\..\app\uid\hci.c</FilePath>
             </File>
             <File>
               <FileName>main.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\..\se_app\uid\main.c</FilePath>
+              <FilePath>..\..\app\uid\main.c</FilePath>
             </File>
             <File>
               <FileName>music.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\..\se_app\uid\music.c</FilePath>
+              <FilePath>..\..\app\uid\music.c</FilePath>
             </File>
           </Files>
         </Group>
@@ -2664,7 +2664,7 @@
               <MiscControls></MiscControls>
               <Define>__KEIL __MZ306  __MM32_MB023  CLOCK=8000000</Define>
               <Undefine></Undefine>
-              <IncludePath>..\..\se_app\uid\inc;..\..\lib\HAL_lib\inc;..\..\lib\startup\inc;..\..\bsp\inc</IncludePath>
+              <IncludePath>..\..\app\uid\inc;..\..\lib\HAL_lib\inc;..\..\lib\startup\inc;..\..\bsp\inc</IncludePath>
             </VariousControls>
           </Cads>
           <Aads>
@@ -2710,22 +2710,22 @@
             <File>
               <FileName>adc.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\..\se_app\uid\adc.c</FilePath>
+              <FilePath>..\..\app\uid\adc.c</FilePath>
             </File>
             <File>
               <FileName>hci.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\..\se_app\uid\hci.c</FilePath>
+              <FilePath>..\..\app\uid\hci.c</FilePath>
             </File>
             <File>
               <FileName>main.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\..\se_app\uid\main.c</FilePath>
+              <FilePath>..\..\app\uid\main.c</FilePath>
             </File>
             <File>
               <FileName>music.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\..\se_app\uid\music.c</FilePath>
+              <FilePath>..\..\app\uid\music.c</FilePath>
             </File>
           </Files>
         </Group>
@@ -3491,7 +3491,7 @@
               <MiscControls></MiscControls>
               <Define>__KEIL __MT304 __MM32_MB024  CLOCK=8000000</Define>
               <Undefine></Undefine>
-              <IncludePath>..\..\se_app\uid\inc;..\..\lib\HAL_lib\inc;..\..\lib\startup\inc;..\..\bsp\inc</IncludePath>
+              <IncludePath>..\..\app\uid\inc;..\..\lib\HAL_lib\inc;..\..\lib\startup\inc;..\..\bsp\inc</IncludePath>
             </VariousControls>
           </Cads>
           <Aads>
@@ -3537,22 +3537,22 @@
             <File>
               <FileName>adc.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\..\se_app\uid\adc.c</FilePath>
+              <FilePath>..\..\app\uid\adc.c</FilePath>
             </File>
             <File>
               <FileName>hci.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\..\se_app\uid\hci.c</FilePath>
+              <FilePath>..\..\app\uid\hci.c</FilePath>
             </File>
             <File>
               <FileName>main.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\..\se_app\uid\main.c</FilePath>
+              <FilePath>..\..\app\uid\main.c</FilePath>
             </File>
             <File>
               <FileName>music.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\..\se_app\uid\music.c</FilePath>
+              <FilePath>..\..\app\uid\music.c</FilePath>
             </File>
           </Files>
         </Group>
@@ -4318,7 +4318,7 @@
               <MiscControls></MiscControls>
               <Define>__KEIL __MZ310  __MM32_MB025  CLOCK=8000000</Define>
               <Undefine></Undefine>
-              <IncludePath>..\..\se_app\uid\inc;..\..\lib\HAL_lib\inc;..\..\lib\startup\inc;..\..\bsp\inc</IncludePath>
+              <IncludePath>..\..\app\uid\inc;..\..\lib\HAL_lib\inc;..\..\lib\startup\inc;..\..\bsp\inc</IncludePath>
             </VariousControls>
           </Cads>
           <Aads>
@@ -4364,22 +4364,22 @@
             <File>
               <FileName>adc.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\..\se_app\uid\adc.c</FilePath>
+              <FilePath>..\..\app\uid\adc.c</FilePath>
             </File>
             <File>
               <FileName>hci.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\..\se_app\uid\hci.c</FilePath>
+              <FilePath>..\..\app\uid\hci.c</FilePath>
             </File>
             <File>
               <FileName>main.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\..\se_app\uid\main.c</FilePath>
+              <FilePath>..\..\app\uid\main.c</FilePath>
             </File>
             <File>
               <FileName>music.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\..\se_app\uid\music.c</FilePath>
+              <FilePath>..\..\app\uid\music.c</FilePath>
             </File>
           </Files>
         </Group>
@@ -5083,7 +5083,7 @@
               <MiscControls></MiscControls>
               <Define>__KEIL __MZ311  __MM32_MB032  CLOCK=8000000</Define>
               <Undefine></Undefine>
-              <IncludePath>..\..\se_app\uid\inc;..\..\lib\HAL_lib\inc;..\..\lib\startup\inc;..\..\bsp\inc</IncludePath>
+              <IncludePath>..\..\app\uid\inc;..\..\lib\HAL_lib\inc;..\..\lib\startup\inc;..\..\bsp\inc</IncludePath>
             </VariousControls>
           </Cads>
           <Aads>
@@ -5129,22 +5129,22 @@
             <File>
               <FileName>adc.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\..\se_app\uid\adc.c</FilePath>
+              <FilePath>..\..\app\uid\adc.c</FilePath>
             </File>
             <File>
               <FileName>hci.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\..\se_app\uid\hci.c</FilePath>
+              <FilePath>..\..\app\uid\hci.c</FilePath>
             </File>
             <File>
               <FileName>main.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\..\se_app\uid\main.c</FilePath>
+              <FilePath>..\..\app\uid\main.c</FilePath>
             </File>
             <File>
               <FileName>music.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\..\se_app\uid\music.c</FilePath>
+              <FilePath>..\..\app\uid\music.c</FilePath>
             </File>
           </Files>
         </Group>

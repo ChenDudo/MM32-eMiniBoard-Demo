@@ -8,7 +8,7 @@
   <WorkspaceName>eminiboard</WorkspaceName>
 
   <project>
-    <PathAndName>.\se_project\keil\music.uvprojx</PathAndName>
+    <PathAndName>.\project\keil\music.uvprojx</PathAndName>
     <NodeIsActive>1</NodeIsActive>
     <NodeIsExpanded>1</NodeIsExpanded>
   </project>

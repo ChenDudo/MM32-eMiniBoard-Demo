@@ -170,36 +170,15 @@ typedef enum {
 ////////////////////////////////////////////////////////////////////////////////
 #if defined(__MZ306) || defined(__MZ308) || defined(__MZ309) || defined(__MZ310) || defined(__MT3270)
 typedef struct {
-    union {
-        u32 COMP_InvertingInput;
-        u32 Invert;                                                             ///< Selects the inverting input of the comparator.
-    };
-    union {
-        u32 COMP_NonInvertingInput;
-        u32 NonInvert;                                                          ///< Selects the non inverting input of the comparator.
-    };
-    union {
-        u32 COMP_Output;
-        u32 Output;                                                             ///< Selects the output redirection of the comparator.
-        u32 BlankingSrce;                                                       ///< Selects the output blanking source of the comparator.
-    };
-    union {
-        u32 COMP_OutputPol;
-        u32 OutputPol;                                                          ///< Selects the output polarity of the comparator.
-    };
-    union {
-        u32 COMP_Hysteresis;
-        u32 Hysteresis;                                                         ///< Selects the hysteresis voltage of the comparator.
-    };
-    union {
-        u32 COMP_Mode;
-        u32 Mode;                                                               ///< Selects the operating mode of the comparator and allows
-    };
+    u32 Invert;                                                             ///< Selects the inverting input of the comparator.
+    u32 NonInvert;                                                          ///< Selects the non inverting input of the comparator.
+    u32 Output;                                                             ///< Selects the output redirection of the comparator.
+    u32 BlankingSrce;                                                       ///< Selects the output blanking source of the comparator.
+    u32 OutputPol;                                                          ///< Selects the output polarity of the comparator.
+    u32 Hysteresis;                                                         ///< Selects the hysteresis voltage of the comparator.
+    u32 Mode;                                                               ///< Selects the operating mode of the comparator and allows
 #if defined(__MZ308) || defined(__MZ309) || defined(__MZ310) || defined(__MT3270)
-    union {
-        u32 COMP_Filter;
-        u32 OFLT;                                                               ///< to adjust the speed/consumption.
-    };
+    u32 OFLT;                                                               ///< to adjust the speed/consumption.
 #endif
 } COMP_InitTypeDef;
 #endif

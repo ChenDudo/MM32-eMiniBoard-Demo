@@ -416,12 +416,14 @@ void BSP_COMP_GPIO_Configure(u32 COMPx, u8 inp, u8 inm, u8 out)
 		if 		(out == 1) 	GPIO_Mode_IN_Init(GPIOA, GPIO_Pin_0,  GPIO_Mode_AIN, NO_REMAP, GPIO_AF_7);
 		else if (out == 2) 	GPIO_Mode_IN_Init(GPIOA, GPIO_Pin_6,  GPIO_Mode_AIN, NO_REMAP, GPIO_AF_7);
         else if (out == 3) 	GPIO_Mode_IN_Init(GPIOA, GPIO_Pin_11, GPIO_Mode_AIN, NO_REMAP, GPIO_AF_7);
+		break;
 #endif
 #if defined(__MZ308)
         GPIO_Mode_IN_Init(GPIOB, GPIO_Pin_8,  GPIO_Mode_AIN, NO_REMAP, GPIO_AF_0);  //inp
         GPIO_Mode_IN_Init(GPIOB, GPIO_Pin_9,  GPIO_Mode_AIN, NO_REMAP, GPIO_AF_0);  //inm        
 		if 		(out == 1) 	GPIO_Mode_IN_Init(GPIOA, GPIO_Pin_14,  GPIO_Mode_AIN, NO_REMAP, GPIO_AF_7);
 		else if (out == 2) 	GPIO_Mode_IN_Init(GPIOD, GPIO_Pin_4,  GPIO_Mode_AIN, NO_REMAP, GPIO_AF_7);
+		break;
 #endif       
 #if defined(__MZ309)
         if (inm == 0)	GPIO_Mode_IN_Init(GPIOA, GPIO_Pin_5, GPIO_Mode_AIN, NO_REMAP, GPIO_AF_0);
@@ -432,6 +434,7 @@ void BSP_COMP_GPIO_Configure(u32 COMPx, u8 inp, u8 inm, u8 out)
 		if 		(out == 1) 	GPIO_Mode_IN_Init(GPIOA, GPIO_Pin_0,  GPIO_Mode_AIN, NO_REMAP, GPIO_AF_7);
 		else if (out == 2) 	GPIO_Mode_IN_Init(GPIOA, GPIO_Pin_6,  GPIO_Mode_AIN, NO_REMAP, GPIO_AF_7);
 		else if (out == 3) 	GPIO_Mode_IN_Init(GPIOA, GPIO_Pin_11, GPIO_Mode_AIN, NO_REMAP, GPIO_AF_7);
+		break;
 #endif       
 #if defined(__MZ310)
         if(inp == 0)              GPIO_Mode_IN_Init(GPIOA, GPIO_Pin_0,  GPIO_Mode_AIN, NO_REMAP, GPIO_AF_0);
@@ -446,9 +449,9 @@ void BSP_COMP_GPIO_Configure(u32 COMPx, u8 inp, u8 inm, u8 out)
 		if 		(out == 1)	GPIO_Mode_IN_Init(GPIOA, GPIO_Pin_0,  GPIO_Mode_AIN, NO_REMAP, GPIO_AF_7);
 		else if (out == 2) 	GPIO_Mode_IN_Init(GPIOA, GPIO_Pin_6,  GPIO_Mode_AIN, NO_REMAP, GPIO_AF_7);
 		else if (out == 3) 	GPIO_Mode_IN_Init(GPIOA, GPIO_Pin_11, GPIO_Mode_AIN, NO_REMAP, GPIO_AF_7);
-#endif
 		break;
-
+#endif
+		
 #if defined(__MZ306)
     case COMP2:
         if (inm == 4)	GPIO_Mode_IN_Init(GPIOA, GPIO_Pin_4, GPIO_Mode_AIN, NO_REMAP, GPIO_AF_0);
@@ -460,6 +463,7 @@ void BSP_COMP_GPIO_Configure(u32 COMPx, u8 inp, u8 inm, u8 out)
 		if 		(out == 1) 	GPIO_Mode_IN_Init(GPIOA, GPIO_Pin_2,  GPIO_Mode_AIN, NO_REMAP, GPIO_AF_7);
 		else if (out == 2) 	GPIO_Mode_IN_Init(GPIOA, GPIO_Pin_7,  GPIO_Mode_AIN, NO_REMAP, GPIO_AF_7);
         else if (out == 3) 	GPIO_Mode_IN_Init(GPIOA, GPIO_Pin_12, GPIO_Mode_AIN, NO_REMAP, GPIO_AF_7);
+		break;
 #endif
 #if defined(__MZ310)
     case COMP2:
@@ -476,6 +480,7 @@ void BSP_COMP_GPIO_Configure(u32 COMPx, u8 inp, u8 inm, u8 out)
 		else if (out == 2) 	GPIO_Mode_IN_Init(GPIOA, GPIO_Pin_7,  GPIO_Mode_AIN, NO_REMAP, GPIO_AF_7);
 		else if (out == 3) 	GPIO_Mode_IN_Init(GPIOA, GPIO_Pin_12, GPIO_Mode_AIN, NO_REMAP, GPIO_AF_7);
         else if (out == 4) 	GPIO_Mode_IN_Init(GPIOC, GPIO_Pin_10, GPIO_Mode_AIN, NO_REMAP, GPIO_AF_7);
+		break;
 #endif
 #if defined(__MZ308)
     case COMP2:
@@ -484,8 +489,9 @@ void BSP_COMP_GPIO_Configure(u32 COMPx, u8 inp, u8 inm, u8 out)
 		if 		(out == 1) 	GPIO_Mode_IN_Init(GPIOA, GPIO_Pin_13,  GPIO_Mode_AIN, NO_REMAP, GPIO_AF_7);
 		else if (out == 2) 	GPIO_Mode_IN_Init(GPIOD, GPIO_Pin_0,  GPIO_Mode_AIN, NO_REMAP, GPIO_AF_7);
 		else if (out == 3)	GPIO_Mode_IN_Init(GPIOD, GPIO_Pin_5, GPIO_Mode_AIN, NO_REMAP, GPIO_AF_7);
-#endif
 		break;
+#endif
+		
 
 #if defined(__MZ308)
     case COMP3:				

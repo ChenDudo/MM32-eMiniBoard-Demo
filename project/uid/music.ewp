@@ -314,7 +314,7 @@
         <option>
           <name>CCIncludePath2</name>
           <state>$PROJ_DIR$\..\..\bsp\inc</state>
-          <state>$PROJ_DIR$\..\..\se_app\uid\inc</state>
+          <state>$PROJ_DIR$\..\..\app\uid\inc</state>
           <state>$PROJ_DIR$\..\..\lib\HAL_lib\inc</state>
           <state>$PROJ_DIR$\..\..\lib\startup\inc</state>
           <state>$PROJ_DIR$\..\..\ble\inc</state>
@@ -1284,7 +1284,7 @@
         <option>
           <name>CCIncludePath2</name>
           <state>$PROJ_DIR$\..\..\bsp\inc</state>
-          <state>$PROJ_DIR$\..\..\se_app\uid\inc</state>
+          <state>$PROJ_DIR$\..\..\app\uid\inc</state>
           <state>$PROJ_DIR$\..\..\lib\HAL_lib\inc</state>
           <state>$PROJ_DIR$\..\..\lib\startup\inc</state>
           <state>$PROJ_DIR$\..\..\ble\inc</state>
@@ -2255,7 +2255,7 @@
           <name>CCIncludePath2</name>
           <state>$PROJ_DIR$\..\..\bsp\inc</state>
           <state>$PROJ_DIR$\..\..\driver\inc</state>
-          <state>$PROJ_DIR$\..\..\se_app\uid\inc</state>
+          <state>$PROJ_DIR$\..\..\app\uid\inc</state>
           <state>$PROJ_DIR$\..\..\lib\HAL_lib\inc</state>
           <state>$PROJ_DIR$\..\..\lib\startup\inc</state>
         </option>
@@ -3225,7 +3225,7 @@
           <name>CCIncludePath2</name>
           <state>$PROJ_DIR$\..\..\bsp\inc</state>
           <state>$PROJ_DIR$\..\..\driver\inc</state>
-          <state>$PROJ_DIR$\..\..\se_app\uid\inc</state>
+          <state>$PROJ_DIR$\..\..\app\uid\inc</state>
           <state>$PROJ_DIR$\..\..\lib\HAL_lib\inc</state>
           <state>$PROJ_DIR$\..\..\lib\startup\inc</state>
         </option>
@@ -4195,7 +4195,7 @@
           <name>CCIncludePath2</name>
           <state>$PROJ_DIR$\..\..\bsp\inc</state>
           <state>$PROJ_DIR$\..\..\driver\inc</state>
-          <state>$PROJ_DIR$\..\..\se_app\uid\inc</state>
+          <state>$PROJ_DIR$\..\..\app\uid\inc</state>
           <state>$PROJ_DIR$\..\..\lib\HAL_lib\inc</state>
           <state>$PROJ_DIR$\..\..\lib\startup\inc</state>
         </option>
@@ -5165,7 +5165,7 @@
           <name>CCIncludePath2</name>
           <state>$PROJ_DIR$\..\..\bsp\inc</state>
           <state>$PROJ_DIR$\..\..\driver\inc</state>
-          <state>$PROJ_DIR$\..\..\se_app\uid\inc</state>
+          <state>$PROJ_DIR$\..\..\app\uid\inc</state>
           <state>$PROJ_DIR$\..\..\lib\HAL_lib\inc</state>
           <state>$PROJ_DIR$\..\..\lib\startup\inc</state>
         </option>
@@ -6135,7 +6135,7 @@
           <name>CCIncludePath2</name>
           <state>$PROJ_DIR$\..\..\bsp\inc</state>
           <state>$PROJ_DIR$\..\..\driver\inc</state>
-          <state>$PROJ_DIR$\..\..\se_app\uid\inc</state>
+          <state>$PROJ_DIR$\..\..\app\uid\inc</state>
           <state>$PROJ_DIR$\..\..\lib\HAL_lib\inc</state>
           <state>$PROJ_DIR$\..\..\lib\startup\inc</state>
         </option>
@@ -7105,7 +7105,7 @@
           <name>CCIncludePath2</name>
           <state>$PROJ_DIR$\..\..\bsp\inc</state>
           <state>$PROJ_DIR$\..\..\driver\inc</state>
-          <state>$PROJ_DIR$\..\..\se_app\uid\inc</state>
+          <state>$PROJ_DIR$\..\..\app\uid\inc</state>
           <state>$PROJ_DIR$\..\..\lib\HAL_lib\inc</state>
           <state>$PROJ_DIR$\..\..\lib\startup\inc</state>
         </option>
@@ -8076,7 +8076,7 @@
           <name>CCIncludePath2</name>
           <state>$PROJ_DIR$\..\..\bsp\inc</state>
           <state>$PROJ_DIR$\..\..\driver\inc</state>
-          <state>$PROJ_DIR$\..\..\se_app\uid\inc</state>
+          <state>$PROJ_DIR$\..\..\app\uid\inc</state>
           <state>$PROJ_DIR$\..\..\lib\HAL_lib\inc</state>
           <state>$PROJ_DIR$\..\..\lib\startup\inc</state>
         </option>
@@ -8736,22 +8736,22 @@
   <group>
     <name>app</name>
     <file>
-      <name>$PROJ_DIR$\..\..\se_app\uid\adc.c</name>
+      <name>$PROJ_DIR$\..\..\app\uid\adc.c</name>
     </file>
     <file>
-      <name>$PROJ_DIR$\..\..\se_app\uid\hci.c</name>
+      <name>$PROJ_DIR$\..\..\app\uid\hci.c</name>
     </file>
     <file>
-      <name>$PROJ_DIR$\..\..\se_app\uid\lcd.c</name>
+      <name>$PROJ_DIR$\..\..\app\uid\lcd.c</name>
       <excluded>
         <configuration>MB024</configuration>
       </excluded>
     </file>
     <file>
-      <name>$PROJ_DIR$\..\..\se_app\uid\main.c</name>
+      <name>$PROJ_DIR$\..\..\app\uid\main.c</name>
     </file>
     <file>
-      <name>$PROJ_DIR$\..\..\se_app\uid\music.c</name>
+      <name>$PROJ_DIR$\..\..\app\uid\music.c</name>
     </file>
   </group>
   <group>

@@ -49,13 +49,12 @@ void SPI_DeInit(SPI_TypeDef* SPIx)
     switch (*(u32*)&SPIx) {
 #if defined(SPI1)
         case (u32)SPI1:  // SPI1_BASE:
-#if defined(RCC_APB2ENR_SPI1)
-            RCC_APB2PeriphResetCmd(RCC_APB2ENR_SPI1, ENABLE);
-            RCC_APB2PeriphResetCmd(RCC_APB2ENR_SPI1, DISABLE);
-#endif
 #if defined(RCC_APB1ENR_SPI1)
-            RCC_APB1PeriphResetCmd(RCC_APB1ENR_SPI1, ENABLE);
-            RCC_APB1PeriphResetCmd(RCC_APB1ENR_SPI1, DISABLE);
+        RCC_APB1PeriphResetCmd(RCC_APB1ENR_SPI1, ENABLE);
+        RCC_APB1PeriphResetCmd(RCC_APB1ENR_SPI1, DISABLE);
+#else
+        RCC_APB2PeriphResetCmd(RCC_APB2ENR_SPI1, ENABLE);
+        RCC_APB2PeriphResetCmd(RCC_APB2ENR_SPI1, DISABLE);
 #endif
             break;
 #endif

@@ -1221,7 +1221,7 @@
       <Focus>0</Focus>
       <tvExpOptDlg>0</tvExpOptDlg>
       <bDave2>0</bDave2>
-      <PathWithFileName>..\..\se_app\uid\adc.c</PathWithFileName>
+      <PathWithFileName>..\..\app\uid\adc.c</PathWithFileName>
       <FilenameWithoutPath>adc.c</FilenameWithoutPath>
       <RteFlg>0</RteFlg>
       <bShared>0</bShared>
@@ -1234,7 +1234,7 @@
       <Focus>0</Focus>
       <tvExpOptDlg>0</tvExpOptDlg>
       <bDave2>0</bDave2>
-      <PathWithFileName>..\..\se_app\uid\hci.c</PathWithFileName>
+      <PathWithFileName>..\..\app\uid\hci.c</PathWithFileName>
       <FilenameWithoutPath>hci.c</FilenameWithoutPath>
       <RteFlg>0</RteFlg>
       <bShared>0</bShared>
@@ -1247,7 +1247,7 @@
       <Focus>0</Focus>
       <tvExpOptDlg>0</tvExpOptDlg>
       <bDave2>0</bDave2>
-      <PathWithFileName>..\..\se_app\uid\main.c</PathWithFileName>
+      <PathWithFileName>..\..\app\uid\main.c</PathWithFileName>
       <FilenameWithoutPath>main.c</FilenameWithoutPath>
       <RteFlg>0</RteFlg>
       <bShared>0</bShared>
@@ -1260,7 +1260,7 @@
       <Focus>0</Focus>
       <tvExpOptDlg>0</tvExpOptDlg>
       <bDave2>0</bDave2>
-      <PathWithFileName>..\..\se_app\uid\music.c</PathWithFileName>
+      <PathWithFileName>..\..\app\uid\music.c</PathWithFileName>
       <FilenameWithoutPath>music.c</FilenameWithoutPath>
       <RteFlg>0</RteFlg>
       <bShared>0</bShared>

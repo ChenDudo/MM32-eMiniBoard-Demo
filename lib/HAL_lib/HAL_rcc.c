@@ -1100,7 +1100,7 @@ void RCC_ADC_ClockCmd(ADC_TypeDef* peripheral, FunctionalState state)
     switch (*(u32*)&peripheral) {
 
         case ADC1_BASE:
-#if defined(__MT304) || defined(__MZ306) || defined(__MT307) || defined(__MZ308) || defined(__MZ309) || defined(__MZ311) || defined(__MT3270)
+#if defined(__MT304) || defined(__MZ306) || defined(__MT307) || defined(__MZ308) || defined(__MZ309) || defined(__MT3270)
             (state) ? (RCC->APB2ENR |= RCC_APB2ENR_ADC1) : (RCC->APB2ENR &= ~RCC_APB2ENR_ADC1);
 #endif
             break;

@@ -175,7 +175,7 @@ void BSP_ADC_Configure()
     ADC_Init(ADC1, &ADC_InitStructure);
 
     ADC1->CFGR &= ~ADC_CFGR_SAMCTL;
-    ADC1->CFGR |= ADC_CFGR_SAMCTL_14_5;
+    ADC1->CFGR |= ADC_CFGR_SAMCTL_13_5;
     
     ADC_Cmd(ADC1, ENABLE);
     

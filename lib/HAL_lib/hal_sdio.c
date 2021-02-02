@@ -262,7 +262,10 @@ SD_Error CmdResp6Error(u8 cmd, u16* prca)
         return SD_ILLEGAL_CMD;
     }
     SDIO->CLR_MMC_INT = SDIO_CLR_MMC_INT_MASK;
-    rspr1 = SDIO->CMD_BUF3 << 24  | SDIO->CMD_BUF2 << 16  | SDIO->CMD_BUF1 << 8  | SDIO->CMD_BUF0;
+    rspr1 = (u32)SDIO->CMD_BUF3 << 24;
+    rspr1 |= SDIO->CMD_BUF2 << 16;
+    rspr1 |= SDIO->CMD_BUF1 << 8;
+    rspr1 |= SDIO->CMD_BUF0;
     if(SD_ALLZERO == (rspr1 & (SD_R6_GENERAL_UNKNOWN_ERROR | SD_R6_ILLEGAL_CMD | SD_R6_COM_CRC_FAILED))) {
         *prca = (u16)(rspr1 >> 16);
         return errorstatus;
@@ -333,7 +336,10 @@ SD_Error CmdResp1Error(u8 cmd)
     if((SDIO->CMD_BUF4 & 0x3F) != cmd) {
         return SD_ILLEGAL_CMD;
     }
-    response = SDIO->CMD_BUF3 << 24  | SDIO->CMD_BUF2 << 16  | SDIO->CMD_BUF1 << 8  | SDIO->CMD_BUF0;
+    response = SDIO->CMD_BUF3 << 24;
+    response |= SDIO->CMD_BUF2 << 16;
+    response |= SDIO->CMD_BUF1 << 8;
+    response |= SDIO->CMD_BUF0;
     return (SD_Error)(response & SD_OCR_ERRORBITS);
 }
 

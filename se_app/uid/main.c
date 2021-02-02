@@ -58,7 +58,12 @@
 void initPara()
 {
     sPlayMusic.MusicNum = 1;
+    
+#if defined(__MM32_MB039)
     sPlayMusic.PlayFlag = false;
+#else
+    sPlayMusic.PlayFlag = true;
+#endif
 }
 
 ////////////////////////////////////////////////////////////////////////////////

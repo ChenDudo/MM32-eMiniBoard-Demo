@@ -1378,63 +1378,63 @@ typedef struct {
 ////////////////////////////////////////////////////////////////////////////////
 #if defined(__MT307) || defined(__MT3270)
 typedef struct {
-    __IO uint32_t MACCR;                                                        ///< Ethernet MAC configuration register 0x0000
-    __IO uint32_t MACFFR;                                                       ///<  0x0004
-    __IO uint32_t MACHTHR;                                                      ///<  0x0008
-    __IO uint32_t MACHTLR;                                                      ///<  0x000C
-    __IO uint32_t MACMIIAR;                                                     ///<  0x0010
-    __IO uint32_t MACMIIDR;                                                     ///<  0x0014
-    __IO uint32_t MACFCR;                                                       ///<  0x0018
-    __IO uint32_t MACVLANTR;                                                    ///<  0x001C
-    __IO uint32_t RESERVED0[8];                                                 ///<  0x0020 ~ 0x003C
-    __IO uint32_t MACA0HR;                                                      ///<  0x0040
-    __IO uint32_t MACA0LR;                                                      ///<  0x0044
-    __IO uint32_t MACA1HR;                                                      ///<  0x0048
-    __IO uint32_t MACA1LR;                                                      ///<  0x004C
-    __IO uint32_t MACA2HR;                                                      ///<  0x0050
-    __IO uint32_t MACA2LR;                                                      ///<  0x0054
-    __IO uint32_t MACA3HR;                                                      ///<  0x0058
-    __IO uint32_t MACA3LR;                                                      ///<  0x005C
-    __IO uint32_t MACA4HR;                                                      ///<  0x0060
-    __IO uint32_t MACA4LR;                                                      ///<  0x0064
-    __IO uint32_t MACA5HR;                                                      ///<  0x0068
-    __IO uint32_t MACA5LR;                                                      ///<  0x006C
-    __IO uint32_t MACA6HR;                                                      ///<  0x0070
-    __IO uint32_t MACA6LR;                                                      ///<  0x0074
-    __IO uint32_t MACA7HR;                                                      ///<  0x0078
-    __IO uint32_t MACA7LR;                                                      ///<  0x007C
-    __IO uint32_t MACA8HR;                                                      ///<  0x0080
-    __IO uint32_t MACA8LR;                                                      ///<  0x0084
-    __IO uint32_t MACA9HR;                                                      ///<  0x0088
-    __IO uint32_t MACA9LR;                                                      ///<  0x008C
-    __IO uint32_t MACA10HR;                                                     ///<  0x0090
-    __IO uint32_t MACA10LR;                                                     ///<  0x0094
-    __IO uint32_t MACA11HR;                                                     ///<  0x0098
-    __IO uint32_t MACA11LR;                                                     ///<  0x009C
-    __IO uint32_t MACA12HR;                                                     ///<  0x00A0
-    __IO uint32_t MACA12LR;                                                     ///<  0x00A4
-    __IO uint32_t MACA13HR;                                                     ///<  0x00A8
-    __IO uint32_t MACA13LR;                                                     ///<  0x00AC
-    __IO uint32_t MACA14HR;                                                     ///<  0x00B0
-    __IO uint32_t MACA14LR;                                                     ///<  0x00B4
-    __IO uint32_t MACA15HR;                                                     ///<  0x00B8
-    __IO uint32_t MACA15LR;                                                     ///<  0x00BC
-    __IO uint32_t RESERVED1[976];                                               ///<  0x00C0 ~ 0x0FFC
-    __IO uint32_t DMABMR;                                                       ///<  0x1000
-    __IO uint32_t DMATPDR;                                                      ///<  0x1004
-    __IO uint32_t DMARPDR;                                                      ///<  0x1008
-    __IO uint32_t DMARDLAR;                                                     ///<  0x100C
-    __IO uint32_t DMATDLAR;                                                     ///<  0x1010
-    __IO uint32_t DMASR;                                                        ///<  0x1014
-    __IO uint32_t DMAOMR;                                                       ///<  0x1018
-    __IO uint32_t DMAIER;                                                       ///<  0x101C
-    __IO uint32_t DMAMFBOCR;                                                    ///<  0x1020
-    __IO uint32_t DMARSWTR;                                                     ///<  0x1024
-    __IO uint32_t RESERVED2[8];                                                 ///<  0x1028 ~ 0x1044
-    __IO uint32_t DMACHTDR;                                                     ///<  0x1048
-    __IO uint32_t DMACHRDR;                                                     ///<  0x104C
-    __IO uint32_t DMACHTBAR;                                                    ///<  0x1050
-    __IO uint32_t DMACHRBAR;                                                    ///<  0x1054
+    __IO u32 MACCR;                                                        ///< Ethernet MAC configuration register 0x0000
+    __IO u32 MACFFR;                                                       ///<  0x0004
+    __IO u32 MACHTHR;                                                      ///<  0x0008
+    __IO u32 MACHTLR;                                                      ///<  0x000C
+    __IO u32 MACMIIAR;                                                     ///<  0x0010
+    __IO u32 MACMIIDR;                                                     ///<  0x0014
+    __IO u32 MACFCR;                                                       ///<  0x0018
+    __IO u32 MACVLANTR;                                                    ///<  0x001C
+    __IO u32 RESERVED0[8];                                                 ///<  0x0020 ~ 0x003C
+    __IO u32 MACA0HR;                                                      ///<  0x0040
+    __IO u32 MACA0LR;                                                      ///<  0x0044
+    __IO u32 MACA1HR;                                                      ///<  0x0048
+    __IO u32 MACA1LR;                                                      ///<  0x004C
+    __IO u32 MACA2HR;                                                      ///<  0x0050
+    __IO u32 MACA2LR;                                                      ///<  0x0054
+    __IO u32 MACA3HR;                                                      ///<  0x0058
+    __IO u32 MACA3LR;                                                      ///<  0x005C
+    __IO u32 MACA4HR;                                                      ///<  0x0060
+    __IO u32 MACA4LR;                                                      ///<  0x0064
+    __IO u32 MACA5HR;                                                      ///<  0x0068
+    __IO u32 MACA5LR;                                                      ///<  0x006C
+    __IO u32 MACA6HR;                                                      ///<  0x0070
+    __IO u32 MACA6LR;                                                      ///<  0x0074
+    __IO u32 MACA7HR;                                                      ///<  0x0078
+    __IO u32 MACA7LR;                                                      ///<  0x007C
+    __IO u32 MACA8HR;                                                      ///<  0x0080
+    __IO u32 MACA8LR;                                                      ///<  0x0084
+    __IO u32 MACA9HR;                                                      ///<  0x0088
+    __IO u32 MACA9LR;                                                      ///<  0x008C
+    __IO u32 MACA10HR;                                                     ///<  0x0090
+    __IO u32 MACA10LR;                                                     ///<  0x0094
+    __IO u32 MACA11HR;                                                     ///<  0x0098
+    __IO u32 MACA11LR;                                                     ///<  0x009C
+    __IO u32 MACA12HR;                                                     ///<  0x00A0
+    __IO u32 MACA12LR;                                                     ///<  0x00A4
+    __IO u32 MACA13HR;                                                     ///<  0x00A8
+    __IO u32 MACA13LR;                                                     ///<  0x00AC
+    __IO u32 MACA14HR;                                                     ///<  0x00B0
+    __IO u32 MACA14LR;                                                     ///<  0x00B4
+    __IO u32 MACA15HR;                                                     ///<  0x00B8
+    __IO u32 MACA15LR;                                                     ///<  0x00BC
+    __IO u32 RESERVED1[976];                                               ///<  0x00C0 ~ 0x0FFC
+    __IO u32 DMABMR;                                                       ///<  0x1000
+    __IO u32 DMATPDR;                                                      ///<  0x1004
+    __IO u32 DMARPDR;                                                      ///<  0x1008
+    __IO u32 DMARDLAR;                                                     ///<  0x100C
+    __IO u32 DMATDLAR;                                                     ///<  0x1010
+    __IO u32 DMASR;                                                        ///<  0x1014
+    __IO u32 DMAOMR;                                                       ///<  0x1018
+    __IO u32 DMAIER;                                                       ///<  0x101C
+    __IO u32 DMAMFBOCR;                                                    ///<  0x1020
+    __IO u32 DMARSWTR;                                                     ///<  0x1024
+    __IO u32 RESERVED2[8];                                                 ///<  0x1028 ~ 0x1044
+    __IO u32 DMACHTDR;                                                     ///<  0x1048
+    __IO u32 DMACHRDR;                                                     ///<  0x104C
+    __IO u32 DMACHTBAR;                                                    ///<  0x1050
+    __IO u32 DMACHRBAR;                                                    ///<  0x1054
 } ETH_TypeDef;
 #endif
 
@@ -3070,8 +3070,8 @@ typedef struct {
 ////////////////////////////////////////////////////////////////////////////////
 /// @brief ADC_CHANY mode enable Register Bit Definition
 ////////////////////////////////////////////////////////////////////////////////
-#define ADC1_CHANY_CR_MDEN_Pos      (0)                                     ///< CHANY_MDEN (Bit 0)
-#define ADC1_CHANY_CR_MDEN          (0x01U << ADC1_CHANY_CR_MDEN_Pos)       ///< CHANY_MDEN (Bitfield-Mask: 0x01)
+#define ADC_ANY_CR_CHANY_MDEN_Pos  (0)                                     ///< CHANY_MDEN (Bit 0)
+#define ADC_ANY_CR_CHANY_MDEN       (0x01U << ADC_ANY_CR_CHANY_MDEN_Pos)       ///< CHANY_MDEN (Bitfield-Mask: 0x01)
 
 #endif
 #if defined(__MT3270)

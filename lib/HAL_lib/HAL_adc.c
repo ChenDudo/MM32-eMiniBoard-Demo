@@ -491,16 +491,20 @@ u32 ADC_InjectedSequencerGetConversionValue(ADC_TypeDef* ADCn, uint8_t jqsn)
     u32 value = 0;
     switch(jqsn) {
         case 0 :
-            value = (u32)(ADCn->JDR0 - ADCn->JOFR0);
+            value = (u32)ADCn->JDR0;
+            value -= ADCn->JOFR0;
             break;
         case 1 :
-            value = (u32)(ADCn->JDR1 - ADCn->JOFR1);
+            value = (u32)ADCn->JDR1;
+            value -= ADCn->JOFR1;
             break;
         case 2 :
-            value = (u32)(ADCn->JDR2 - ADCn->JOFR2);
+            value = (u32)ADCn->JDR2;
+            value -= ADCn->JOFR2;
             break;
         case 3 :
-            value = (u32)(ADCn->JDR3 - ADCn->JOFR3);
+            value = (u32)ADCn->JDR3;
+            value -= ADCn->JOFR3;
             break;
         default :
             break;

@@ -145,8 +145,23 @@ void initI2C()
     
 }
 
-void showPrintf(u8* ptr, u8 idx, u8 color)
+void showPrintf(u8* ptr, u8 idx, u8 clo)
 {
+    if(first){
+        first = false;
+        clearLeftScreen();
+    }
+    switch(color){
+        case 0:
+        text.
+        break;
+        case 1:
+        
+        break;
+        default:
+        
+        break;
+    }
     
 }
 

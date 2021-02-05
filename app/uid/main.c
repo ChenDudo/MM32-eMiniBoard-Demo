@@ -58,7 +58,7 @@
 void initPara()
 {
     sPlayMusic.MusicNum = 1;
-    
+
 #if defined(__MM32_MB039)
     sPlayMusic.PlayFlag = false;
 #else
@@ -74,7 +74,8 @@ void initPeri()
     BSP_KeyFuncSet(2, Key2Down, Key2Pressing);
     BSP_KeyFuncSet(3, Key3Down, Key3Pressing);
     BSP_KeyFuncSet(4, Key4Down, Key4Pressing);
-    
+    BSP_LED_Configure();
+
     BSP_BEEP_Configure(1000);
     for(u8 i = 0; i < 2; i++){
         OpenLED();
@@ -84,9 +85,8 @@ void initPeri()
         BEEP_off();
         while(!delay(200));
     }
-    
+
     BSP_ADC_Configure();
-    BSP_LED_Configure();
     
 #if defined(__MDM2803)
     BSP_LCD_Configure();
@@ -94,13 +94,13 @@ void initPeri()
 	clearLeftScreen();
     clearButtomScreen();
     drawMM(20, 160, 20);
-#endif    
+#endif
 
     ready = true;
-    
+
 #if defined(__MM32_MB020) || defined(__MM32_MB021)
     wl_ble_mode();
-#endif  
+#endif
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -126,11 +126,11 @@ void AppTaskTick()
         }
 #endif
     }
-    
+
     adcTick();
     ledTick();
     BSP_KeyTick();
-    
+
 #if defined(__MM32_MB020) || defined(__MM32_MB021)
     SysTick_Count++;
     wl_ble_tick_task();
@@ -148,11 +148,11 @@ int main(void)
 
     initPeri();
     initPara();
-    
-    
+
+
     while (1) {
         hci_task();
-        
+
 #if defined(__MM32_MB020) || defined(__MM32_MB021)
         wl_ble_task();
 #endif
